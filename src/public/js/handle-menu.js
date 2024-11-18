@@ -11,91 +11,6 @@ leftBtn.addEventListener('click', () => {
   menuWrapper.scrollBy({ left: -scrollStep, behavior: 'smooth' });
 });
 
-// Chia trang
-// const newsItems = document.querySelectorAll('.news-item');
-// const itemsPerPage = 8;
-// let currentPage = 1;
-// const totalPages = Math.ceil(newsItems.length / itemsPerPage);
-// const listNumber = document.querySelector('.list-number');
-
-// function createPage(pageNum) {
-// const newPage = document.createElement('div');
-// newPage.classList.add('list-news');
-// newPage.id = `page-${pageNum}`;
-// newPage.classList.add('hidden');
-// return newPage;
-// }
-
-// function paginate() {
-//     const container = document.querySelector('.box-item'); 
-  
-//     let page = createPage(currentPage);
-//     container.appendChild(page);
-    
-//     newsItems.forEach((item, index) => {
-//       if (index % itemsPerPage === 0 && index !== 0) {
-//         page = createPage(currentPage);
-//         const num = document.createElement('li');
-//         num.textContent = currentPage;
-//         listNumber.appendChild(num);
-//         currentPage++;
-//       }
-//       page.appendChild(item);
-//     });
-//     const num = document.createElement('li');
-//     num.textContent = currentPage;
-//     listNumber.appendChild(num);
-//   }
-
-
-// paginate();
-
-// let numberPage = 1;
-// const prevBtn = document.getElementById('prev-btn');
-// const nextBtn = document.getElementById('next-btn');
-
-// prevBtn.addEventListener('click', () => {
-//     if (numberPage > 1 ) {
-//         let currentPage = document.getElementById(`page-${numberPage}`);
-//         const container = document.querySelector('.box-item');
-//         container.removeChild(currentPage);
-//         numberPage--;
-//         nextPage = createPage(numberPage);
-//         let count = 1;
-//         newsItems.forEach((item, index) => {
-//             if (index % itemsPerPage === 0 && index !== 0) {
-//               count++;
-//             }
-//             if (numberPage == count){
-//                 nextPage.appendChild(item);
-//             }
-//           });
-//         container.appendChild(nextPage);
-//     }
-// });
-
-
-
-// nextBtn.addEventListener('click', () => {
-//     if (numberPage < totalPages) {
-//         let currentPage = document.getElementById(`page-${numberPage}`);
-//         const container = document.querySelector('.box-item');
-//         container.removeChild(currentPage);
-//         numberPage ++;
-//         let count = 1;
-//         nextPage = createPage(numberPage);
-//         newsItems.forEach((item, index) => {
-//             if (index % itemsPerPage === 0 && index !== 0) {
-//               count++;
-//             }
-//             if (numberPage == count){
-//                 nextPage.appendChild(item);
-//             }
-//           });
-//         container.appendChild(nextPage);
-//     }
-// });
-
 //slide-show
 let list = document.querySelector('.slide-show .list-slide');
 let items = document.querySelectorAll('.slide-show .list-slide .item');
@@ -247,4 +162,111 @@ scrollable.addEventListener('mousemove', (e) => {
     const walk = (x - startX) * 1.2; // tốc độ cuộn
     scrollable.scrollLeft = scrollLeft - walk;
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  const menuItems = document.querySelectorAll('.menu li a');
+  const contentDiv = document.getElementById('home-page-content');
+
+  menuItems.forEach(item => {
+      item.addEventListener('click', function(event) {
+          event.preventDefault();
+          const id = this.getAttribute('data-id');
+          fetch(`/${id}`)
+              .then(response => response.text())
+              .then(data => {
+                  contentDiv.innerHTML = data;
+                  paginate()
+              })
+              .catch(error => console.error('Error loading content:', error));
+      });
+  });
+});
+
+
+function paginate() {
+  const container = document.querySelector('.box-item');
+  if (!container) {
+    console.error('Container not found. Make sure .box-item exists in your HTML.');
+    return;
+  }
+
+  const newsItems = document.querySelectorAll('.news-item');
+  const itemsPerPage = 8;
+  const listNumber = document.querySelector('.list-number');
+  let currentPage = 1;
+  const totalPages = Math.ceil(newsItems.length / itemsPerPage);
+
+
+  let page = createPage(currentPage);
+  container.appendChild(page);
+
+  newsItems.forEach((item, index) => {
+    if (index % itemsPerPage === 0 && index !== 0) {
+      page = createPage(currentPage);
+      const num = document.createElement('li');
+      num.textContent = currentPage;
+      listNumber.appendChild(num);
+      currentPage++;
+    }
+    page.appendChild(item);
+  });
+
+  const num = document.createElement('li');
+  num.textContent = currentPage;
+  listNumber.appendChild(num);
+  let numberPage = 1;
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+
+prevBtn.addEventListener('click', () => {
+    if (numberPage > 1 ) {
+        let currentPage = document.getElementById(`page-${numberPage}`);
+        const container = document.querySelector('.box-item');
+        container.removeChild(currentPage);
+        numberPage--;
+        nextPage = createPage(numberPage);
+        let count = 1;
+        newsItems.forEach((item, index) => {
+            if (index % itemsPerPage === 0 && index !== 0) {
+              count++;
+            }
+            if (numberPage == count){
+                nextPage.appendChild(item);
+            }
+          });
+        container.appendChild(nextPage);
+    }
+});
+
+
+
+nextBtn.addEventListener('click', () => {
+    if (numberPage < totalPages) {
+        let currentPage = document.getElementById(`page-${numberPage}`);
+        const container = document.querySelector('.box-item');
+        container.removeChild(currentPage);
+        numberPage ++;
+        let count = 1;
+        nextPage = createPage(numberPage);
+        newsItems.forEach((item, index) => {
+            if (index % itemsPerPage === 0 && index !== 0) {
+              count++;
+            }
+            if (numberPage == count){
+                nextPage.appendChild(item);
+            }
+          });
+        container.appendChild(nextPage);
+    }
+});
+
+}
+
+function createPage(pageNum) {
+  const newPage = document.createElement('div');
+  newPage.classList.add('list-news');
+  newPage.id = `page-${pageNum}`;
+  newPage.classList.add('hidden');
+  return newPage;
+}
 

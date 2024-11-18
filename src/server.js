@@ -13,6 +13,11 @@ app.get('/', (req, res) => {
   res.render('homepage');
 });
 
+app.get('/:id', (req, res) => {
+  const id = req.params.id;
+  res.render(`listItem`);
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://127.0.0.1:${port}/`);
 });

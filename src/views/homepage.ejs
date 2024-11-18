@@ -680,17 +680,9 @@
                 <i class='bx bxs-left-arrow menu-btn' id="left-btn"></i>
                 <div class="menu-wrapper" id="menuWrapper">
                     <ul class="menu" id="menu">
-                    <li><a href="#a">A</a></li>
-                    <li><a href="#b">B</a></li>
-                    <li><a href="#c">C</a></li>
-                    <li><a href="#d">D</a></li>
-                    <li><a href="#e">E</a></li>
-                    <li><a href="#f">F</a></li>
-                    <li><a href="#f">G</a></li>
-                    <li><a href="#d">D</a></li>
-                    <li><a href="#e">E</a></li>
-                    <li><a href="#f">F</a></li>
-                    <li><a href="#f">G</a></li>
+                      <% for (var i = 1; i <= 20; i++) { %> 
+                        <li class="category<%=i%>"><a href="/:<%=i%>" data-id="<%=i%>"><%=i%></a></li>
+                        <% } %>
                     </ul>
                 </div>
                 <i class='bx bxs-right-arrow menu-btn' id="right-btn"></i>
@@ -699,7 +691,7 @@
           </div>
     </header>
     <main>
-        <div class="content">
+        <div class="content" id="content">
             <div class="search-container">
                 <input type="text" placeholder="Tìm kiếm...">
                 <i class='bx bx-search'></i>
@@ -711,59 +703,61 @@
                 <span class="tag">Thẻ 4</span>
                 <span class="tag">Thẻ 5</span>
             </div>
-            <h2 class="title-top-view">
-              10 Bài Viết Được Xem Nhiều Nhất
-            </h2>
-            <div class="most-view-1">
-              <div class="list-item">
-                <% for (var i = 1; i <= 10; i++) { %>
-                  <div class="item">
-                    <img src="https://gamelade.vn/wp-content/uploads/2024/11/Genshin-Impact-Mondstadt-art.jpg" alt="News Image">
-                    <div class="info">
-                      <div class="title">haha <%=i%></div>
-                      <div class="category">game</div>
-                      <div class="date">20/11/2024</div>
+            <div id="home-page-content">
+              <h2 class="title-top-view">
+                10 Bài Viết Được Xem Nhiều Nhất
+              </h2>
+              <div class="most-view-1">
+                <div class="list-item">
+                  <% for (var i = 1; i <= 10; i++) { %>
+                    <div class="item">
+                      <img src="https://gamelade.vn/wp-content/uploads/2024/11/Genshin-Impact-Mondstadt-art.jpg" alt="News Image">
+                      <div class="info">
+                        <div class="title">haha <%=i%></div>
+                        <div class="category">game</div>
+                        <div class="date">20/11/2024</div>
+                      </div>
                     </div>
-                  </div>
-                <% } %>
-              </div>
-            </div>
-            <div class="case-button-1">
-              <li class="active"></li><li></li><li></li><li></li>
-            </div>
-            <h2 class="list-today"><i class='bx bxs-square'></i> 10 Bài Viết Mới Nhất</h2>
-            <div class="most-view-2">
-              <div class="list-item">
-                <% for (var i = 1; i <= 10; i++) { %>
-                  <div class="item">
-                    <img src="https://gamelade.vn/wp-content/uploads/2024/11/Genshin-Impact-Mondstadt-art.jpg" alt="News Image">
-                    <div class="info">
-                      <div class="title">haha <%=i%></div>
-                      <div class="category">game</div>
-                      <div class="date">20/11/2024</div>
-                    </div>
-                  </div>
-                <% } %>
-              </div>
-            </div>
-            <div class="case-button-2">
-              <li class="active"></li><li></li><li></li><li></li>
-            </div>
-            <div class="hot-category">
-              <h2><i class='bx bx-news' ></i>Hot Category</h2>
-              <div class="list-category" id="scrollable">
-                <% for (var i = 1; i <= 10; i++) { %>
-                  <span><i class='bx bxs-hot'></i><p>Category <%=i%></p></span>
                   <% } %>
+                </div>
               </div>
-            </div>
-            <div class="post-new">
-              <div class="img-post">
-                <img src="https://gamelade.vn/wp-content/uploads/2024/11/Genshin-Impact-Mondstadt-art.jpg" alt="">
+              <div class="case-button-1">
+                <li class="active"></li><li></li><li></li><li></li>
               </div>
-              <h2 class="title">New Post</h2>
-              <p class="category">Game</p>
-              <p class="date">20/09/2024</p>
+              <h2 class="list-today"><i class='bx bxs-square'></i> 10 Bài Viết Mới Nhất</h2>
+              <div class="most-view-2">
+                <div class="list-item">
+                  <% for (var i = 1; i <= 10; i++) { %>
+                    <div class="item">
+                      <img src="https://gamelade.vn/wp-content/uploads/2024/11/Genshin-Impact-Mondstadt-art.jpg" alt="News Image">
+                      <div class="info">
+                        <div class="title">haha <%=i%></div>
+                        <div class="category">game</div>
+                        <div class="date">20/11/2024</div>
+                      </div>
+                    </div>
+                  <% } %>
+                </div>
+              </div>
+              <div class="case-button-2">
+                <li class="active"></li><li></li><li></li><li></li>
+              </div>
+              <div class="hot-category">
+                <h2><i class='bx bx-news' ></i>Hot Category</h2>
+                <div class="list-category" id="scrollable">
+                  <% for (var i = 1; i <= 10; i++) { %>
+                    <span><i class='bx bxs-hot'></i><p>Category <%=i%></p></span>
+                    <% } %>
+                </div>
+              </div>
+              <div class="post-new">
+                <div class="img-post">
+                  <img src="https://gamelade.vn/wp-content/uploads/2024/11/Genshin-Impact-Mondstadt-art.jpg" alt="">
+                </div>
+                <h2 class="title">New Post</h2>
+                <p class="category">Game</p>
+                <p class="date">20/09/2024</p>
+              </div>
             </div>
         </div>
 
