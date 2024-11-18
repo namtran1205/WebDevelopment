@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-  <title>Navigation Menu</title>
+  <title>Electronic Newspaper</title>
   <style>
     body {
         font-family: "Poppins", serif;
@@ -23,10 +23,12 @@
     }
     .nav-container {
       position: relative;
-      background: linear-gradient(60deg, #EFD595, #ef9595e7);
+      background: #EEF7FF;
+      border: 1px solid #fff;
       display: flex;
       flex-direction: column;
       padding: 1px;
+      box-shadow: 0px 10px 50px #ccc;
     }
     .slide-show {
       margin-top: 15px;
@@ -37,6 +39,7 @@
       align-self: center;
       justify-content: center;
       overflow: hidden;
+      z-index: 2;
     }
 
     .list-slide {
@@ -47,6 +50,7 @@
       display: flex;
       width: max-content;
       transition: 1s;
+      cursor: pointer;
     }
 
     .list-slide img {
@@ -55,6 +59,7 @@
       object-fit: cover; 
       max-width: 95vw;
       object-position: center;
+      z-index: 2;
     }
 
     .buttons {
@@ -82,6 +87,8 @@
       padding: 0;
       display: flex;
       justify-content: center;
+      pointer-events: none;
+      z-index: 4;
     }
     .dots li {
       list-style: none;
@@ -94,6 +101,56 @@
     }
     .dots li.active {
       width: 30px;
+    }
+    .slide-show:hover .banner-menu {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .banner-menu {
+      position: absolute;
+      display: flex;
+      width: 1300px;
+      background: #22222295;
+      backdrop-filter: blur(5px);
+      left: 0%;
+      bottom: 0%;
+      max-width: 95vw;
+      z-index: 5;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none; 
+    }
+    .info {
+      position: relative;
+      display: none;
+      flex-direction: column;
+      width: max-content;
+      max-width: 95vw;
+      border: 1px solid #fff;
+      justify-content: center;
+      align-items: center;
+      z-index: 3;
+    }
+    .info:nth-child(1){
+      display: flex;
+    }
+    .info h2 {
+      width: 1300px;
+      height: 80px;
+      max-width: 95vw;
+      text-align: center;
+      color: #fff;
+    }
+    .info p {
+      color: #fff;
+      position: absolute;
+      top: 40%;
+    }
+    .info span {
+      position: absolute;
+      top: 80%;
+      color: #fff;
     }
     .list-images {
       display: flex;
@@ -187,7 +244,7 @@
         display: block;
         margin-right: 10px;
         position: absolute;
-        bottom: 5%;
+        bottom: 3%;
         right: 5%;
     }
     .profile i {
@@ -208,6 +265,7 @@
         flex-direction: column;
         justify-content: flex-start; 
         background-color: #fff;
+        border: 1px solid #000;
         padding: 5px;
     }
     .search-container {
@@ -216,6 +274,7 @@
         align-items: center;
         border: 1px solid #333;
         border-radius: 5px;
+        flex: 1;
         overflow: hidden;
         max-width: 400px;
         height: 10%;
@@ -258,8 +317,7 @@
         border: 1px solid #ccc;
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
-    }
-    
+    }  
     .tag:hover {
         background-color: #333;
         color: #fff;
@@ -317,6 +375,249 @@
         margin-right: 5px;
         margin-left: 5px;
       }
+
+      /*top 10 most view*/
+      .title-top-view {
+        width: 100%;
+        max-width: 100vw;
+        display: flex;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 30px;
+      }
+      .most-view-1 {
+        margin-top: 10px;
+        height: 350px;
+        width: 100%;
+        max-width: 100vw;
+        position: relative;
+        flex-direction: row;
+        overflow-x: scroll;
+        display: flex;
+      }
+      .most-view-1::-webkit-scrollbar {
+        display: none;
+      }
+      .most-view-1 .list-item {
+        display: flex;
+        margin-right: 15px;
+        position: absolute;
+        width: max-content;
+      }
+
+      .list-item .item {
+        width: 300px;
+        height: 350px;
+        margin-right: 10px;
+        position: relative;
+        display: flex;
+        cursor: pointer;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .list-item .item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transition: 1s;
+      }
+      .list-item .item:hover img {
+        transform: scale(1.2);
+      }
+      .list-item .item .info {
+        display: flex;
+        position: relative;
+        width: 100%;
+        background-color: #222;
+        color: #fff;
+        justify-content: center;
+      }
+      .case-button-1 {
+        width: 100%;
+        max-width: 100vw;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+      .case-button-1 li{
+        list-style: none;
+        width: 300px;
+        height: 5px;
+        background-color: #cccccca4;
+        border: 1px solid #333;
+        margin: 2px;
+        border-radius: 1px;
+        cursor: pointer;
+      }
+      .case-button-1 li.active{
+        background-color: #000;
+      }
+      /*10 new post*/
+      .list-today {
+        width: 100%;
+        max-width: 95vw;
+        justify-content: flex-start;
+        font-size: 30px;
+        display: flex;
+        font-weight: bold;
+        align-items: center;
+      }
+      .list-today i {
+        font-size: 40px;
+      }
+      .most-view-2 {
+        margin-top: 10px;
+        height: 350px;
+        width: 100%;
+        max-width: 100vw;
+        position: relative;
+        flex-direction: row;
+        overflow-x: scroll;
+        display: flex;
+      }
+      .most-view-2::-webkit-scrollbar {
+        display: none;
+      }
+      .most-view-2 .list-item {
+        display: flex;
+        margin-right: 15px;
+        position: absolute;
+        width: max-content;
+      }
+
+      .list-item .item {
+        width: 300px;
+        height: 350px;
+        margin-right: 10px;
+        position: relative;
+        display: flex;
+        cursor: pointer;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .list-item .item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transition: 1s;
+      }
+      .list-item .item:hover img {
+        transform: scale(1.2);
+      }
+      .list-item .item .info {
+        display: flex;
+        position: relative;
+        width: 100%;
+        background-color: #222;
+        color: #fff;
+        justify-content: center;
+      }
+      .case-button-2 {
+        width: 100%;
+        max-width: 100vw;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+      .case-button-2 li{
+        list-style: none;
+        width: 300px;
+        height: 5px;
+        background-color: #cccccca4;
+        border: 1px solid #333;
+        margin: 2px;
+        border-radius: 1px;
+        cursor: pointer;
+      }
+      .case-button-2 li.active{
+        background-color: #000;
+      }
+      .hot-category {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 95vw;
+        align-items: center;
+      }
+      /*hot category */
+      .hot-category h2{
+        font-size: 30px;
+        font-weight: bold;
+        align-items: center;
+        display: flex;
+      }
+      .hot-category h2 i{
+        font-size: 40px;
+      }
+      .list-category {
+        overflow-x: scroll;
+        width: 400px;
+        display: flex;
+        flex-direction: row;
+        scroll-behavior: smooth;
+        user-select: none;
+      }
+      .list-category::-webkit-scrollbar {
+        background: transparent;
+        height: 5px;
+      }
+
+      .list-category::-webkit-scrollbar-thumb {
+        background-color: #000;
+      }
+      .list-category span {
+        cursor: pointer;
+        scroll-snap-align: start;
+        flex-direction: row;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: .2s;
+      }
+      .list-category span:hover {
+        background: #847f7f92;
+      }
+      .list-category span i {
+        font-size: 20px;
+      }
+      .list-category span p {
+        font-size: 15px;
+        width: 100px;
+      }
+      .post-new {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+        max-width: 95vw;
+        position: relative;
+        border: 1px solid #000;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .img-post {
+        overflow: hidden;
+      }
+      .post-new:hover img {
+        transform: scale(1.2);
+      }
+      .post-new img{
+        
+        width: 100%;
+        transition: 1s;
+      }
+      .post-new p {
+        text-align: center;
+      }
+      .post-new h2 {
+        text-align: center;
+      }
       @media (max-width: 480px) {
         .list-news {
           grid-template-columns: 1fr;
@@ -336,10 +637,10 @@
                   <img src="https://gamelade.vn/wp-content/uploads/2024/11/202401091551586462.webp" alt="News Image">
                 </div>
                 <div class="item">
-                  <img src="https://gamelade.vn/wp-content/uploads/2024/11/ss_1c4e9037c075ed4f45801f4ab7c4e04d25d12b38.1920x1080.jpg" alt="News Image">
+                  <img src="https://gamelade.vn/wp-content/uploads/2024/11/Them-tieu-de-1-190.png" alt="News Image">
                 </div>
                 <div class="item">
-                  <img src="https://gamelade.vn/wp-content/uploads/2024/11/ss_1c4e9037c075ed4f45801f4ab7c4e04d25d12b38.1920x1080.jpg" alt="News Image">
+                  <img src="https://gamelade.vn/wp-content/uploads/2024/11/Genshin-Impact-Mondstadt-art.jpg" alt="News Image">
                 </div>
               </div>
               <div class="buttons">
@@ -351,6 +652,28 @@
                 <li></li>
                 <li></li>
                 <li></li>
+              </div>
+              <div class="banner-menu">
+                <div class="info">
+                  <h2 class="title">Game Title 1</h2>
+                  <p class="category">Game Online</p>
+                  <span class="date">24/05/2004</span>
+                </div>
+                <div class="info">
+                  <h2 class="title">Game Title 2</h2>
+                  <p class="category">Game Player</p>
+                  <span class="date">27/05/2004</span>
+                </div>
+                <div class="info">
+                  <h2 class="title">Game Title 3</h2>
+                  <p class="category">Game Xbox</p>
+                  <span class="date">01/05/2004</span>
+                </div>
+                <div class="info">
+                  <h2 class="title">Game Title 4</h2>
+                  <p class="category">Gacha</p>
+                  <span class="date">20/05/2004</span>
+                </div>
               </div>
             </div>
             <div class="scroll-box">
@@ -388,64 +711,62 @@
                 <span class="tag">Thẻ 4</span>
                 <span class="tag">Thẻ 5</span>
             </div>
-            <div class="box-item">
-                <div class="list-news">
-                    <div class="news-item">
-                      <img src="https://gamelade.vn/wp-content/uploads/2024/11/ss_1c4e9037c075ed4f45801f4ab7c4e04d25d12b38.1920x1080.jpg" alt="News Image">
-                      <div class="news-title">Tiêu đề Bài Báo 1</div>
-                      <div class="news-date">16/11/2024</div>
-                      <div class="news-category">Category</div>
+            <h2 class="title-top-view">
+              10 Bài Viết Được Xem Nhiều Nhất
+            </h2>
+            <div class="most-view-1">
+              <div class="list-item">
+                <% for (var i = 1; i <= 10; i++) { %>
+                  <div class="item">
+                    <img src="https://gamelade.vn/wp-content/uploads/2024/11/Genshin-Impact-Mondstadt-art.jpg" alt="News Image">
+                    <div class="info">
+                      <div class="title">haha <%=i%></div>
+                      <div class="category">game</div>
+                      <div class="date">20/11/2024</div>
                     </div>
-                    <div class="news-item">
-                      <img src="https://via.placeholder.com/150" alt="News Image">
-                      <div class="news-title">Tiêu đề Bài Báo 2</div>
-                      <div class="news-date">Mô tả ngắn cho bài báo 2.</div>
-                      <div class="news-category">Category</div>
-                    </div>
-                    <div class="news-item">
-                      <img src="https://via.placeholder.com/150" alt="News Image">
-                      <div class="news-title">Tiêu đề Bài Báo 3</div>
-                      <div class="news-date">Mô tả ngắn cho bài báo 3.</div>
-                      <div class="news-category">Category</div>
-                    </div>
-                    <div class="news-item">
-                      <img src="https://via.placeholder.com/150" alt="News Image">
-                      <div class="news-title">Tiêu đề Bài Báo 5</div>
-                      <div class="news-date">Mô tả ngắn cho bài báo 5.</div>
-                      <div class="news-category">Category</div>
-                    </div>
-                    <div class="news-item">
-                        <img src="https://via.placeholder.com/150" alt="News Image">
-                        <div class="news-title">Tiêu đề Bài Báo 6</div>
-                        <div class="news-date">Mô tả ngắn cho bài báo 6.</div>
-                      </div>
-                      <div class="news-item">
-                        <img src="https://via.placeholder.com/150" alt="News Image">
-                        <div class="news-title">Tiêu đề Bài Báo 7</div>
-                        <div class="news-date">Mô tả ngắn cho bài báo 7.</div>
-                      </div>
-                      <div class="news-item">
-                        <img src="https://via.placeholder.com/150" alt="News Image">
-                        <div class="news-title">Tiêu đề Bài Báo 8</div>
-                        <div class="news-date">Mô tả ngắn cho bài báo 9.</div>
-                      </div>
-                      <div class="news-item">
-                        <img src="https://via.placeholder.com/150" alt="News Image">
-                        <div class="news-title">Tiêu đề Bài Báo 4</div>
-                        <div class="news-date">Mô tả ngắn cho bài báo 4.</div>
-                    </div>
-                    <div class="news-item">
-                        <img src="https://via.placeholder.com/150" alt="News Image">
-                        <div class="news-title">Tiêu đề Bài Báo 4</div>
-                        <div class="news-date">Mô tả ngắn cho bài báo 4.</div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-page">
-                <i class='bx bxs-chevrons-left' id="prev-btn"></i>  <div class="list-number">
                   </div>
-                <i class='bx bxs-chevrons-right' id="next-btn"></i>  </div>
+                <% } %>
+              </div>
             </div>
+            <div class="case-button-1">
+              <li class="active"></li><li></li><li></li><li></li>
+            </div>
+            <h2 class="list-today"><i class='bx bxs-square'></i> 10 Bài Viết Mới Nhất</h2>
+            <div class="most-view-2">
+              <div class="list-item">
+                <% for (var i = 1; i <= 10; i++) { %>
+                  <div class="item">
+                    <img src="https://gamelade.vn/wp-content/uploads/2024/11/Genshin-Impact-Mondstadt-art.jpg" alt="News Image">
+                    <div class="info">
+                      <div class="title">haha <%=i%></div>
+                      <div class="category">game</div>
+                      <div class="date">20/11/2024</div>
+                    </div>
+                  </div>
+                <% } %>
+              </div>
+            </div>
+            <div class="case-button-2">
+              <li class="active"></li><li></li><li></li><li></li>
+            </div>
+            <div class="hot-category">
+              <h2><i class='bx bx-news' ></i>Hot Category</h2>
+              <div class="list-category" id="scrollable">
+                <% for (var i = 1; i <= 10; i++) { %>
+                  <span><i class='bx bxs-hot'></i><p>Category <%=i%></p></span>
+                  <% } %>
+              </div>
+            </div>
+            <div class="post-new">
+              <div class="img-post">
+                <img src="https://gamelade.vn/wp-content/uploads/2024/11/Genshin-Impact-Mondstadt-art.jpg" alt="">
+              </div>
+              <h2 class="title">New Post</h2>
+              <p class="category">Game</p>
+              <p class="date">20/09/2024</p>
+            </div>
+        </div>
+
     </main>
     <footer>
         Bằng đẹp trai vcl
