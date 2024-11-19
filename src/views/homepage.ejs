@@ -29,12 +29,13 @@
       flex-direction: column;
       padding: 1px;
       box-shadow: 0px 10px 50px #ccc;
+      flex-wrap: nowrap;
     }
     .slide-show {
       margin-top: 15px;
       width: 1300px;
       max-width: 95vw;
-      height: 500px;
+      height: 480px;
       position: relative;
       align-self: center;
       justify-content: center;
@@ -184,6 +185,9 @@
       text-decoration: none;
       display: block;
     }
+    .menu li a.active {
+      color: red;
+    }
     .menu li i {
         color: #333;
         text-decoration: none;
@@ -222,7 +226,7 @@
     }
     
     .menu-wrapper::-webkit-scrollbar-track {
-        background: #222; 
+        background: transparent; 
         border-radius: 5px;
     }
     
@@ -240,17 +244,28 @@
         flex: 1;
         padding: 5px 0px;
     }
+    .list-nav {
+      position: relative;
+      flex-wrap: wrap;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
     .profile {
-        display: block;
         margin-right: 10px;
-        position: absolute;
-        bottom: 3%;
-        right: 5%;
+        display: inline-block;
     }
     .profile i {
         font-size: 50px;
         color: #333;
         cursor: pointer;
+    }
+    .home {
+      display: inline-block;
+    }
+    .home i {
+      font-size: 50px;
+      color: #333;
+      cursor: pointer;
     }
     main {
         flex: 1;
@@ -355,6 +370,7 @@
       }
       .list-page {
         align-self: center;
+        justify-content: center;
         display: flex;
         flex-direction: row;
         margin-top: 10px;
@@ -366,7 +382,7 @@
       .list-number {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
       }
       .list-number li {
@@ -395,6 +411,8 @@
         flex-direction: row;
         overflow-x: scroll;
         display: flex;
+        scroll-behavior: smooth;
+        user-select: none;
       }
       .most-view-1::-webkit-scrollbar {
         display: none;
@@ -409,12 +427,13 @@
       .list-item .item {
         width: 300px;
         height: 350px;
-        margin-right: 10px;
         position: relative;
         display: flex;
         cursor: pointer;
         flex-direction: column;
         overflow: hidden;
+        scroll-snap-align: start;
+        transition: 1s;
       }
 
       .list-item .item img {
@@ -441,6 +460,7 @@
         display: flex;
         flex-direction: row;
         justify-content: center;
+        margin-top: 10px;
       }
       .case-button-1 li{
         list-style: none;
@@ -449,8 +469,9 @@
         background-color: #cccccca4;
         border: 1px solid #333;
         margin: 2px;
-        border-radius: 1px;
+        border-radius: 3px;
         cursor: pointer;
+        transition: 0.05s ease-in;
       }
       .case-button-1 li.active{
         background-color: #000;
@@ -477,26 +498,30 @@
         flex-direction: row;
         overflow-x: scroll;
         display: flex;
+        scroll-behavior: smooth;
+        user-select: none;
       }
       .most-view-2::-webkit-scrollbar {
         display: none;
       }
       .most-view-2 .list-item {
         display: flex;
-        margin-right: 15px;
         position: absolute;
         width: max-content;
       }
 
       .list-item .item {
-        width: 300px;
+        width: 280px;
         height: 350px;
         margin-right: 10px;
+        margin-left: 10px;
         position: relative;
         display: flex;
         cursor: pointer;
         flex-direction: column;
         overflow: hidden;
+        scroll-snap-align: start;
+        user-select: none;
       }
 
       .list-item .item img {
@@ -505,6 +530,7 @@
         object-fit: cover;
         object-position: center;
         transition: 1s;
+        cursor: pointer;
       }
       .list-item .item:hover img {
         transform: scale(1.2);
@@ -523,6 +549,7 @@
         display: flex;
         flex-direction: row;
         justify-content: center;
+        margin-top: 10px;
       }
       .case-button-2 li{
         list-style: none;
@@ -531,8 +558,9 @@
         background-color: #cccccca4;
         border: 1px solid #333;
         margin: 2px;
-        border-radius: 1px;
+        border-radius: 3px;
         cursor: pointer;
+        transition: 0.05s ease-in;
       }
       .case-button-2 li.active{
         background-color: #000;
@@ -687,7 +715,10 @@
                 </div>
                 <i class='bx bxs-right-arrow menu-btn' id="right-btn"></i>
             </div>
-            <div class="profile"><i class='bx bxs-user-rectangle'></i></div>
+            <div class="list-nav">
+              <a href="/login" class="profile"><i class='bx bxs-user-rectangle'></i></a>
+              <a href="/" class="home"><i class='bx bx-home-circle'></i></a>
+            </div>
           </div>
     </header>
     <main>
@@ -707,7 +738,7 @@
               <h2 class="title-top-view">
                 10 Bài Viết Được Xem Nhiều Nhất
               </h2>
-              <div class="most-view-1">
+              <div class="most-view-1" id="scrollable">
                 <div class="list-item">
                   <% for (var i = 1; i <= 10; i++) { %>
                     <div class="item">
@@ -725,7 +756,7 @@
                 <li class="active"></li><li></li><li></li><li></li>
               </div>
               <h2 class="list-today"><i class='bx bxs-square'></i> 10 Bài Viết Mới Nhất</h2>
-              <div class="most-view-2">
+              <div class="most-view-2" id="scrollable">
                 <div class="list-item">
                   <% for (var i = 1; i <= 10; i++) { %>
                     <div class="item">

@@ -1,22 +1,13 @@
 const express = require('express');
 const path = require('path');
+const webRouter = require('./router/web');
+const configViewEngine = require('./config/viewEngine');
 
 const app = express();
-const port = 8000;
+const port = 8080;
 
-app.use(express.static('./public'))
-
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-
-app.get('/', (req, res) => {
-  res.render('homepage');
-});
-
-app.get('/:id', (req, res) => {
-  const id = req.params.id;
-  res.render(`listItem`);
-});
+configViewEngine(app)
+app.use('/', webRouter);
 
 app.listen(port, () => {
   console.log(`Server running at http://127.0.0.1:${port}/`);

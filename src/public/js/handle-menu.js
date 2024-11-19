@@ -62,115 +62,89 @@ dots.forEach((li, key) => {
   })
 })
 
-// top 10 views most
+const scrollables = document.querySelectorAll('#scrollable');
 
-let mostView = document.querySelector(".most-view-1");
-let mostItem = document.querySelectorAll(".most-view-1 .list-item .item");
-let listButton1 = document.querySelectorAll(".case-button-1 li");
+scrollables.forEach((scrollable, scrollableIndex) => {
+    let isDragging = false;
+    let startX;
+    let scrollLeft;
 
-let indexView = 0;
-let lengthMost = mostItem.length - 1;
-
-listButton1.forEach((button, i) => {
-    button.addEventListener("click", () => {
-    // Calculate the new index based on the button clicked
-        if (indexView > lengthMost) {
-            indexView = lengthMost; // Ensure the index does not exceed the number of items
-        }
-        if (indexView - i*2 <= 0){
-          indexView = i*2 - indexView;
-          let moveLeft = mostItem[indexView].offsetLeft; 
-          let scrollStep = moveLeft;
-          mostView.scrollBy({ left: scrollStep, behavior: 'smooth' });
-          indexView = i*2;
-        }
-        else {
-          indexView = indexView - 2*i; 
-          let moveLeft = mostItem[indexView].offsetLeft; 
-          let scrollStep = moveLeft;
-          mostView.scrollBy({ left: -scrollStep, behavior: 'smooth' });
-          indexView = 2*i;
-        }
+    const buttons = document.querySelectorAll(`.case-button-${scrollableIndex + 1} li`);
 
 
-        // Update active button
-        listButton1.forEach(btn => btn.classList.remove("active"));
-        button.classList.add("active");
+    scrollable.addEventListener('mousedown', (e) => {
+        e.preventDefault()
+        isDragging = true;
+        startX = e.pageX - scrollable.offsetLeft;
+        scrollLeft = scrollable.scrollLeft;
     });
-});
 
-// top 10 new post
+    document.querySelectorAll('.list-item .item img').forEach(img => {
+      img.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+      });
+  });
 
-let newPost = document.querySelector(".most-view-2");
-let newItem = document.querySelectorAll(".most-view-2 .list-item .item");
-let listButton2 = document.querySelectorAll(".case-button-2 li");
-
-let indexNew = 0;
-let lengthNew = mostItem.length - 1;
-
-listButton2.forEach((button, i) => {
-    button.addEventListener("click", () => {
-    // Calculate the new index based on the button clicked
-        if (indexNew > lengthNew) {
-          indexNew = lengthNew; // Ensure the index does not exceed the number of items
-        }
-        if (indexNew - i*2 <= 0){
-          indexNew = i*2 - indexNew;
-          let moveLeft = newItem[indexNew].offsetLeft; 
-          let scrollStep = moveLeft;
-          newPost.scrollBy({ left: scrollStep, behavior: 'smooth' });
-          indexNew = i*2;
-        }
-        else {
-          indexNew = indexNew - 2*i; 
-          let moveLeft = newItem[indexNew].offsetLeft; 
-          let scrollStep = moveLeft;
-          newPost.scrollBy({ left: -scrollStep, behavior: 'smooth' });
-          indexNew = 2*i;
-        }
-
-
-        // Update active button
-        listButton2.forEach(btn => btn.classList.remove("active"));
-        button.classList.add("active");
+    scrollable.addEventListener('mouseleave', () => {
+      isDragging = false;
     });
+
+    scrollable.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    scrollable.addEventListener('scroll', () => {
+      updateActiveButton(scrollable, buttons);
+  });
+
+    scrollable.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - scrollable.offsetLeft;
+        const walk = (x - startX) * 2;
+        scrollable.scrollLeft = scrollLeft - walk;
+    });
+
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', () => {
+          const items = scrollable.querySelectorAll('.item');
+          if (!items) return;
+          const itemWidth = items[0].offsetWidth + 20; 
+          const scrollToPosition = index * itemWidth * 2;
+          scrollable.scrollTo({
+              left: scrollToPosition,
+              behavior: 'smooth' 
+          });
+
+          buttons.forEach((btn, btnIndex) => {
+              btn.classList.toggle('active', btnIndex === index);
+          });
+      });
+  });
 });
 
-const scrollable = document.getElementById('scrollable');
-let isDragging = false;
-let startX;
-let scrollLeft;
-
-scrollable.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    startX = e.pageX - scrollable.offsetLeft;
-    scrollLeft = scrollable.scrollLeft;
-});
-
-scrollable.addEventListener('mouseleave', () => {
-    isDragging = false;
-});
-
-scrollable.addEventListener('mouseup', () => {
-    isDragging = false;
-});
-
-scrollable.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const x = e.pageX - scrollable.offsetLeft;
-    const walk = (x - startX) * 1.2; // tốc độ cuộn
-    scrollable.scrollLeft = scrollLeft - walk;
-});
+function updateActiveButton(scrollable, buttons) {
+  const items = scrollable.querySelectorAll('.item');
+  const itemWidth = items[0].offsetWidth + 10; 
+  const scrollPosition = scrollable.scrollLeft;
+  const itemsScrolled = Math.floor(scrollPosition / itemWidth);
+  const buttonIndex = Math.floor(itemsScrolled / 2);
+  
+  buttons.forEach((button, index) => {
+      button.classList.toggle('active', index === buttonIndex);
+  });
+}
 
 document.addEventListener('DOMContentLoaded', function() {
-  const menuItems = document.querySelectorAll('.menu li a');
+  const menuItems = document.querySelectorAll('.menu-wrapper .menu li a');
   const contentDiv = document.getElementById('home-page-content');
 
   menuItems.forEach(item => {
       item.addEventListener('click', function(event) {
-          event.preventDefault();
           const id = this.getAttribute('data-id');
+          event.preventDefault();
+          menuItems.forEach(menuItem => menuItem.classList.remove('active'));
+          item.classList.add('active');
           fetch(`/${id}`)
               .then(response => response.text())
               .then(data => {
