@@ -150,6 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
               .then(data => {
                   contentDiv.innerHTML = data;
                   paginate()
+
               })
               .catch(error => console.error('Error loading content:', error));
       });
@@ -243,4 +244,3 @@ function createPage(pageNum) {
   newPage.classList.add('hidden');
   return newPage;
 }
-

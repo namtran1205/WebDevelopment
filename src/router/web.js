@@ -1,17 +1,13 @@
 const express = require('express')
 const router = express.Router()
+const homeController = require('../controller/homeController');
 
-router.get('/', (req, res) => {
-    res.render('homepage');
-  });
+router.get('/', homeController.show);
+
+router.get('/login', homeController.getLogin);
+
   
-router.get('/:id', (req, res) => {
-    const id = req.params.id;
-    res.render('listItem');
-});
+router.get('/:id', homeController.getListItem);
 
-router.get('/login', (req, res) => {
-    res.render('login');
-});
 
 module.exports = router;

@@ -1,0 +1,67 @@
+<header>
+    <div class="nav-container">
+        <div class="slide-show">
+          <div class="list-slide">
+            <div class="item">
+              <img src="https://gamelade.vn/wp-content/uploads/2024/11/ss_1c4e9037c075ed4f45801f4ab7c4e04d25d12b38.1920x1080.jpg" alt="News Image">
+            </div>
+            <div class="item">
+              <img src="https://gamelade.vn/wp-content/uploads/2024/11/202401091551586462.webp" alt="News Image">
+            </div>
+            <div class="item">
+              <img src="https://gamelade.vn/wp-content/uploads/2024/11/Them-tieu-de-1-190.png" alt="News Image">
+            </div>
+            <div class="item">
+              <img src="https://gamelade.vn/wp-content/uploads/2024/11/Genshin-Impact-Mondstadt-art.jpg" alt="News Image">
+            </div>
+          </div>
+          <div class="buttons">
+            <button id="prev"><</button>
+            <button id="next">></button>
+          </div>
+          <div class="dots">
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </div>
+          <div class="banner-menu">
+            <div class="info">
+              <h2 class="title">Game Title 1</h2>
+              <p class="category">Game Online</p>
+              <span class="date">24/05/2004</span>
+            </div>
+            <div class="info">
+              <h2 class="title">Game Title 2</h2>
+              <p class="category">Game Player</p>
+              <span class="date">27/05/2004</span>
+            </div>
+            <div class="info">
+              <h2 class="title">Game Title 3</h2>
+              <p class="category">Game Xbox</p>
+              <span class="date">01/05/2004</span>
+            </div>
+            <div class="info">
+              <h2 class="title">Game Title 4</h2>
+              <p class="category">Gacha</p>
+              <span class="date">20/05/2004</span>
+            </div>
+          </div>
+        </div>
+        <div class="scroll-box">
+            <i class='bx bxs-left-arrow menu-btn' id="left-btn"></i>
+            <div class="menu-wrapper" id="menuWrapper">
+                <ul class="menu" id="menu">
+                  <% for (var i = 1; i <= 20; i++) { %> 
+                    <li class="category<%=i%>"><a href="/<%=i%>" data-id="<%=i%>"><%=i%></a></li>
+                    <% } %>
+                </ul>
+            </div>
+            <i class='bx bxs-right-arrow menu-btn' id="right-btn"></i>
+        </div>
+        <div class="list-nav">
+          <a href="/login" class="profile" id="load-login-btn"><i class='bx bxs-user-rectangle'></i></a>
+          <a href="/" class="home"><i class='bx bx-home-circle'></i></a>
+        </div>
+      </div>
+</header>
