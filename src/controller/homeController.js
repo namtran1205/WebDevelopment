@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 class homeController {
+    show(req, res, next) {
         let loginContent = null;
         res.render('homepage');
     }
@@ -12,6 +13,6 @@ class homeController {
     getLogin(req, res, next) {
         res.render('login');
       }
-}
+};
 
 module.exports = new homeController();
