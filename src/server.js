@@ -3,12 +3,20 @@ const path = require('path');
 const webRouter = require('./router/web');
 const configViewEngine = require('./config/viewEngine');
 const connectDB = require('./db/connectDB');
+const signUpRouter = require('./router/signUpRouter')
+const bodyParser = require("body-parser");
 
 const app = express();
 const port = 8080;
 
 configViewEngine(app)
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 app.use('/', webRouter);
+
+app.use('/api/v1/signup', signUpRouter);
 
 const start = async () => {
   try {
