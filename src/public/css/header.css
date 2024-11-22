@@ -119,11 +119,11 @@ pointer-events: none;
   border: 1px solid #ccc;
   border-radius: 10px;
 }
-.profile {
+.login {
     margin-right: 10px;
     display: inline-block;
 }
-.profile i {
+.login i {
     font-size: 50px;
     color: #333;
     cursor: pointer;
