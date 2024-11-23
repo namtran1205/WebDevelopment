@@ -15,10 +15,11 @@ class signUpController {
 
   async createUser(req, res) {
     try {
-      const { fullName, nickname, email, dateOfBirth, type } = req.body;
+      const { fullName, password, nickname, email, dateOfBirth, type } = req.body;
   
       const newUser = new User({
         fullName,
+        password,
         nickname: type === "writer" ? nickname : null,
         email,
         dateOfBirth,
