@@ -125,6 +125,7 @@ scrollables.forEach((scrollable, scrollableIndex) => {
 
 function updateActiveButton(scrollable, buttons) {
   const items = scrollable.querySelectorAll('.item');
+  if (!items[0]) return;
   const itemWidth = items[0].offsetWidth + 10; 
   const scrollPosition = scrollable.scrollLeft;
   const itemsScrolled = Math.floor(scrollPosition / itemWidth);
