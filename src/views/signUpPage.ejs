@@ -24,10 +24,32 @@
               id="fullName" 
               name="fullName" 
               required 
-              placeholder="Enter your full name">
+              placeholder="Nguyễn Văn A">
             <div class="invalid-feedback">Mục này không được để trống.</div>
           </div>
-    
+          
+          <div class="mb-3">
+            <label for="password" class="form-label">Mật khẩu</label>
+            <input 
+              type="password" 
+              class="form-control" 
+              id="password" 
+              name="password" 
+              required>
+            <div class="invalid-feedback">Mục này không được để trống.</div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Xác nhận mật khẩu</label>
+            <input 
+              type="password" 
+              class="form-control" 
+              id="confirmPassword" 
+              name="confirmPassword" 
+              required>
+            <div class="invalid-feedback">Mật khẩu xác nhận không trùng khớp.</div>
+          </div>
+
           <div class="mb-3">
             <label for="nickname" class="form-label">Bút danh (chỉ dành cho phóng viên)</label>
             <input 
@@ -35,7 +57,7 @@
               class="form-control" 
               id="nickname" 
               name="nickname" 
-              placeholder="Enter your nickname">
+              placeholder="Mr Quang Tèo">
             <div class="form-text">Mục này là bắt buộc nếu phân hệ đăng ký là phóng viên.</div>
           </div>
     
@@ -47,8 +69,8 @@
               id="email" 
               name="email" 
               required 
-              placeholder="Enter your email">
-            <div class="invalid-feedback">Mục này không được để trống.</div>
+              placeholder="deptrai@gmail.com">
+            <div class="invalid-feedback">Mục này yêu cầu định dạng của một email.</div>
           </div>
     
           <div class="mb-3">
@@ -76,7 +98,7 @@
               <option value="editor">Editor</option>
               <option value="admin">Admin</option>
             </select>
-            <div class="invalid-feedback">Không được để trống.</div>
+            <div class="invalid-feedback">Mục này không được để trống được để trống.</div>
           </div>
     
           <div class="mb-3" id="remainingTimeField" style="display: none;">
@@ -123,6 +145,30 @@
         remainingTimeField.style.display = 'none';
       }
     }
+
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const form = document.querySelector('form');
+
+    function validatePasswordMatch() {
+      if (confirmPassword.value !== password.value) {
+        confirmPassword.setCustomValidity('Mật khẩu không khớp.');
+      } else {
+        confirmPassword.setCustomValidity('');
+      }
+    }
+
+    password.addEventListener('input', validatePasswordMatch);
+    confirmPassword.addEventListener('input', validatePasswordMatch);
+
+    form.addEventListener('submit', function (event) {
+      validatePasswordMatch(); 
+      if (!form.checkValidity()) {
+        event.preventDefault(); 
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated'); 
+    });
 
     window.onload = function() {
       const urlParams = new URLSearchParams(window.location.search);
