@@ -11,7 +11,7 @@ const loginController =
         try 
         {
             const record = await User.findOne({ email: mail });
-            console.log(record); //// debug
+            // console.log(record); //// debug
             if (record === null) // mail does not exist
             {
                 res.locals.parameters = 
