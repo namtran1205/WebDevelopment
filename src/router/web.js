@@ -13,7 +13,7 @@ router.post('/login', loginController.loginUser);
 
 router.get('/profile', profileController.show);
 
-router.get('/detail', detailPageController.show);
+router.get('/detailPage', detailPageController.show);
   
 router.get('/:id', homeController.getListItem);
 
