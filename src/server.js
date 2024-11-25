@@ -3,8 +3,10 @@ const path = require('path');
 const webRouter = require('./router/web');
 const configViewEngine = require('./config/viewEngine');
 const connectDB = require('./db/connectDB');
-const signUpRouter = require('./router/signUpRouter')
+const signUpRouter = require('./router/signUpRouter');
+const profileRouter = require('./router/profile');
 const bodyParser = require("body-parser");
+
 
 const app = express();
 const port = 8080;
@@ -17,6 +19,8 @@ app.use(bodyParser.json());
 app.use('/', webRouter);
 
 app.use('/api/v1/signup', signUpRouter);
+app.use('/profile', profileRouter);
+
 
 const start = async () => {
   try {
