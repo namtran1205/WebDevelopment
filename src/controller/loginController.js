@@ -34,7 +34,7 @@ const loginController =
                 {
                     switch (record.type) {
                         case 'subscriber':
-                            res.send('subscriber page');
+                            res.render('profile');
                             break;
                     
                         case 'writer':
