@@ -34,7 +34,8 @@ const loginController =
                 {
                     switch (record.type) {
                         case 'subscriber':
-                            res.render('profile');
+                            res.cookie('subscriber', JSON.stringify(record), { httpOnly: true });
+                            res.redirect(`/profile/${record.id}`);
                             break;
                     
                         case 'writer':

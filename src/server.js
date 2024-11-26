@@ -6,7 +6,7 @@ const connectDB = require('./db/connectDB');
 const signUpRouter = require('./router/signUpRouter');
 const profileRouter = require('./router/profile');
 const bodyParser = require("body-parser");
-
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const port = 8081;
@@ -14,12 +14,13 @@ const port = 8081;
 configViewEngine(app)
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use('/', webRouter);
 
 app.use('/api/v1/signup', signUpRouter);
-app.use('/profile', profileRouter);
+app.use('/', profileRouter);
 
 
 const start = async () => {

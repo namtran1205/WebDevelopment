@@ -3,9 +3,9 @@ const router = express.Router();
 const profileController = require("../controller/profileController");
 
 // Route để render trang quản lý tài khoản
-router.get("/",  profileController.show);
+router.get("/profile/:userId",  profileController.show);
 
 // Route để cập nhật thông tin tài khoản
-router.post("/",  profileController.update);
+router.post("/profile/:userId",  profileController.update);
 
 module.exports = router;

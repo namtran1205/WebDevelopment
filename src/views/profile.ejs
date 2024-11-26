@@ -18,6 +18,10 @@
 </head>
 <body>
     <%-include('header.ejs')%>
+    <%
+      const dateOfBirth = new Date(user.dateOfBirth);
+      const formattedDate = dateOfBirth.toISOString().split('T')[0];
+    %>
     <main>
       <div class="content" id="content">
         <div class="container my-5">
@@ -29,64 +33,77 @@
                   <div class="text-center">
                     <img src="/media/avatar.jpg" alt="User Avatar" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
                   </div>
-                  <h4>User name</h4>
+                  <h4><%=user.fullName%></h4>
                 </div>
                 <hr>
-                <ul class="nav flex-column">
-                  <li class="nav-item">
-                    <a class="nav-link text-black" href="#">Thông tin tài khoản</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link text-black" href="#">Đổi mật khẩu</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link text-black" href="#">Đăng xuất</a>
-                  </li>
-                </ul>
+<ul class="nav flex-column">
+  <li class="nav-item">
+    <a class="nav-link text-black" href="#accountInfo">Thông tin tài khoản</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-black" href="#changePassword">Đổi mật khẩu</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-black" href="#logoutFrame">Đăng xuất</a>
+  </li>
+</ul>
               </div>
             </div>
       
             <div class="col-md-8">
               <!-- Account Details -->
-              <div class="card p-4">
+              <div class="card p-4" id="accountInfo" style="display: block;">
                 <h5 class="card-title">Thông tin tài khoản</h5>
-                <form action="/profile/update" method="POST">
+                <form action="<%= '/profile/' + userId %>" method="POST">
                   <div class="mb-3">
                     <label for="displayName" class="form-label">Họ và tên</label>
-                    <input type="text" class="form-control" id="displayName" name="displayName">
+                    <input type="text" class="form-control" id="displayName" name="displayName" value="<%=user.fullName%>">
                   </div>
 
                   <div class="mb-3">
                     <label for="displayName" class="form-label">Bút danh</label>
-                    <input type="text" class="form-control" id="displayName" name="displayName">
+                    <input type="text" class="form-control" id="displayName" name="displayName" value="<%=user.nickname%>">
                   </div>
 
                   <div class="mb-3">
                     <label for="dateOfBirth">Ngày sinh</label>
                       <div style="display: flex; gap: 10px; align-items: center;">
-                        <select id="day" name="day" disabled>
-                          <option selected>Ngày</option>
-                        </select>
-
-                        <select id="month" name="month" disabled>
-                          <option selected>Tháng</option>
-                        </select>
-                        
-                        <select id="year" name="year" disabled>
-                          <option  selected>Năm</option>
-
-                        </select>
+                        <input type="text" class="form-control" id="displayName" name="displayName" value="<%=formattedDate%>" disabled>
                       </div>
                   </div>
 
                   <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email">
+                    <input type="email" class="form-control" id="email" name="email" value="<%=user.email%>">
                   </div>
                   <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary text-black" style="background-color: #FAEBD7;">Lưu thay đổi</button>
                   </div>
                 </form>
+              </div>
+              <div class="card p-4" id="changePassword" style="display: none;">
+                <h5 class="card-title">Đổi mật khẩu</h5>
+                <form action="/profile/change-password" method="POST">
+                  <div class="mb-3">
+                    <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
+                    <input type="password" class="form-control" id="currentPassword" name="currentPassword">
+                  </div>
+                  <div class="mb-3">
+                    <label for="newPassword" class="form-label">Mật khẩu mới</label>
+                    <input type="password" class="form-control" id="newPassword" name="newPassword">
+                  </div>
+                  <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Xác nhận mật khẩu</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                </form>
+              </div>
+            
+              <div class="card p-4" id="logoutFrame" style="display: none;">
+                <h5 class="card-title">Đăng xuất</h5>
+                <p>Bạn có chắc chắn muốn đăng xuất không?</p>
+                <a href="/logout" class="btn btn-danger">Đăng xuất</a>
               </div>
             </div>
           </div>
@@ -94,9 +111,7 @@
       </div>
     </main>
     <%-include('footer.ejs')%>
-    
-    <script src="/js/handle-menu.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+    <script src="/js/handle-profile.js"></script>
 </body>
 </html>
