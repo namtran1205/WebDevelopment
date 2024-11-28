@@ -19,7 +19,13 @@
             <i class='bx bxs-right-arrow menu-btn' id="right-btn"></i>
         </div>
         <div class="list-nav">
-          <a href="/login" class="login" id="load-login-btn"><i class='bx bx-log-in' ></i></a>
+            <% if (user) { %>
+                <a href="/profile/<%= user._id %>" class="login">
+                    <i class='bx bxs-user-rectangle'></i>
+                </a>
+            <% } else { %>
+                <a href="/login" class="login" id="load-login-btn"><i class='bx bx-log-in' ></i></a>
+            <% } %>
           <a href="/" class="home"><i class='bx bx-home-circle'></i></a>
         </div>
     </div>

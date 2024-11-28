@@ -36,17 +36,17 @@
                   <h4><%=user.fullName%></h4>
                 </div>
                 <hr>
-<ul class="nav flex-column">
-  <li class="nav-item">
-    <a class="nav-link text-black" href="#accountInfo">Thông tin tài khoản</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link text-black" href="#changePassword">Đổi mật khẩu</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link text-black" href="#logoutFrame">Đăng xuất</a>
-  </li>
-</ul>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link text-black" href="#accountInfo">Thông tin tài khoản</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-black" href="#changePassword">Đổi mật khẩu</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-black" href="#logoutFrame">Đăng xuất</a>
+      </li>
+    </ul>
               </div>
             </div>
       
@@ -61,14 +61,14 @@
                   </div>
 
                   <div class="mb-3">
-                    <label for="displayName" class="form-label">Bút danh</label>
-                    <input type="text" class="form-control" id="displayName" name="displayName" value="<%=user.nickname%>">
+                    <label for="nickName" class="form-label">Bút danh</label>
+                    <input type="text" class="form-control" id="nickName" name="nickName" value="<%=user.nickname%>">
                   </div>
 
                   <div class="mb-3">
                     <label for="dateOfBirth">Ngày sinh</label>
                       <div style="display: flex; gap: 10px; align-items: center;">
-                        <input type="text" class="form-control" id="displayName" name="displayName" value="<%=formattedDate%>" disabled>
+                        <input type="text" class="form-control" id="dateOfBirth" name="dateOfBirth" value="<%=formattedDate%>" disabled>
                       </div>
                   </div>
 
@@ -77,13 +77,13 @@
                     <input type="email" class="form-control" id="email" name="email" value="<%=user.email%>">
                   </div>
                   <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary text-black" style="background-color: #FAEBD7;">Lưu thay đổi</button>
+                    <button type="submit" class="btn btn-primary text-black" id="saveChanges" style="background-color: #FAEBD7;">Lưu thay đổi</button>
                   </div>
                 </form>
               </div>
               <div class="card p-4" id="changePassword" style="display: none;">
                 <h5 class="card-title">Đổi mật khẩu</h5>
-                <form action="/profile/change-password" method="POST">
+                <form action="<%= '/profile/' + userId + '/changePassword'%>" method="POST">
                   <div class="mb-3">
                     <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
                     <input type="password" class="form-control" id="currentPassword" name="currentPassword">
@@ -93,7 +93,7 @@
                     <input type="password" class="form-control" id="newPassword" name="newPassword">
                   </div>
                   <div class="mb-3">
-                    <label for="confirmPassword" class="form-label">Xác nhận mật khẩu</label>
+                    <label for="confirmPassword" class="form-label">Xác nhận mật khẩu mới</label>
                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
                   </div>
                   <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
@@ -101,9 +101,11 @@
               </div>
             
               <div class="card p-4" id="logoutFrame" style="display: none;">
-                <h5 class="card-title">Đăng xuất</h5>
-                <p>Bạn có chắc chắn muốn đăng xuất không?</p>
-                <a href="/logout" class="btn btn-danger">Đăng xuất</a>
+                <form action="/login" method="GET">
+                  <h5 class="card-title">Đăng xuất</h5>
+                  <p>Bạn có chắc chắn muốn đăng xuất không?</p>
+                  <button class="btn btn-danger" onclick="logout()">Đăng xuất</button>
+                </form>
               </div>
             </div>
           </div>

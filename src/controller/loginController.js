@@ -11,8 +11,7 @@ const loginController =
         try 
         {
             const record = await User.findOne({ email: mail });
-            // console.log(record); //// debug
-            if (record === null) // mail does not exist
+            if (record === null)
             {
                 res.locals.parameters = 
                 {
@@ -34,7 +33,7 @@ const loginController =
                 {
                     switch (record.type) {
                         case 'subscriber':
-                            res.cookie('subscriber', JSON.stringify(record), { httpOnly: true });
+                            res.cookie('user', JSON.stringify(record), { httpOnly: true });
                             res.redirect(`/profile/${record.id}`);
                             break;
                     

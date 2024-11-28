@@ -11,10 +11,8 @@ class homeController {
         res.render('listItem');
     }
     getLogin(req, res, next) {
-        res.clearCookie('subscriber');
-        res.clearCookie('admin');
-        res.clearCookie('writer');
-        res.clearCookie('editor');
+        res.locals.user = null;
+        res.clearCookie('user');
         res.render('login');
       }
 };

@@ -7,6 +7,8 @@ const signUpRouter = require('./router/signUpRouter');
 const profileRouter = require('./router/profile');
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
+const authMiddleware = require('./middleware/auth');
+const methodOverride = require('method-override');
 
 const app = express();
 const port = 8081;
@@ -15,7 +17,9 @@ configViewEngine(app)
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(authMiddleware);
 app.use(bodyParser.json());
+app.use(methodOverride('_method'));
 
 app.use('/', webRouter);
 
