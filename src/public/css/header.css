@@ -33,100 +33,54 @@ header {
   box-shadow: 0px 10px 50px #ccc;
   flex-wrap: nowrap;
 }
-.list-images {
-  display: flex;
-  flex-direction: row;
-  width: 40%;
-  overflow: hidden;
-  position: relative;
-}
-.list-images img {
+
+.scroll_box {
   width: 100%;
-  height: auto; 
-  object-fit: cover;
-  max-width: 100%; 
-}
-.menu-cate {
+  max-width: 100vw;
   display: flex;
-  flex: 1;
-  padding: 0;
-  list-style-type: none;
+  position: relative;
+  justify-content: flex-start;
+  border-top: 4px solid #333;
+  border-bottom: 4px solid #333;
+  margin-bottom: 5px;
+  overflow-x: auto; 
+  overflow-y: hidden;
+  scroll-behavior: smooth; 
+  user-select: none;
+  cursor: pointer;
+}
+
+
+.scroll_box::-webkit-scrollbar {
+  display: none;  
+}
+
+.scroll_box::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+
+.list_category {
+  display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  z-index: 0;
-}
-.menu-cate li {
-  padding: 10px;
-  border-bottom: 1px solid #555;
-  border-radius: 5px;
-  background-color: antiquewhite;
-  margin-right: 1px;
-}
-.menu-cate li a {
-  color: #333;
+  position: relative;
   text-decoration: none;
-  display: block;
-}
-.menu-cate li a.active {
-  color: red;
-}
-.menu-cate li i {
-    color: #333;
-    text-decoration: none;
-    align-content: center;
-    display: block;
-}
-.menu-cate li:hover {
-  background-color: #555;
-}
-.menu-btn {
-    color: #333;
-    font-size: 30px;
-    cursor: pointer;
-    z-index: 1;
-  }
-.menu-btn.disabled {
-opacity: 0.5;
-pointer-events: none;
-}
-.menu-wrapper {
-    overflow: hidden;
-    width: 40%;
-    display: flex;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: transparent;
-  }
-.menu-wrapper {
-    overflow-x: auto; 
-    white-space: nowrap; 
-    -webkit-overflow-scrolling: touch; 
+  height: auto;
+  justify-content: flex-start;
 }
 
-.menu-wrapper::-webkit-scrollbar {
-    height: 8px;
+.list_category .category {
+  display: flex;
+  width: 300px;
+  padding: 5px;
+  margin-top: 15px;
+  margin-left: 10px;
+  text-align: center;
+  justify-content: center;
+  border: 2px solid #333;
+  text-decoration: none;
 }
 
-.menu-wrapper::-webkit-scrollbar-track {
-    background: transparent; 
-    border-radius: 5px;
-}
-
-.menu-wrapper::-webkit-scrollbar-thumb {
-
-    border-radius: 5px;
-    visibility: hidden;
-}
-
-.scroll-box {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    padding: 5px 0px;
-}
 .list-nav {
   position: relative;
   flex-wrap: wrap;

@@ -7,16 +7,12 @@
 <header>
     <div class="header-container">
         <div class="web-title"><h2>ELECTRONIC NEWSPAPER</h2></div>
-        <div class="scroll-box">
-            <i class='bx bxs-left-arrow menu-btn' id="left-btn"></i>
-            <div class="menu-wrapper" id="menuWrapper">
-                <ul class="menu-cate mt-3" id="menu">
-                  <% for (var i = 1; i <= 20; i++) { %> 
-                    <li class="category<%=i%>"><a href="/<%=i%>" data-id="<%=i%>"><%=i%></a></li>
-                    <% } %>
-                </ul>
-            </div>
-            <i class='bx bxs-right-arrow menu-btn' id="right-btn"></i>
+        <div class="scroll_box">
+            <ul class="list_category">
+                <% for(let i = 0; i < 10; i++) { %>
+                    <li class="category"><%= i %></li>
+                <% } %>
+            </ul>
         </div>
         <div class="list-nav">
             <% if (user) { %>

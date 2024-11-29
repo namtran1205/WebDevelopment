@@ -12,6 +12,7 @@ main {
     justify-content: flex-start; 
     background-color: #fff;
     padding: 5px;
+    align-items: center;
 }
 .search-container {
     display: flex;
@@ -43,11 +44,32 @@ main {
 
 .tag-list {
     display: flex;
-    flex-wrap: wrap;
     gap: 10px;
     margin-top: 10px;
     justify-content: center;
+    width: 80%;
+    max-width: 80vw;
+    overflow-x: scroll;
+    scroll-behavior: smooth; 
+    user-select: none;
+    padding: 4px;
 }
+
+.tag-list::-webkit-scrollbar {
+    height: 4px;  
+  }
+
+  .tag-list::-webkit-scrollbar-thumb {
+    height: 4px;
+    background-color: #333;
+    width: 100px;
+    border-radius: 2px;
+  }
+
+
+    .tag-list::-webkit-scrollbar-track {
+        background: #000; 
+    }
 
 .tag {
     background-color: #f1f1f1;

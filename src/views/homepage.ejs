@@ -26,11 +26,9 @@
                 <i class='bx bx-search'></i>
             </div>
             <div class="tag-list">
-                <span class="tag">Thẻ 1</span>
-                <span class="tag">Thẻ 2</span>
-                <span class="tag">Thẻ 3</span>
-                <span class="tag">Thẻ 4</span>
-                <span class="tag">Thẻ 5</span>
+              <% for(let i = 0; i < 20; i++) { %>
+                <span class="tag">Thẻ <%= i%></span>
+                <% } %>
             </div>
             <div class="slide-show">
               <div class="list-slide">
@@ -140,6 +138,7 @@
     </main>
     <%-include('footer.ejs')%>
     <script src="/js/handle-homepage.js"></script>
+    <script src="/js/handle-taglist.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
