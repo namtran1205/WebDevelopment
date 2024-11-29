@@ -9,9 +9,9 @@ const profileController =
         let userId = null;
         user = JSON.parse(req.cookies.user);
         userId = user._id;
-        res.render('profile', { userId, user });
+        userType = capitalizeFirstLetter(user.type);
+        res.render('profile', { userId, userType, user });
     },
-
     async update(req, res)
     {
         let user = null;
@@ -85,5 +85,9 @@ const profileController =
     }
     
 };
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 module.exports = profileController;
