@@ -17,7 +17,7 @@ router.get('/profile', profileController.show);
 
 router.get('/detailPage', detailPageController.show);
 
-router.get('/admin', adminController.show);
+router.get('/', adminController.show);
 
   
 router.get('/:id', homeController.getListItem);
