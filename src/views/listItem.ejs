@@ -34,55 +34,14 @@
           </div>
           <div class="box-item">
             <div class="list-news">
+              <% articles.forEach(article => { %>
                 <div class="news-item">
-                  <img src="https://cdn.tuoitre.vn/thumb_w/730/471584752817336320/2024/5/20/tran-thanh-man-17161740694451625913913.jpg" alt="News Image">
-                  <div class="news-title">Chủ tịch Quốc hội Trần Thanh Mẫn cùng Phu nhân thăm Singapore và Nhật Bản từ ngày 1-12</div>
-                  <div class="news-date">16/11/2024</div>
-                  <div class="news-category">Thế giới</div>
+                  <img src="<%= article.urlPicture %>" alt="News Image">
+                  <div class="news-title"><%= article.title %></div>
+                  <div class="news-date"><%= article.date %></div>
+                  <div class="news-category"><%= article.idCategory %></div>
                 </div>
-                <div class="news-item">
-                  <img src="https://via.placeholder.com/150" alt="News Image">
-                  <div class="news-title">Tiêu đề Bài Báo 2</div>
-                  <div class="news-date">Mô tả ngắn cho bài báo 2.</div>
-                  <div class="news-category">Category</div>
-                </div>
-                <div class="news-item">
-                  <img src="https://via.placeholder.com/150" alt="News Image">
-                  <div class="news-title">Tiêu đề Bài Báo 3</div>
-                  <div class="news-date">Mô tả ngắn cho bài báo 3.</div>
-                  <div class="news-category">Category</div>
-                </div>
-                <div class="news-item">
-                  <img src="https://via.placeholder.com/150" alt="News Image">
-                  <div class="news-title">Tiêu đề Bài Báo 5</div>
-                  <div class="news-date">Mô tả ngắn cho bài báo 5.</div>
-                  <div class="news-category">Category</div>
-                </div>
-                <div class="news-item">
-                    <img src="https://via.placeholder.com/150" alt="News Image">
-                    <div class="news-title">Tiêu đề Bài Báo 6</div>
-                    <div class="news-date">Mô tả ngắn cho bài báo 6.</div>
-                  </div>
-                  <div class="news-item">
-                    <img src="https://via.placeholder.com/150" alt="News Image">
-                    <div class="news-title">Tiêu đề Bài Báo 7</div>
-                    <div class="news-date">Mô tả ngắn cho bài báo 7.</div>
-                  </div>
-                  <div class="news-item">
-                    <img src="https://via.placeholder.com/150" alt="News Image">
-                    <div class="news-title">Tiêu đề Bài Báo 8</div>
-                    <div class="news-date">Mô tả ngắn cho bài báo 9.</div>
-                  </div>
-                  <div class="news-item">
-                    <img src="https://via.placeholder.com/150" alt="News Image">
-                    <div class="news-title">Tiêu đề Bài Báo 4</div>
-                    <div class="news-date">Mô tả ngắn cho bài báo 4.</div>
-                </div>
-                <div class="news-item">
-                    <img src="https://via.placeholder.com/150" alt="News Image">
-                    <div class="news-title">Tiêu đề Bài Báo 4</div>
-                    <div class="news-date">Mô tả ngắn cho bài báo 4.</div>
-                </div>
+              <% }) %>
             </div>
           </div>
           <div class="list-page">

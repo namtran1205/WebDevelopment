@@ -15,6 +15,7 @@
     "bootstrap": "^5.3.3",
     "boxicons": "^2.1.4",
     "cookie-parser": "^1.4.7",
+    "csv-parser": "^3.0.0",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
     "method-override": "^3.0.0",
