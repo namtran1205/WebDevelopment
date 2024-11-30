@@ -5,6 +5,7 @@ const configViewEngine = require('./config/viewEngine');
 const connectDB = require('./db/connectDB');
 const signUpRouter = require('./router/signUpRouter');
 const profileRouter = require('./router/profile');
+const adminRouter = require('./router/admin');
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 const authMiddleware = require('./middleware/auth');
@@ -24,6 +25,7 @@ app.use(methodOverride('_method'));
 app.use('/', webRouter);
 app.use('/api/v1/signup', signUpRouter);
 app.use('/', profileRouter);
+app.use('/admin', adminRouter);
 
 
 const start = async () => {
