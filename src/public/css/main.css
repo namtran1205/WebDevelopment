@@ -46,7 +46,7 @@ main {
     display: flex;
     gap: 10px;
     margin-top: 10px;
-    justify-content: center;
+    justify-content: flex-start;
     width: 80%;
     max-width: 80vw;
     overflow-x: scroll;
@@ -80,8 +80,20 @@ main {
     border: 1px solid #ccc;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
+    text-decoration: none;
+    display: flex;
+    justify-content: flex-start;
 }  
+
 .tag:hover {
     background-color: #333;
     color: #fff;
+}
+.tag a {
+    text-decoration: none;
+    color: #000;
+    flex-wrap: wrap;
+    display: flex;
+    width: 100px;
+    text-align: center;
 }

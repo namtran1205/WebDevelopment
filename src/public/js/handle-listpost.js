@@ -19,7 +19,10 @@ function paginate() {
       if (index % itemsPerPage === 0 && index !== 0) {
         page = createPage(currentPage);
         const num = document.createElement('li');
-        num.textContent = currentPage;
+        const link = document.createElement('a');
+        link.textContent = currentPage;
+        link.href = `/${currentPage}`;
+        num.appendChild(link);
         listNumber.appendChild(num);
         currentPage++;
       }
@@ -27,7 +30,11 @@ function paginate() {
     });
   
 const num = document.createElement('li');
-num.textContent = currentPage;
+const link = document.createElement('a');
+link.textContent = currentPage;
+link.href = `/${currentPage}`;
+num.appendChild(link);
+
 listNumber.appendChild(num);
 let numberPage = 1;
 const prevBtn = document.getElementById('prev-btn');

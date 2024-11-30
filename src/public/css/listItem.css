@@ -47,7 +47,15 @@
   }
   .list-number li {
     text-decoration: none;
-    display: block;
+    display: flex;
     margin-right: 5px;
     margin-left: 5px;
+    align-items: center;
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .list-news {
+      grid-template-columns: 1fr;
+    }
   }
