@@ -22,10 +22,10 @@ app.use(authMiddleware);
 app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 
-app.use('/', webRouter);
 app.use('/api/v1/signup', signUpRouter);
 app.use('/', profileRouter);
 app.use('/admin', adminRouter);
+app.use('/', webRouter);
 
 
 const start = async () => {

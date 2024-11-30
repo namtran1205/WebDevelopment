@@ -44,6 +44,9 @@ function getUserDetails (id)
 
 
 const adminController = {
+    async show(req, res) {
+        res.render('adminPage');
+    },
     async showUserList (req, res) {
         try
         {
