@@ -22,7 +22,6 @@ app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 
 app.use('/', webRouter);
-
 app.use('/api/v1/signup', signUpRouter);
 app.use('/', profileRouter);
 

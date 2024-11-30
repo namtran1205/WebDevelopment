@@ -39,6 +39,11 @@ const PostSchema = new mongoose.Schema({
   publishedDate: {
     type: Date,
     default: null,
+  },
+
+  idWriter: {
+    type: String,
+    required: true
   }
 });
 

@@ -46,6 +46,10 @@ const userSchema = new mongoose.Schema({
       return null;
     },
   },
+  idCategory: {
+    type: String,
+    required: true,
+  } 
 });
 
 const User = mongoose.model('User', userSchema);

@@ -46,9 +46,10 @@ const loginController =
                             break;
         
                         case 'admin':
-                            res.send('admin page');
+                            res.cookie('user', JSON.stringify(record), { httpOnly: true });
+                            res.redirect("/admin");
                             break;
-                            
+        
                         default:
                             console.log('unknown user type');
                             res.redirect('/');

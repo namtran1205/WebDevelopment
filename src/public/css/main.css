@@ -68,7 +68,7 @@ main {
 
 
     .tag-list::-webkit-scrollbar-track {
-        background: #000; 
+        background: #fff; 
     }
 
 .tag {

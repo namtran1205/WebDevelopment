@@ -8,7 +8,6 @@ body {
 header {
   position: relative;
   display: block;
-  border-top: 3px dashed #333;
 }
 .web-title {
   font-family: "Walter Turncoat", cursive;
@@ -41,8 +40,6 @@ header {
   display: flex;
   position: relative;
   justify-content: flex-start;
-  border-top: 3px solid #333;
-  border-bottom: 3px solid #333;
   margin-bottom: 5px;
   overflow-x: auto; 
   overflow-y: hidden;
@@ -78,7 +75,8 @@ header {
   margin-left: 10px;
   text-align: center;
   justify-content: center;
-  border: 2px solid #333;
+  border: 1px solid #333;
+  border-radius: 5px;
   text-decoration: none;
 }
 
@@ -112,8 +110,8 @@ header {
   height: 200px;
   display: flex;
   width: 100%;
-  border-top: 3px dashed #333;
-  border-bottom: 3px dashed #333;
+  border-top: 3px dashed #ccc;
+  border-bottom: 3px dashed #ccc;
   margin-bottom: 2px;
 }
 

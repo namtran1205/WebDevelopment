@@ -174,7 +174,7 @@
   }
 
   .list-item .item img {
-    width: 100%;
+    width: auto;
     height: 100%;
     object-fit: cover;
     object-position: center;
@@ -251,7 +251,7 @@
   .list-item .item {
     width: 285px;
     height: 350px;
-    margin-right: 10px;
+    margin-right: 8px;
     margin-left: 10px;
     position: relative;
     display: flex;
@@ -263,7 +263,7 @@
   }
 
   .list-item .item img {
-    width: 100%;
+    width: auto;
     height: 100%;
     object-fit: cover;
     object-position: center;
