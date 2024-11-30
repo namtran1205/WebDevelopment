@@ -20,6 +20,10 @@ class homeController {
               urlPicture: row['URL Picture'],
               date: row['Date'], 
               idCategory: row['ID Category'],
+              subCategory: row['Category(Sub)'],
+              views: row['View'],
+              idPost: row['ID'],
+              content: row['Content'],
             });
           })
           .on('end', () => {
