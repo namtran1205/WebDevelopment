@@ -13,30 +13,32 @@ const createPageController = {
     },
 
     async post(req, res) {
-        const { title, content, abstract, category, tag, state } = req.body;
-
-        // Kiểm tra nếu dữ liệu không hợp lệ
-        if (!title || !content || !category || !tag || !state) {
-            return res.status(400).send('Tất cả các trường là bắt buộc');
-        }
-
         try {
-            const newPage = new PostSchema({
-                title,
-                content,
-                abstract,
-                category,
-                tag,
-                state
+            const { title, content, subCategory, mainCategory, idWriter, state } = req.body;
+        
+            // Validate required fields
+            if (!title || !content || !subCategory || !mainCategory || !idWriter) {
+              return res.status(400).json({ error: 'Missing required fields' });
+            }
+        
+            // Create a new post
+            const newPost = new Post({
+              title,
+              content,
+              abstract: content.substring(0, 100), // Automatically create abstract from content
+              subCategory,
+              mainCategory,
+              state: state || 'Chưa được duyệt',
+              idWriter,
             });
-
-            // Lưu bài viết mới vào cơ sở dữ liệu
-            await newPage.save();
-            res.redirect('/'); // Sau khi tạo thành công, chuyển hướng về trang chủ
-        } catch (err) {
-            console.error('Error saving new page:', err);
-            res.status(500).send('Lỗi tạo trang mới');
-        }
+        
+            // Save post to database
+            const savedPost = await newPost.save();
+            res.status(201).json(savedPost);
+          } catch (err) {
+            console.error('Error creating post:', err);
+            res.status(500).json({ error: 'Internal server error' });
+          }
     }
 };
 

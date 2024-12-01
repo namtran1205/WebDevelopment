@@ -10,6 +10,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 const authMiddleware = require('./middleware/auth');
 const methodOverride = require('method-override');
+const createPageRouter = require('./router/createPage');
 
 const app = express();
 const port = 8081;
@@ -26,6 +27,7 @@ app.use('/api/v1/signup', signUpRouter);
 app.use('/', profileRouter);
 app.use('/admin', adminRouter);
 app.use('/', webRouter);
+app.use('/', createPageRouter);
 
 
 const start = async () => {
