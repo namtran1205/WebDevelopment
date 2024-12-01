@@ -10,6 +10,7 @@ function getUsers (limit, skip)
     return User.find({}).select({
         email : 1,
         fullName : 1,
+        type : 1,
     }).skip(skip).limit(limit);
 }
 
@@ -45,29 +46,35 @@ function getUserDetails (id)
 
 const adminController = {
     async show(req, res) {
-        res.render('adminPage');
+        // res.render('adminMain');
+        res.render('adminMain');
     },
+
     async showUserList (req, res) {
         try
         {
-        list = await getUsers(0, 0);
-        // render here
-        console.log(list);
-        res.send(list);
+            list = await getUsers(0, 0);
+            // render here
+            console.log(list);
+            res.locals.parameters = {
+                userList : list,
+            }
+            res.render('adminUser');
         }
         catch (error)
         {
             console.error(error);
+            res.redirect('/admin');
         }
     },
 
     async showPostList (req, res) {
         try
         {
-        list = await getPosts(0, 0);
-        // render here
-        console.log(list);
-        res.send(list);
+            list = await getPosts(0, 0);
+            // render here
+            console.log(list);
+            res.send(list);
         }
         catch (error)
         {
@@ -81,7 +88,11 @@ const adminController = {
         {
             item = await getUserDetails(id);
             console.log(item);
-            res.send(item);
+            res.locals.parameters = {
+                user : item,
+                notFound : item === null,
+            };
+            res.render('adminUserDetails');
         }
         catch (error)
         {
