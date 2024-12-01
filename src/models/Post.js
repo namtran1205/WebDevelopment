@@ -19,9 +19,9 @@ const PostSchema = new mongoose.Schema({
     required: true,
   },
   tags: [
+
     {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tag',
+        type: String,
     },
   ],
 
@@ -49,10 +49,9 @@ const PostSchema = new mongoose.Schema({
   },
 
   idCategory: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'MainCategory',
+    type: String,
     required: true,
-},
+  },
 
 });
 

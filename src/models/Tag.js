@@ -11,6 +11,10 @@ const TagSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    _id: {
+        type: String,
+        require: true
+    }
 })
 
 const Tag = mongoose.model('Tag', TagSchema)

@@ -4,20 +4,26 @@ const Tag = require('../models/Tag');
 
 const getPosts = async (req, res) => {
     try {
-        const posts = await Post.find({ idCategory: { $ne: null } })
-        .populate({
-            path: 'idCategory',
-            select: 'name',
-            options: { strictPopulate: false },
-            populate: {
-                path: '_id',
-                model: 'MainCategory',
-            },
-        })
-            .populate('tags', 'name');
+        const posts = await Post.find();
+        const postsWithTags = await Promise.all(
+            posts.map(async (post) => {
+                const tags = await Tag.find({ _id: { $in: post.tags } });
+                await Promise.all(
+                    tags.map(async (tag) => {
+                        await Tag.findByIdAndUpdate(
+                            tag._id,
+                            { $addToSet: { posts: post.id } }, 
+                            { new: true } 
+                        );
+                    })
+                );
+                return { ...post._doc, tags};
+            })
+        );
+        
         res.status(200).json({
             success: true,
-            data: posts,
+            data: postsWithTags,
         });
     } catch (error) {
         console.error(error.message);

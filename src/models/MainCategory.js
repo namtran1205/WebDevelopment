@@ -12,7 +12,11 @@ const MainCategorySchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Post',
         },
-    ]
+    ],
+    _id: {
+        type: String,
+        require: true
+    }
 });
 
 const MainCategory = mongoose.model('MainCategory', MainCategorySchema);
