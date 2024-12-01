@@ -38,7 +38,9 @@ const loginController =
                             break;
                     
                         case 'writer':
-                            res.send('writer page');
+                            res.cookie('user', JSON.stringify(record), { httpOnly: true });
+                            res.redirect(`/profile/${record.id}`);
+                            //res.send('writer page');
                             break;
         
                         case 'editor':
