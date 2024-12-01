@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 
 const TagSchema = new mongoose.Schema({
-    idPost: {
-        type: String,
-        required: true,
-    },
-    tag: {
+    posts: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Post',
+        },
+    ],
+    name: {
         type: String,
         required: true,
     },

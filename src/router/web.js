@@ -6,8 +6,8 @@ const detailPageController = require('../controller/detailPageController');
 const profileController = require('../controller/profileController');
 
 const createPageController = require('../controller/createPageController');
-const { route } = require('./signUpRouter');
-const { create } = require('../models/User');
+const postController = require('../controller/postController');
+
 
 router.get('/', homeController.show);
 
@@ -24,7 +24,7 @@ router.get('/createPage', createPageController.show);
 
 // router.get('/detailPage', detailPageController.show);
   
-router.get('/:id', homeController.getListItem);
+router.get('/:id', postController.getPosts);
 
 
 
