@@ -1,0 +1,7 @@
+<div>
+  <%
+      const remainingTime = new Date(user.remainingTime);
+      const formattedDate = remainingTime.toISOString().split('T')[0];
+    %>
+  <p>Subscription End Date: <%= formattedDate %></p>
+</div>

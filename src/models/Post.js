@@ -14,7 +14,7 @@ const PostSchema = new mongoose.Schema({
     required: true,
     maxlength: 100
   },
-  category: {
+  subCategory: {
     type: String,
     required: true,
   },
