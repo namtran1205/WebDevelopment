@@ -17,7 +17,7 @@ class signUpController {
   async createUser(req, res) {
     try {
       const { fullName, password, nickname, email, dateOfBirth, type } = req.body;
-
+      let idCategory = "";
       const saltRounds = 10;
       bcrypt.hash(password, saltRounds, async function(err, hash) {
         if (err)
@@ -34,6 +34,7 @@ class signUpController {
           email,
           dateOfBirth,
           type,
+          idCategory: type == "editor" ? idCategory: null
         });
         
         await newUser.save();

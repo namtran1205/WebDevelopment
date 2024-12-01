@@ -18,10 +18,12 @@ const PostSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  tag: {
-    type: String, 
-    required: true,
-  },
+  tags: [
+    {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tag',
+    },
+  ],
 
   state: {
     type: String,
@@ -44,7 +46,14 @@ const PostSchema = new mongoose.Schema({
   idWriter: {
     type: String,
     required: true
-  }
+  },
+
+  idCategory: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'MainCategory',
+    required: true,
+},
+
 });
 
 PostSchema.pre('save', function(next) {

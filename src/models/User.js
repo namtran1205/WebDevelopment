@@ -48,7 +48,7 @@ const userSchema = new mongoose.Schema({
   },
   idCategory: {
     type: String,
-    required: true,
+    required: false
   } 
 });
 
