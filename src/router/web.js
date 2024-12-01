@@ -15,7 +15,7 @@ router.post('/login', loginController.loginUser);
 
 router.get('/profile', profileController.show);
 
-router.get('/detailPage', detailPageController.show);
+router.get('/detailPage/:idPost', detailPageController.show);
 
 
 router.get('/:id', homeController.getListItem);

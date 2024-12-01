@@ -14,12 +14,12 @@ const PostSchema = new mongoose.Schema({
     required: true,
     maxlength: 100
   },
-  category: {
+  subCategory: {
     type: String,
     required: true,
   },
-  tag: {
-    type: String, 
+  mainCategory: {
+    type: String,
     required: true,
   },
 
