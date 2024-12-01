@@ -53,7 +53,7 @@ body, h1, h2, ul, li, p, button {
     margin-bottom: 15px;
   }
   
-  .nav-links button {
+  .nav-links a {
     width: 100%;
     padding: 10px;
     font-size: 16px;
@@ -63,9 +63,12 @@ body, h1, h2, ul, li, p, button {
     cursor: pointer;
     border-radius: 4px;
     transition: all 0.3s;
+    display: block;
+    text-decoration: none;
+    text-align: center;
   }
   
-  .nav-links button:hover {
+  .nav-links a:hover {
     background-color: #007BFF;
     color: #fff;
   }
