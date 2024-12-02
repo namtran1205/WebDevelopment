@@ -1,7 +1,7 @@
 const express = require('express');
-const createPage = require('../controller/createPageController'); // Import controller
+const createPageController = require('../controller/createPageController'); // Import controller
 
 const router = express.Router();
 
-router.post('/api/posts', createPage.post);
+router.post('/api/posts', createPageController.post);
 module.exports = router;

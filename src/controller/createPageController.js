@@ -2,7 +2,7 @@
 
 const PostSchema = require('../models/Post'); // Đảm bảo bạn import đúng model của bạn
 
-const createPageController = {
+class createPageController {
     async show(req, res) {
         try {
             res.render('createPage'); // Render trang tạo bài viết
@@ -10,7 +10,7 @@ const createPageController = {
             console.error('Error rendering createPage:', err);
             res.status(500).send('Lỗi khi hiển thị trang tạo bài viết');
         }
-    },
+    }
 
     async post(req, res) {
         try {
@@ -22,7 +22,7 @@ const createPageController = {
             }
         
             // Create a new post
-            const newPost = new Post({
+            const newPost = new PostSchema({
               title,
               content,
               abstract: content.substring(0, 100), // Automatically create abstract from content
@@ -40,6 +40,6 @@ const createPageController = {
             res.status(500).json({ error: 'Internal server error' });
           }
     }
-};
+}
 
-module.exports = createPageController;
+module.exports = new createPageController();
