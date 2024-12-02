@@ -12,6 +12,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">  
   <link href="https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Walter+Turncoat&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/admin.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
   <div class="web-title"><h2>DIGITAL NEWSPAPER</h2></div>
@@ -37,10 +38,29 @@
       <div id="user" class="content-section">
           <h2 class="mb-3">Quản Lý Người Dùng</h2>
 
+          <!-- success/failure alerts -->
           <% parameters = typeof parameters !== 'object' ? {} : parameters %>
-          <% if (parameters.delete) { %>
+          <% if (parameters.delete === 'success') { %>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-              Xóa user thành công.
+              Xóa người dùng thành công.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% } %>
+          <% if (parameters.delete === 'failure') { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong> Đã có lỗi xảy ra </strong> khi xóa người dùng.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% } %>
+          <% if (parameters.update === 'success') { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              Cập nhật người dùng thành công.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% } %>
+          <% if (parameters.update === 'failure') { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong> Đã có lỗi xảy ra </strong> khi cập nhật người dùng.
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
           <% } %>
@@ -71,7 +91,7 @@
                         <td> <%= userList[i].fullName %> </td>
                         <td> <%= userList[i].type %></td>
                         <td> 
-                            <a class="btn btn-primary" href="/admin/users/details?id=<%= userList[i]._id %>" role="button"> ABC </a> 
+                            <a class="btn btn-primary" href="/admin/users/details?id=<%= userList[i]._id %>" role="button"> <i class="bi bi-pencil"></i> </a> 
                         </td>
                     </tr>
                 <% } %>

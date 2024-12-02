@@ -15,6 +15,8 @@ router.get('/users/details', adminController.showUserDetails);
 
 // delete user
 router.post('/users/details/delete', adminController.removeUser);
+// update user
+router.post('/users/details/update', adminController.editUser)
 
 
 module.exports = router;

@@ -38,11 +38,12 @@
       <h1>Chào Mừng Đến Trang Quản Trị</h1>
       <div id="content-area">
 
-        <!-- body here -->
+        <!-- body -->
         <% if (parameters.notFound) { %>
             <p> Không tìm thấy người dùng này </p>
-        <% } else { %>
+        <% } else { if (parameters.user.type !== 'admin') {%>
             <% user = parameters.user %>
+            <% categories = parameters.categories %>
             <% dob = new Date(user.dateOfBirth) %>
             <form action="" method="post">
                 <div class="form-group">
@@ -63,32 +64,65 @@
                 </div>
                 <div class="form-group">
                   <label for="type"> Phân loại người dùng </label>
-                  <select class="form-control" name="type" id="type">
-                    <option> editor </option>
-                    <option> subscriber </option>
-                    <option> writer </option>
+                  <select class="form-control form-select" name="type" id="type">
+                    <option value="editor" <% if (user.type === 'editor') { %> selected <% } %> > Editor </option>
+                    <option value="subscriber" <% if (user.type === 'subscriber') { %> selected <% } %> > Subscriber </option>
+                    <option value="writer" <% if (user.type === 'writer') { %> selected <% } %> > Writer </option>
                   </select>
                 </div>
                 <div class="form-group">
                   <label for="nickname"> Bút danh </label>
                   <input type="text" name="nickname" id="nickname" class="form-control" placeholder="Không có" value="<%= user.nickname %>" aria-describedby="helpId">
-                  <small id="helpId" class="text-muted"> Chỉ áp dụng cho tài khoản writer </small>
+                  <small id="helpId" class="text-muted"> Chỉ áp dụng cho tài khoản Writer </small>
                 </div>
                 <div class="form-group">
                   <label for="category"> Chuyên mục </label>
-                  <input type="text" name="category" id="category" class="form-control" placeholder="Không có" value="<%= user.idCategory %>" aria-describedby="helpId">
-                  <small id="helpId" class="text-muted"> Chỉ áp dụng cho tài khoản editor</small>
+                    <select class="form-control form-select" name="category" id="category">
+                      <% for (let i = 0; i < categories.length; i++) { %>
+                        <option value="<%= categories[i]._id %>"> <%= categories[i].name %> </option>
+                      <% } %>
+                    </select>
                 </div>
+                  <small id="helpId" class="text-muted"> Chỉ áp dụng cho tài khoản Editor</small>
                 <div class="form-group">
-                  <label for="expire"> Ngày hết hạn subscriber </label>
+                  <label for="expire"> Thời điểm hết hạn subscriber </label>
                   <input type="datetime-local" name="expire" id="expire" class="form-control" placeholder="" value="<%= user.remainingTime %>" aria-describedby="helpId">
-                  <small id="helpId" class="text-muted"> Chỉ áp dụng cho tài khoản subscriber </small>
+                  <small id="helpId" class="text-muted"> Chỉ áp dụng cho tài khoản Subscriber </small>
                 </div>
 
                 <button type="submit" class="btn btn-primary" formaction="details/update"> Xác nhận chỉnh sửa </button>
                 <button type="submit" class="btn btn-danger" formaction="details/delete"> Xóa tài khoản </button>
             </form>
-        <% } %>
+
+        <% } else { %> <!-- admin users: cannot be edited or deleted -->
+          <% user = parameters.user %>
+          <% dob = new Date(user.dateOfBirth) %>
+          <form action="" method="post">
+              <div class="form-group">
+                <label for="userID"> ID </label>
+                <input type="text" name="userID" id="userID" class="form-control" value="<%= user.id %>" readonly disabled>
+              </div>
+              <div class="form-group">
+                <label for="email"> Email </label>
+                <input type="text" name="email" id="email" class="form-control" value="<%= user.email %>" readonly disabled>
+              </div>
+              <div class="form-group">
+                <label for="fullName"> Tên </label>
+                <input type="text" name="fullName" id="fullName" class="form-control" value="<%= user.fullName %>" readonly disabled>
+              </div>
+              <div class="form-group">
+                <label for="dob"> Ngày sinh </label>
+                <input type="date" name="dob" id="dob" class="form-control" value="<%= dob.getFullYear()+ '-' + (dob.getMonth() + 1) + '-' + dob.getDate() %>" readonly disabled>
+              </div>
+              <div class="form-group">
+                <label for="type"> Phân loại người dùng </label>
+                <select class="form-control" name="type" id="type" readonly disabled>
+                  <option> admin </option>
+                </select>
+              </div>
+        <% }} %>
+
+      </div>
 
       </div>
     </div>
