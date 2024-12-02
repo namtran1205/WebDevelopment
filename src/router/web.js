@@ -23,6 +23,7 @@ router.get('/detailPage/:idPost', detailPageController.show);
 router.get('/createPage', createPageController.show);
 
 // router.get('/detailPage', detailPageController.show);
+router.get('/favicon.ico', (req, res) => res.status(204).end());
   
 router.get('/:id', postController.getPosts);
 

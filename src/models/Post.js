@@ -43,6 +43,11 @@ const PostSchema = new mongoose.Schema({
     default: null,
   },
 
+  view: {
+    type: String,
+    require: true,
+  },
+
   idWriter: {
     type: String,
     required: true

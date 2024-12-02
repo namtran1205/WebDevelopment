@@ -9,6 +9,7 @@ const adminRouter = require('./router/admin');
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 const authMiddleware = require('./middleware/auth');
+const fetchCategories = require('./middleware/fetchContent');
 const methodOverride = require('method-override');
 const createPageRouter = require('./router/createPage');
 
@@ -20,6 +21,7 @@ configViewEngine(app)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(authMiddleware);
+app.use(fetchCategories);
 app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 

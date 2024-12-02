@@ -10,6 +10,8 @@ const TagSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        unique: true,
+        trim: true,
     },
     _id: {
         type: String,
