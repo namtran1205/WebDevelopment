@@ -31,8 +31,8 @@
         </div>
         <div class="scroll_box">
             <ul class="list_category">
-                <% for(let i = 0; i < 10; i++) { %>
-                    <li class="category"><%= i %></li>
+                <% for(let i = 0; i < categories.length; i++) { %>
+                    <li class="category"><%= categories[i].name %></li>
                 <% } %>
             </ul>
         </div>

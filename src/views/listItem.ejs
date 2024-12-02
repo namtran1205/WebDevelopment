@@ -26,18 +26,30 @@
               <i class='bx bx-search'></i>
           </div>
           <div class="tag-list">
-            <% for(let i = 0; i < 20; i++) { %>
-              <span class="tag"><a href="/<%= i%>">Thẻ <%= i%></a></span>
-              <% } %>
+            <% for(let i = 0; i < tags.length; i++) { %>
+              <span class="tag"><a href="/<%= tags[i]._id %>"><%= tags[i].name %></a></span>
+            <% } %>
           </div>
           <div class="box-item">
             <div class="list-news">
-              <% articles.forEach(article => { %>
+              <% posts.forEach(post => { %>
                 <div class="news-item">
-                  <img src="<%= article.urlPicture %>" alt="News Image">
-                  <div class="news-title"><%= article.title %></div>
-                  <div class="news-date"><%= article.date %></div>
-                  <div class="news-category"><%= article.idCategory %></div>
+                  <img src="<%= post.image %>" alt="News Image">
+                  <div class="news-title"><%= post.title %></div>
+                  <div class="news-abstract">
+                    <%= post.abstract.length > 15 ? post.abstract.slice(0, 100) + '[...]' : post.abstract %>
+                  </div>                  <div class="news-date">
+                    <% 
+                      let date = new Date(post.publishedDate);
+                      let formattedDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                    %>
+                    <%= formattedDate %>
+                  </div>                  <div class="news-category"><%= post.category %></div>
+                  <div class="news-tags">
+                    <% post.tagNames.forEach(tagName => { %>
+                        <span><%= tagName %></span>
+                    <% }) %>
+                </div>
                 </div>
               <% }) %>
             </div>

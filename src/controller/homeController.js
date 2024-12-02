@@ -2,11 +2,16 @@ const { render } = require('ejs');
 const path = require('path');
 const fs = require('fs');
 const csv = require('csv-parser');
+const MainCategory = require('../models/MainCategory');
+const Tag = require('../models/Tag');
 
 class homeController {
-    show(req, res, next) {
+    async show(req, res, next) {
         let loginContent = null;
-        res.render('homepage');
+        const tags = await Tag.find();
+        const categories = await MainCategory.find();
+        res.locals.categories = categories;
+        res.render('homepage', {tags: tags});
     }
     getListItem(req, res, next) {
         const csvFilePath = path.join(__dirname, '../dataset.csv');
