@@ -55,9 +55,9 @@ const adminController = {
         {
             list = await getUsers(0, 0);
             // render here
-            console.log(list);
             res.locals.parameters = {
                 userList : list,
+                delete : req.query.delete === 'success',
             }
             res.render('adminUser');
         }
@@ -87,7 +87,6 @@ const adminController = {
         try
         {
             item = await getUserDetails(id);
-            console.log(item);
             res.locals.parameters = {
                 user : item,
                 notFound : item === null,
@@ -97,8 +96,50 @@ const adminController = {
         catch (error)
         {
             console.error(error);
+            res.redirect('/admin/users');
         }
     },
+
+    async removeUser (req, res) {
+        const id = req.body.userID;
+
+        try
+        {
+            item = await getUserDetails(id);
+            if (item === null)
+            {
+                res.locals.parameters = {
+                    title : 'Không tìm thấy user',
+                    action : false,
+                }
+                res.render('adminError');
+                return;
+            }
+            if (item.type === 'admin')
+            {
+                res.locals.parameters = {
+                    title : 'Không thể chỉnh sửa user này',
+                    action : false,
+                }
+                res.render('adminError');
+                return;
+            }
+            result = await deleteUser(id);
+            if (result.deletedCount === 1)
+            {
+                res.redirect('/admin/users?delete=success');
+            }
+            else
+            {
+                res.redirect('/admin/users');
+            }
+        }
+        catch (error)
+        {
+            console.error(error);
+            res.redirect('/admin/users');
+        }
+    }
 };
 
 module.exports = adminController;

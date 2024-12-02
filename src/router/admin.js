@@ -13,5 +13,8 @@ router.get('/posts', adminController.showPostList);
 // admin/users/details?id=XYZ
 router.get('/users/details', adminController.showUserDetails);
 
+// delete user
+router.post('/users/details/delete', adminController.removeUser);
+
 
 module.exports = router;
