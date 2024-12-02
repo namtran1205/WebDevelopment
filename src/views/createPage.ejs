@@ -23,7 +23,7 @@
   <main>
     <div class="content" id="content">
       <div class="container my-5">
-        <form id="post-form">
+        <form id="post-form" action="/api/posts" method="POST" class="needs-validation" novalidate>
           <!-- Tiêu đề -->
           <div class="mb-3">
             <label for="title" class="form-label">Tiêu đề:</label>
@@ -96,8 +96,35 @@
       },
       theme: 'snow'
       });
+
+      // Handle form submission
+document.querySelector('form').addEventListener('submit', function(e) {
+  e.preventDefault(); // Prevent default form submission
+  
+  // Get content from Quill editor
+  const content = quill.root.innerHTML; 
+  
+  // Prepare form data
+  const formData = new FormData(this);
+  formData.append('content', content);
+
+  // Send form data to backend
+  fetch('/api/posts', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Success:', data);
+    alert('Post created successfully!');
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+    alert('Failed to create post!');
+  });
+});
     </script>
-    <script src="/js/handle-writer.js"></script>
+    
   </main>
   
   <%- include('footer.ejs') %>

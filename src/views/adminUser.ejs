@@ -1,79 +1,3 @@
-
-
-<!-- 
-<div id="user" class="content-section" style="display: none;">
-          <h2>Quản Lý Người Dùng</h2>
-        
-          </!-- Danh sách người dùng --/>
-          <div class="user-list-container">
-            <h3>Danh Sách Người Dùng</h3>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Tên Người Dùng</th>
-                  <th>Vai Trò</th>
-                  <th>Hành Động</th>
-                  <th>Xóa</th>
-                </tr>
-              </thead>
-              <tbody id="user-list">
-                <% for (var i = 1; i <= 10; i++) { %>
-                  <tr>
-                    <td><%=i%></td>
-                    <td>Người Dùng <%=i%></td>
-                    <td>
-                      <% if (i % 3 === 0) { %> Biên Tập Viên <% } 
-                      else if (i % 2 === 0) { %> Phóng Viên <% } 
-                      else { %> Độc Giả <% } %>
-                    </td>
-                    <td>
-                      <% if (i % 3 === 0) { %>
-                        <button class="assign-btn" onclick="assignCategory('<%=i%>')">Phân Công</button>
-                      <% } else if (i % 2 === 0) { %>
-                        <button class="view-btn" onclick="viewReporter('<%=i%>')">Xem</button>
-                      <% } else { %>
-                        <button class="renew-btn" onclick="renewAccount('<%=i%>')">Gia Hạn</button>
-                      <% } %>
-                    </td>
-                    <td><button class="remove-btn">X</button></td>
-                  </tr>
-                <% } %>
-              </tbody>
-            </table>
-          </div>
-        
-          </!-- Form phân công chuyên mục --/>
-          <div id="assign-category-form" class="form-container" style="display: none;">
-            <h3>Phân Công Chuyên Mục Cho Biên Tập Viên</h3>
-            <p><strong>Tên Biên Tập Viên:</strong> <span id="editor-name"></span></p>
-            <select id="category-select">
-              <option value="">Chọn Chuyên Mục</option>
-              <option value="1">Chuyên Mục 1</option>
-              <option value="2">Chuyên Mục 2</option>
-              <option value="3">Chuyên Mục 3</option>
-            </select>
-            <button onclick="saveAssignment()">Lưu Phân Công</button>
-            <button onclick="closeAssignForm()">Đóng</button>
-          </div>
-        
-          </!-- Form gia hạn tài khoản --/>
-          <div id="renew-account-form" class="form-container" style="display: none;">
-            <h3>Gia Hạn Tài Khoản Độc Giả</h3>
-            <p><strong>Tên Độc Giả:</strong> <span id="reader-name"></span></p>
-            <label for="renew-duration">Thời Gian Gia Hạn:</label>
-            <select id="renew-duration">
-              <option value="1">1 Tháng</option>
-              <option value="3">3 Tháng</option>
-              <option value="6">6 Tháng</option>
-              <option value="12">12 Tháng</option>
-            </select>
-            <button onclick="confirmRenewal()">Xác Nhận Gia Hạn</button>
-            <button onclick="closeRenewForm()">Đóng</button>
-          </div>
-        </div>
--->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -88,6 +12,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">  
   <link href="https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Walter+Turncoat&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/admin.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
   <div class="web-title"><h2>DIGITAL NEWSPAPER</h2></div>
@@ -112,6 +37,37 @@
         
       <div id="user" class="content-section">
           <h2 class="mb-3">Quản Lý Người Dùng</h2>
+
+          <!-- success/failure alerts -->
+          <% parameters = typeof parameters !== 'object' ? {} : parameters %>
+          <% if (parameters.delete === 'success') { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              Xóa người dùng thành công.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% } %>
+          <% if (parameters.delete === 'failure') { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong> Đã có lỗi xảy ra </strong> khi xóa người dùng.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% } %>
+          <% if (parameters.update === 'success') { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              Cập nhật người dùng thành công.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% } %>
+          <% if (parameters.update === 'failure') { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong> Đã có lỗi xảy ra </strong> khi cập nhật người dùng.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% } %>
+          
+          <script>
+            $(".alert").alert();
+          </script>
         
           <!-- Danh sách người dùng -->
           <div class="user-list-container">
@@ -135,7 +91,7 @@
                         <td> <%= userList[i].fullName %> </td>
                         <td> <%= userList[i].type %></td>
                         <td> 
-                            <a class="btn btn-primary" href="/admin/users/details?id=<%= userList[i]._id %>" role="button"> ABC </a> 
+                            <a class="btn btn-primary" href="/admin/users/details?id=<%= userList[i]._id %>" role="button"> <i class="bi bi-pencil"></i> </a> 
                         </td>
                     </tr>
                 <% } %>
@@ -146,6 +102,8 @@
 
     </div>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   
 </body>
 </html>

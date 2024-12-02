@@ -1,5 +1,7 @@
 const User = require('../models/User');
 const Post = require('../models/Post');
+const MainCategory = require('../models/MainCategory');
+const { name } = require('ejs');
 
 // data fetch
 function getUsers (limit, skip)
@@ -43,6 +45,20 @@ function getUserDetails (id)
     return User.findOne( { _id : id });
 }
 
+function updateUser (id, setAttribute)
+{
+    return User.updateOne( { _id : id }, 
+        {
+            $set : setAttribute
+        }
+    )
+}
+
+function getMainCategories ()
+{
+    return MainCategory.find({}).select({ name : 1 });
+}
+
 
 const adminController = {
     async show(req, res) {
@@ -55,9 +71,10 @@ const adminController = {
         {
             list = await getUsers(0, 0);
             // render here
-            console.log(list);
             res.locals.parameters = {
                 userList : list,
+                delete : req.query.delete,
+                update : req.query.update,
             }
             res.render('adminUser');
         }
@@ -86,17 +103,84 @@ const adminController = {
         const id = req.query.id;
         try
         {
-            item = await getUserDetails(id);
-            console.log(item);
+            queries = {
+                item : await getUserDetails(id),
+                availableCategories : await getMainCategories(),
+            }
             res.locals.parameters = {
-                user : item,
-                notFound : item === null,
+                user : queries.item,
+                categories : queries.availableCategories,
+                notFound : queries.item === null,
             };
             res.render('adminUserDetails');
         }
         catch (error)
         {
             console.error(error);
+            res.redirect('/admin/users');
+        }
+    },
+
+    async removeUser (req, res) {
+        const id = req.body.userID;
+
+        try
+        {
+            item = await getUserDetails(id);
+            if (item === null)
+            {
+                res.locals.parameters = {
+                    title : 'Không tìm thấy user',
+                    action : false,
+                }
+                res.render('adminError');
+                return;
+            }
+            if (item.type === 'admin')
+            {
+                res.locals.parameters = {
+                    title : 'Không thể chỉnh sửa user này',
+                    action : false,
+                }
+                res.render('adminError');
+                return;
+            }
+            result = await deleteUser(id);
+            if (result.deletedCount === 1)
+            {
+                res.redirect('/admin/users?delete=success');
+            }
+            else
+            {
+                res.redirect('/admin/users?delete=failure');
+            }
+        }
+        catch (error)
+        {
+            console.error(error);
+            res.redirect('/admin/users');
+        }
+    },
+
+    async editUser (req, res) {
+        const body = req.body;
+        const id = body.userID;
+        const item = {
+            fullName : body.fullName,
+            dateOfBirth : body.dob,
+            type : body.type,
+            nickname : body.type === 'writer' ? body.nickname : null,
+            idCategory : body.type === 'editor' ? body.category : null,
+            remainingTime : body.type === 'subscriber' ? body.expire : null,
+        };
+        result = await updateUser(id, item);
+        if (result.modifiedCount === 1)
+        {
+            res.redirect('/admin/users?update=success');
+        }
+        else
+        {
+            res.redirect('/admin/users?update=failure');
         }
     },
 };
