@@ -4,10 +4,12 @@ body {
     min-height: 100vh;
     position: relative;
     display: flex;
+    overflow-x: hidden;
 }
 header {
   position: relative;
   display: block;
+  overflow: hidden;
 }
 .web-title {
   font-family: "Walter Turncoat", cursive;
@@ -80,6 +82,11 @@ header {
   text-decoration: none;
 }
 
+.category a {
+  text-decoration: none;
+  color: #333;
+}
+
 .list-nav {
   position: relative;
   flex-wrap: wrap;
@@ -103,6 +110,8 @@ header {
   color: #333;
   cursor: pointer;
 }
+
+
 
 /* event */
 

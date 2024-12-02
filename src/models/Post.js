@@ -14,7 +14,7 @@ const PostSchema = new mongoose.Schema({
     required: true,
     maxlength: 100
   },
-  subCategory: {
+  category: {
     type: String,
     required: true,
   },
@@ -44,7 +44,7 @@ const PostSchema = new mongoose.Schema({
   },
 
   view: {
-    type: String,
+    type: Number,
     require: true,
   },
 

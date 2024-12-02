@@ -10,44 +10,37 @@ const detailPageController =
         try {
             const idPost = req.params.idPost;
 
-            const post = await Post.findOne( { _id : idPost}, {
-                _id: 0,
-                title: 1,
-                content: 1,
-                subCategory: 1,
-                mainCategory: 1,
-                image: 1,
-                publishedDate: 1,
-            });
+            const post = await Post.findOneAndUpdate(
+                { _id: idPost },
+                { $inc: { view: 1 } },
+                { new: true }
+            );
 
             if (!post) {
                 return res.status(404).json( { error: "Post not found" } );
             }
-            
-            const tags = await Tag.find( { idPost: idPost }, {
-                _id: 0,
-                idPost: 0,
-                tag: 1,
-            } );
 
-            const comments = await Comment.find( {idPost: idPost}, {
-                _id: 0,
-                idPost: 0,
-                writer: 1,
-                content: 1,
-            });
 
-            // Only get at most 5 latest posts
-            const relevantPosts = await Post.find( { mainCategory: post.mainCategory }, {
+            const tags = await Tag.find({ _id: { $in: post.tags } });
+            const tagNames = tags.map(tag => tag.name);
+            //Chưa có dữ liệu nên tôi không test được sorry
+            // const comments = await Comment.find( {idPost: idPost}, {
+            //     _id: 0,
+            //     idPost: 0,
+            //     writer: 1,
+            //     content: 1,
+            // });
+
+            const relevantPosts = await Post.find( { category: post.category }, {
                 _id: 0,
                 title: 1,
                 abstract: 1,
                 image: 1,
-                mainCategory: 1,
-                subCategory: 1,
+                category: 1,
             }).sort( { publishedDate: -1 }).limit(5);
+            let category = post.category;
 
-            res.render('detailPage', { post, comments, tags, relevantPosts });
+            res.render('detailPage', { post, tagNames, relevantPosts, category });
         } catch(err) {
             res.status(400).json( { error: err.message });
         }

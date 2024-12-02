@@ -21,7 +21,8 @@ function paginate() {
         const num = document.createElement('li');
         const link = document.createElement('a');
         link.textContent = currentPage;
-        link.href = `/${currentPage}`;
+        const currentUrl = window.location.href;
+        link.href = `${currentUrl}`;
         num.appendChild(link);
         listNumber.appendChild(num);
         currentPage++;
@@ -32,7 +33,8 @@ function paginate() {
 const num = document.createElement('li');
 const link = document.createElement('a');
 link.textContent = currentPage;
-link.href = `/${currentPage}`;
+const currentUrl = window.location.href;
+link.href = `${currentUrl}`;
 num.appendChild(link);
 
 listNumber.appendChild(num);

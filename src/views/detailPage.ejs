@@ -22,31 +22,43 @@
         <div class="content" id="content">
             <div class="container my-5">
             <!-- Tiêu đề bài báo -->
-            <h1 class="mb-3">Tiêu đề bài báo</h1>
+            <h1 class="mb-3"><%=post.title%></h1>
             
             <!-- Ngày đăng và chuyên mục -->
             <div class="d-flex justify-content-between text-muted mb-4">
-                <span>Ngày đăng: 25/11/2024</span>
-                <span>Chuyên mục: <a href="#">Công nghệ</a></span>
+                <span>
+                 <% 
+                    let date = new Date(post.publishedDate);
+                    let formattedDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                  %>
+                  <%= formattedDate %>
+                </span>
+                <span>Chuyên mục: <%=category%></span>
             </div>
 
             <!-- Ảnh đại diện -->
             <div class="text-center mb-4">
-                <img src="/media/login-img.jpg" alt="Ảnh đại diện" class="img-fluid rounded">
+                <img src="<%=post.image%>" alt="Ảnh đại diện" class="img-fluid rounded">
             </div>
 
             <!-- Nội dung bài viết -->
-            <article>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Aenean lacinia bibendum nulla sed consectetur. Donec ullamcorper nulla non metus auctor fringilla.</p>
-                <p>Curabitur blandit tempus porttitor. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur.</p>
-            </article>
+            <% 
+            const paragraphs = post.content.split('\n\n');
+            for (let i = 0; i < paragraphs.length; i += 3) { 
+            %>
+                <article style="text-align: justify;">
+                    <% for (let j = i; j < i + 3 && j < paragraphs.length; j++) { %>
+                        <p><%= paragraphs[j] %></p>
+                    <% } %>
+                </article>
+            <% } %>
 
             <!-- Danh sách nhãn -->
             <div class="my-4">
                 <strong>Tags:</strong>
-                <a href="#" class="badge bg-primary text-decoration-none">#Công nghệ</a>
-                <a href="#" class="badge bg-primary text-decoration-none">#AI</a>
-                <a href="#" class="badge bg-primary text-decoration-none">#Lập trình</a>
+                <% for(let i=0; i < tagNames.length; i++) {
+                %> <a href="#" class="badge bg-primary text-decoration-none">#<%=tagNames[i]%></a> <%   
+                } %>
             </div>
 
             <!-- Phần bình luận -->

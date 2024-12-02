@@ -6,7 +6,7 @@ const detailPageController = require('../controller/detailPageController');
 const profileController = require('../controller/profileController');
 
 const createPageController = require('../controller/createPageController');
-const postController = require('../controller/postController');
+const getPosts = require('../controller/postController');
 
 
 router.get('/', homeController.show);
@@ -25,8 +25,9 @@ router.get('/createPage', createPageController.show);
 // router.get('/detailPage', detailPageController.show);
 router.get('/favicon.ico', (req, res) => res.status(204).end());
   
-router.get('/:id', postController.getPosts);
+router.get('/tag/:id', getPosts.getPostsWithTag);
 
+router.get('/category/:id', getPosts.getPostsWithCategory);
 
 
 module.exports = router;

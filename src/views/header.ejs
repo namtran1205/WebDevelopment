@@ -32,7 +32,7 @@
         <div class="scroll_box">
             <ul class="list_category">
                 <% for(let i = 0; i < categories.length; i++) { %>
-                    <li class="category"><%= categories[i].name %></li>
+                    <li class="category"><a href="/category/<%=categories[i]._id%>"><%= categories[i].name %></a></li>
                 <% } %>
             </ul>
         </div>
