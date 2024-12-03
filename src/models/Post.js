@@ -48,6 +48,8 @@ const PostSchema = new mongoose.Schema({
     require: true,
   },
 
+  viewWeek: { type: Number, },
+
   idWriter: {
     type: String,
     required: true

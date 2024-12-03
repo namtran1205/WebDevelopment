@@ -12,7 +12,7 @@ const detailPageController =
 
             const post = await Post.findOneAndUpdate(
                 { _id: idPost },
-                { $inc: { view: 1 } },
+                { $inc: { view: 1, viewWeek: 1 } },
                 { new: true }
             );
 
@@ -32,7 +32,7 @@ const detailPageController =
             // });
 
             const relevantPosts = await Post.find( { category: post.category }, {
-                _id: 0,
+                _id: 1,
                 title: 1,
                 abstract: 1,
                 image: 1,

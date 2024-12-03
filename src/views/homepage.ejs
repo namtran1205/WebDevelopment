@@ -32,18 +32,11 @@
             </div>
             <div class="slide-show">
               <div class="list-slide">
-                <div class="item">
-                  <img src="https://gamelade.vn/wp-content/uploads/2024/11/ss_1c4e9037c075ed4f45801f4ab7c4e04d25d12b38.1920x1080.jpg" alt="News Image">
-                </div>
-                <div class="item">
-                  <img src="https://gamelade.vn/wp-content/uploads/2024/11/202401091551586462.webp" alt="News Image">
-                </div>
-                <div class="item">
-                  <img src="https://gamelade.vn/wp-content/uploads/2024/11/Them-tieu-de-1-190.png" alt="News Image">
-                </div>
-                <div class="item">
-                  <img src="https://gamelade.vn/wp-content/uploads/2024/11/Genshin-Impact-Mondstadt-art.jpg" alt="News Image">
-                </div>
+                <% for (let i = 0; i < postOfWeek.length; i++) {%>
+                  <div class="item">
+                    <img src="<%=postOfWeek[i].image%>" alt="News Image">
+                  </div>
+                <%}%>
               </div>
               <div class="buttons">
                 <button id="prev"><</button>
@@ -56,26 +49,13 @@
                 <li></li>
               </div>
               <div class="banner-menu">
-                <div class="info">
-                  <h2 class="title">Game Title 1</h2>
-                  <p class="category">Game Online</p>
-                  <span class="date">24/05/2004</span>
-                </div>
-                <div class="info">
-                  <h2 class="title">Game Title 2</h2>
-                  <p class="category">Game Player</p>
-                  <span class="date">27/05/2004</span>
-                </div>
-                <div class="info">
-                  <h2 class="title">Game Title 3</h2>
-                  <p class="category">Game Xbox</p>
-                  <span class="date">01/05/2004</span>
-                </div>
-                <div class="info">
-                  <h2 class="title">Game Title 4</h2>
-                  <p class="category">Gacha</p>
-                  <span class="date">20/05/2004</span>
-                </div>
+                <% for (let i = 0; i < postOfWeek.length; i++) {%>
+                  <div class="info">
+                    <h2 class="title"><%=postOfWeek[i].title%></h2>
+                    <p class="category"><%=postOfWeek[i].category%></p>
+                    <span class="date"><%=postOfWeek[i].publishedDate%></span>
+                  </div>        
+                <% }%>
               </div>
             </div>
             <div class="home-page-content" id="home-page-content">
@@ -84,13 +64,13 @@
               </h2>
               <div class="most-view-1" id="scrollable">
                 <div class="list-item">
-                  <% for (var i = 1; i <= 10; i++) { %>
+                  <% for (var i = 0; i < postMostView.length; i++) { %>
                     <div class="item">
-                      <img src="https://gamelade.vn/wp-content/uploads/2024/11/Genshin-Impact-Mondstadt-art.jpg" alt="News Image">
+                      <img src="<%=postMostView[i].image%>" alt="News Image">
                       <div class="info">
-                        <div class="title">haha <%=i%></div>
-                        <div class="category">game</div>
-                        <div class="date">20/11/2024</div>
+                        <div class="title"><%=postMostView[i].title%></div>
+                        <div class="category"><%=postMostView[i].category%></div>
+                        <div class="date"><%=postMostView[i].publishedDate%></div>
                       </div>
                     </div>
                   <% } %>
@@ -102,13 +82,13 @@
               <h2 class="list-today"><i class='bx bxs-square'></i> 10 Bài Viết Mới Nhất</h2>
               <div class="most-view-2" id="scrollable">
                 <div class="list-item">
-                  <% for (var i = 1; i <= 10; i++) { %>
+                  <% for (var i = 0; i < postNew.length; i++) { %>
                     <div class="item">
-                      <img src="https://gamelade.vn/wp-content/uploads/2024/11/Genshin-Impact-Mondstadt-art.jpg" alt="News Image">
+                      <img src="<%=postNew[i].image%>" alt="News Image">
                       <div class="info">
-                        <div class="title">haha <%=i%></div>
-                        <div class="category">game</div>
-                        <div class="date">20/11/2024</div>
+                        <div class="title"><%=postNew[i].title%></div>
+                        <div class="category"><%=postNew[i].category%></div>
+                        <div class="date"><%=postNew[i].publishedDate%></div>
                       </div>
                     </div>
                   <% } %>
@@ -120,8 +100,8 @@
               <div class="hot-category">
                 <h2><i class='bx bx-news' ></i>Hot Category</h2>
                 <div class="list-category" id="scrollable">
-                  <% for (var i = 1; i <= 10; i++) { %>
-                    <span><i class='bx bxs-hot'></i><p>Category <%=i%></p></span>
+                  <% for (var i = 0; i < hotCategory.length; i++) { %>
+                    <a><i class='bx bxs-hot'></i><p><%=hotCategory[i]._id%></p></a>
                     <% } %>
                 </div>
               </div>
