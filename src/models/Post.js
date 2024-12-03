@@ -14,7 +14,9 @@ const PostSchema = new mongoose.Schema({
     required: true,
     maxlength: 100
   },
-  category: {
+
+  // For sub
+  subCategory: {
     type: String,
     required: true,
   },
@@ -55,7 +57,8 @@ const PostSchema = new mongoose.Schema({
     required: true
   },
 
-  idCategory: {
+  // For Main Category
+  idMainCategory: {
     type: String,
     required: true,
   },
@@ -71,12 +74,12 @@ PostSchema.pre('save', function(next) {
 
 PostSchema.post('save', async function (doc) {
   const MainCategory = mongoose.model('MainCategory');
-  await MainCategory.findByIdAndUpdate(doc.idCategory, { $addToSet: { posts: doc._id } });
+  await MainCategory.findByIdAndUpdate(doc.idMainCategory, { $addToSet: { posts: doc._id } });
 });
 
 PostSchema.post('remove', async function (doc) {
   const MainCategory = mongoose.model('MainCategory');
-  await MainCategory.findByIdAndUpdate(doc.idCategory, { $pull: { posts: doc._id } });
+  await MainCategory.findByIdAndUpdate(doc.idMainCategory, { $pull: { posts: doc._id } });
 });
 
 const Post = mongoose.model('Post', PostSchema);

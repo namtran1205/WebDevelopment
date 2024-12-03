@@ -10,7 +10,7 @@ class getPosts {
             const postsWithTags = await Promise.all(
                 posts.map(async (post) => {
                     const tags = await Tag.find({ _id: { $in: post.tags } });
-                    const categories = await MainCategory.find({ _id: { $in: post.idCategory } });
+                    const categories = await MainCategory.find({ _id: post.idMainCategory } );
                     await Promise.all(
                         tags.map(async (tag) => {
                             await Tag.findByIdAndUpdate(
@@ -47,11 +47,11 @@ class getPosts {
     getPostsWithCategory = async (req, res) => {
         try {
             const { id } = req.params;
-            const posts = await Post.find({idCategory: { $in: id }});
+            const posts = await Post.find({idMainCategory: id });
             const postsWithTags = await Promise.all(
                 posts.map(async (post) => {
                     const tags = await Tag.find({ _id: { $in: post.tags } });
-                    const categories = await MainCategory.find({ _id: { $in: post.idCategory } });
+                    const categories = await MainCategory.find({ _id: { $in: post.idMainCategory } });
                     await Promise.all(
                         tags.map(async (tag) => {
                             await Tag.findByIdAndUpdate(

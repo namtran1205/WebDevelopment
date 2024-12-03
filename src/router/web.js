@@ -19,6 +19,8 @@ router.get('/profile', profileController.show);
 
 router.get('/detailPage/:idPost', detailPageController.show);
 
+router.post('/detailPage/:idPost', detailPageController.postComment);
+
 
 router.get('/createPage', createPageController.show);
 

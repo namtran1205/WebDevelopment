@@ -31,22 +31,22 @@ const detailPageController =
             //     content: 1,
             // });
 
-            const relevantPosts = await Post.find( { category: post.category }, {
+            const relevantPosts = await Post.find( { subCategory: post.subCategory }, {
                 _id: 1,
                 title: 1,
                 abstract: 1,
                 image: 1,
-                category: 1,
+                subCategory: 1,
             }).sort( { publishedDate: -1 }).limit(5);
-            let category = post.category;
+            let subCategory = post.subCategory;
 
-            res.render('detailPage', { post, tagNames, relevantPosts, category });
+            res.render('detailPage', { post, tagNames, relevantPosts, subCategory });
         } catch(err) {
             res.status(400).json( { error: err.message });
         }
     },
     
-    async postCommnet(req, res) {
+    async postComment(req, res) {
         try {
             const idPost = req.params;
             const { writer, content } = req.body;
