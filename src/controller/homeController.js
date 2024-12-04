@@ -28,7 +28,7 @@ class homeController {
               $lookup: {
                   from: 'posts',  
                   localField: '_id', 
-                  foreignField: 'idCategory',  
+                  foreignField: 'idMainCategory',  
                   as: 'posts'  
               }
           },
@@ -38,8 +38,12 @@ class homeController {
           {
               $group: {
                   _id: '$name', 
-                  totalViews: { $sum: '$posts.view' } 
+                  totalViews: { $sum: '$posts.view' },
+                  latestPost: { $first: '$posts' } 
               }
+          },
+          {
+            $sort: { 'posts.publishedDate': -1 } 
           },
           {
               $sort: { totalViews: -1 }  
@@ -48,7 +52,6 @@ class homeController {
               $limit: 10 
           }
       ]);
-      console.log(hotCategory);
         const tags = await Tag.find();
         const categories = await MainCategory.find();
         res.locals.categories = categories;

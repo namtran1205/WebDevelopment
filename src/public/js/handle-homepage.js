@@ -144,3 +144,18 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   });
 });
+
+document.querySelectorAll('.list-category a').forEach(category => {
+  category.addEventListener('click', function() {
+      document.querySelectorAll('.list-category a').forEach(cat => {
+        cat.classList.remove('hightlight');
+    });
+
+      this.classList.add('hightlight');
+      const post = JSON.parse(this.getAttribute('data-post'));
+      document.getElementById('post-image').src = post.image || 'default-image.jpg';
+      document.getElementById('post-title').textContent = post.title;
+      document.getElementById('post-category').textContent = post.subCategory;
+      document.getElementById('post-date').textContent = new Date(post.publishedDate).toLocaleDateString();
+  });
+});

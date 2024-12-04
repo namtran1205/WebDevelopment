@@ -52,8 +52,14 @@
                 <% for (let i = 0; i < postOfWeek.length; i++) {%>
                   <div class="info">
                     <h2 class="title"><%=postOfWeek[i].title%></h2>
-                    <p class="category"><%=postOfWeek[i].category%></p>
-                    <span class="date"><%=postOfWeek[i].publishedDate%></span>
+                    <p class="category"><%=postOfWeek[i].subCategory%></p>
+                    <span class="date">
+                      <% 
+                      let date = new Date(postOfWeek[i].publishedDate);
+                      let formattedDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                    %>
+                    <%= formattedDate %>
+                    </span>
                   </div>        
                 <% }%>
               </div>
@@ -69,8 +75,14 @@
                       <img src="<%=postMostView[i].image%>" alt="News Image">
                       <div class="info">
                         <div class="title"><%=postMostView[i].title%></div>
-                        <div class="category"><%=postMostView[i].category%></div>
-                        <div class="date"><%=postMostView[i].publishedDate%></div>
+                        <div class="category"><%=postMostView[i].subCategory%></div>
+                        <div class="date">
+                          <% 
+                          let date = new Date(postMostView[i].publishedDate);
+                          let formattedDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                        %>
+                        <%= formattedDate %>
+                        </div>
                       </div>
                     </div>
                   <% } %>
@@ -87,8 +99,14 @@
                       <img src="<%=postNew[i].image%>" alt="News Image">
                       <div class="info">
                         <div class="title"><%=postNew[i].title%></div>
-                        <div class="category"><%=postNew[i].category%></div>
-                        <div class="date"><%=postNew[i].publishedDate%></div>
+                        <div class="category"><%=postNew[i].subCategory%></div>
+                        <div class="date">
+                          <% 
+                          let date = new Date(postNew[i].publishedDate);
+                          let formattedDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                        %>
+                        <%= formattedDate %>
+                        </div>
                       </div>
                     </div>
                   <% } %>
@@ -98,20 +116,20 @@
                 <li class="active"></li><li></li><li></li><li></li>
               </div>
               <div class="hot-category">
-                <h2><i class='bx bx-news' ></i>Hot Category</h2>
+                <h2><i class='bx bx-news' style="margin-right: 10px;"></i >Chuyên mục Hot</h2>
                 <div class="list-category" id="scrollable">
                   <% for (var i = 0; i < hotCategory.length; i++) { %>
-                    <a><i class='bx bxs-hot'></i><p><%=hotCategory[i]._id%></p></a>
+                    <a id="cate" class="<%= i === 0 ? 'hightlight' : '' %>" data-category="<%= hotCategory[i]._id %>" data-post="<%= JSON.stringify(hotCategory[i].latestPost) %>"><i class='bx bxs-hot'></i><span><%=hotCategory[i]._id%></span></a>
                     <% } %>
                 </div>
               </div>
               <div class="post-new">
                 <div class="img-post">
-                  <img src="https://gamelade.vn/wp-content/uploads/2024/11/Genshin-Impact-Mondstadt-art.jpg" alt="">
+                  <img id="post-image" src="<%=hotCategory[0].latestPost.image%>" alt="">
                 </div>
-                <h2 class="title">New Post</h2>
-                <p class="category">Game</p>
-                <p class="date">20/09/2024</p>
+                <h2 class="title" id="post-title"><%=hotCategory[0].latestPost.title%></h2>
+                <p class="category" id="post-category"><%=hotCategory[0].latestPost.subCategory%></p>
+                <p class="date" id="post-date"><%=hotCategory[0].latestPost.publishedDate.toLocaleDateString()%></p>
               </div>
             </div>
         </div>

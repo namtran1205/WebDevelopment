@@ -96,24 +96,30 @@
   width: max-content;
   max-width: 95vw;
   border: 1px solid #fff;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   z-index: 3;
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
 }
 .info:nth-child(1){
   display: flex;
 }
 .info h2 {
   width: 1000px;
-  height: 120px;
+  height: 50%;
   max-width: 75vw;
+  align-content: center;
   text-align: center;
   color: #fff;
 }
 .info p {
   color: #fff;
   position: absolute;
-  top: 40%;
+  height: 50px;
+  top: 60%;
 }
 .info span {
   position: absolute;
@@ -264,7 +270,7 @@
 
   .list-item .item img {
     width: auto;
-    height: 100%;
+    height: 60%;
     object-fit: cover;
     object-position: center;
     transition: 1s;
@@ -323,7 +329,7 @@
   }
   .list-category {
     overflow-x: scroll;
-    width: 400px;
+    width: 50%;
     display: flex;
     flex-direction: row;
     scroll-behavior: smooth;
@@ -337,7 +343,7 @@
   .list-category::-webkit-scrollbar-thumb {
     background-color: #000;
   }
-  .list-category span {
+  .list-category a {
     cursor: pointer;
     scroll-snap-align: start;
     flex-direction: row;
@@ -345,16 +351,27 @@
     justify-content: center;
     align-items: center;
     transition: .2s;
+    margin-right: 5px;
+    text-decoration: none;
+    color: #000;
   }
-  .list-category span:hover {
+  .list-category a:hover {
     background: #847f7f92;
   }
-  .list-category span i {
-    font-size: 20px;
+
+  .hightlight {
+    border: 1px solid #ccc;
   }
-  .list-category span p {
+  .list-category a i {
+    font-size: 20px;
+    align-items: center;    
+    align-items: center;
+    align-self: center;
+  }
+  .list-category a span {
     font-size: 15px;
     width: 100px;
+    margin-left: 5px;
   }
   .post-new {
     display: flex;
@@ -393,5 +410,8 @@
     }
     .case-button-2 {
       display: none;
+    }
+    .info h2 {
+      font-size: 16px;
     }
   }
