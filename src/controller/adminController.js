@@ -2,6 +2,7 @@ const User = require('../models/User');
 const Post = require('../models/Post');
 const MainCategory = require('../models/MainCategory');
 const { name } = require('ejs');
+const insertUserService = require('../services/insertUser');
 
 // data fetch
 function getUsers (limit, skip)
@@ -183,6 +184,20 @@ const adminController = {
             res.redirect('/admin/users?update=failure');
         }
     },
+
+    async createUser (req, res) {
+        const { fail, result } = insertUserService.insertUser(req.body);
+        if (fail)
+        {
+            console.error(result);
+            res.redirect('/admin/users?create=failure');
+        }
+        else
+        {
+            res.redirect('/admin/users?create=success');
+        }
+
+    }
 };
 
 module.exports = adminController;
