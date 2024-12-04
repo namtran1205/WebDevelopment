@@ -1,5 +1,7 @@
 main {
     flex: 1;
+    position: relative;
+    top: 0;
     background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)) ,url("/media/main-bg.png");
     justify-content: center;
     display: flex;
@@ -8,6 +10,7 @@ main {
     width: 80%;
     position: relative;
     display: flex; 
+    top: 0;
     flex-direction: column;
     justify-content: flex-start; 
     background-color: #fff;

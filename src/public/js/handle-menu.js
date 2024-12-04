@@ -29,3 +29,24 @@ scrollBox.addEventListener('mouseleave', () => {
   scrollBox.classList.remove('active');
 });
 
+
+const webTitle = document.querySelector('.web-title');
+const eventElement = document.querySelector('.event');
+const santaImage = document.querySelector('.santa'); 
+
+window.addEventListener('scroll', function() {
+  webTitle.classList.add('fixed');
+  const scrollPosition = window.scrollY;
+
+  let newHeight = Math.max(200 - scrollPosition*5, 0); 
+
+  eventElement.style.height = newHeight + 'px';
+
+  if (newHeight === 0) {
+    webTitle.classList.add('fixed');
+    scrollBox.classList.add('fixed-nav');
+  } else {
+    webTitle.classList.remove('fixed');
+    scrollBox.classList.remove('fixed-nav');
+  }
+});

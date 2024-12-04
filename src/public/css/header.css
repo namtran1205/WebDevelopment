@@ -7,9 +7,11 @@ body {
     overflow-x: hidden;
 }
 header {
-  position: relative;
+  position: static;
   display: block;
   overflow: hidden;
+  width: 100%;
+  z-index: 10;
 }
 .web-title {
   font-family: "Walter Turncoat", cursive;
@@ -19,11 +21,16 @@ header {
   justify-content: center;
   position: relative;
   background: #fff;
+  z-index: 3;
 }
 .web-title h2 {
   font-size: 50px;
   font-weight: bold;
   background: #fff;
+  position: relative;
+  width: 100%;
+  text-align: center;
+  z-index: 3;
 }
 .header-container {
   position: relative;
@@ -48,6 +55,7 @@ header {
   scroll-behavior: smooth; 
   user-select: none;
   cursor: pointer;
+  z-index: 4;
 }
 
 
@@ -113,7 +121,20 @@ header {
   cursor: pointer;
 }
 
+.fixed {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
 
+.fixed-nav {
+  position: fixed;
+  top: 60px;
+  width: 100%;
+  z-index: 1000;
+  background-color: #fff;
+}
 
 /* event */
 

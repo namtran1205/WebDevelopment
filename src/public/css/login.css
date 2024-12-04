@@ -7,6 +7,9 @@
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
+.scroll_box {
+    display: none;
+}
 .container {
     margin-bottom: 100px;
     position: relative;
