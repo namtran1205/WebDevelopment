@@ -1,8 +1,8 @@
-// createPageController.js
-
-const PostSchema = require('../models/Post'); // Đảm bảo bạn import đúng model của bạn
+const PostSchema = require('../models/Post'); // Import model bài viết
+const User = require('../models/User');
 
 class createPageController {
+    // Hiển thị trang tạo bài viết
     async show(req, res) {
         try {
             res.render('createPage'); // Render trang tạo bài viết
@@ -12,33 +12,43 @@ class createPageController {
         }
     }
 
+    // Xử lý tạo bài viết
     async post(req, res) {
         try {
-            const { title, content, subCategory, mainCategory, idWriter, state } = req.body;
-        
-            // Validate required fields
-            if (!title || !content || !subCategory || !mainCategory || !idWriter) {
-              return res.status(400).json({ error: 'Missing required fields' });
+            console.log('Request body:', req.body);
+
+            const { title, abstract, content, idMainCategory, subCategory} = req.body;
+            
+            console.log('title:', title);
+
+            // Kiểm tra dữ liệu đầu vào
+            if (!title || !subCategory || !idMainCategory || !abstract || !content) {
+                return res.status(400).json({ error: 'Vui lòng điền đầy đủ các trường bắt buộc.' });
             }
-        
-            // Create a new post
-            const newPost = new PostSchema({
-              title,
-              content,
-              abstract: content.substring(0, 100), // Automatically create abstract from content
-              subCategory,
-              mainCategory,
-              state: state || 'Chưa được duyệt',
-              idWriter,
+
+            // Tạo bài viết mới
+            const newPost = await new PostSchema({
+                title,
+                content,//content,
+                abstract,
+                subCategory,
+                idMainCategory,
+                state: 'Chưa được duyệt',
+                idWriter: req.idWriter,
+                image: "abc",//image,
+                view: 0,
+                viewWeek: 0,
             });
-        
-            // Save post to database
-            const savedPost = await newPost.save();
-            res.status(201).json(savedPost);
-          } catch (err) {
+
+            // Lưu bài viết vào cơ sở dữ liệu
+            await newPost.save();
+            console.log('New post:', newPost);
+            // Thành công
+            res.status(201).json({ message: 'Bài viết đã được tạo thành công.', post: newPost });
+        } catch (err) {
             console.error('Error creating post:', err);
-            res.status(500).json({ error: 'Internal server error' });
-          }
+            res.status(500).json({ error: 'Lỗi khi tạo bài viết. Vui lòng thử lại sau.' });
+        }
     }
 }
 
