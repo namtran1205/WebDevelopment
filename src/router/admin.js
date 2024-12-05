@@ -16,7 +16,11 @@ router.get('/users/details', adminController.showUserDetails);
 // delete user
 router.post('/users/details/delete', adminController.removeUser);
 // update user
-router.post('/users/details/update', adminController.editUser)
+router.post('/users/details/update', adminController.editUser);
+
+// admin/users/create
+router.get('/users/create', adminController.showCreatePage);
+router.post('/users/create', adminController.createUser);
 
 
 module.exports = router;
