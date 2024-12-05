@@ -19,10 +19,15 @@
         <div class="card-header">
             <%= parameters.title %>
         </div>
-        <% if (!parameters.action) { %>
+        <% if (parameters.action === false) { %>
             <div class="card-body ">
                 <h4 class="card-title"> Đã có lỗi xảy ra </h4>
                 <p class="card-text"> Không thể thực hiện yêu cầu của bạn </p>
+            </div>
+        <% } else { %>
+            <div class="card-body ">
+                <h4 class="card-title"> Đã có lỗi xảy ra </h4>
+                <p class="card-text"> Xin hãy thử lại sau </p>
             </div>
         <% } %>
     </div>

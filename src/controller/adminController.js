@@ -2,6 +2,8 @@ const User = require('../models/User');
 const Post = require('../models/Post');
 const MainCategory = require('../models/MainCategory');
 const { name } = require('ejs');
+const insertUserService = require('../services/insertUser');
+const { query } = require('express');
 
 // data fetch
 function getUsers (limit, skip)
@@ -62,7 +64,6 @@ function getMainCategories ()
 
 const adminController = {
     async show(req, res) {
-        // res.render('adminMain');
         res.render('adminMain');
     },
 
@@ -181,6 +182,38 @@ const adminController = {
         else
         {
             res.redirect('/admin/users?update=failure');
+        }
+    },
+
+    async createUser (req, res) {
+        const { fail, result } = await insertUserService.insertUser(req.body);
+        if (fail)
+        {
+            console.error(result);
+            res.redirect('/admin/users?create=failure');
+        }
+        else
+        {
+            res.redirect('/admin/users?create=success');
+        }
+    },
+
+    async showCreatePage (req, res) {
+        
+        try
+        {
+            const query = await getMainCategories();
+            res.locals.parameters = {
+                categories : query
+            }
+            res.render('adminCreate');
+        }
+        catch
+        {
+            res.locals.parameters = {
+                title : "Không thể kết nối với cơ sở dữ liệu.",
+            }
+            res.render('adminError');
         }
     },
 };

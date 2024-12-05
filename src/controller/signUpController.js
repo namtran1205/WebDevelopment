@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 const User = require("../models/User");
+const insertUserService = require('../services/insertUser');
 
 class signUpController {
   async show(req, res) {
@@ -16,31 +17,42 @@ class signUpController {
 
   async createUser(req, res) {
     try {
-      const { fullName, password, nickname, email, dateOfBirth, type } = req.body;
-      let idCategory = "";
-      const saltRounds = 10;
-      bcrypt.hash(password, saltRounds, async function(err, hash) {
-        if (err)
-        {
-          console.error(err);
-          res.redirect(`/api/v1/signup?error=true&message=${encodeURIComponent(error.message)}`);
-          return;
-        }
+      // const { fullName, password, nickname, email, dateOfBirth, type } = req.body;
+      // let idCategory = "";
+      // const saltRounds = 10;
+      // bcrypt.hash(password, saltRounds, async function(err, hash) {
+      //   if (err)
+      //   {
+      //     console.error(err);
+      //     res.redirect(`/api/v1/signup?error=true&message=${encodeURIComponent(error.message)}`);
+      //     return;
+      //   }
 
-        const newUser = new User({
-          fullName,
-          password: hash,
-          nickname: type === "writer" ? nickname : null,
-          email,
-          dateOfBirth,
-          type,
-          idCategory: type == "editor" ? idCategory: null
-        });
+      //   const newUser = new User({
+      //     fullName,
+      //     password: hash,
+      //     nickname: type === "writer" ? nickname : null,
+      //     email,
+      //     dateOfBirth,
+      //     type,
+      //     idCategory: type == "editor" ? idCategory: null
+      //   });
         
-        await newUser.save();
+      //   await newUser.save();
 
-        res.redirect('/api/v1/signup?success=true');
-      });
+      //   res.redirect('/api/v1/signup?success=true');
+      // });
+
+      const { fail, result } = await insertUserService.insertUser(req.body);
+      if (fail)
+      {
+        console.error(result);
+        res.redirect(`/api/v1/signup?error=true&message=${encodeURIComponent(result.message)}`);
+        return;
+      }
+      
+      res.redirect('/api/v1/signup?success=true');
+
   
     } catch (error) {
       console.error("Error signing up user:", error.message);
