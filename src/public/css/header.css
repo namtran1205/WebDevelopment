@@ -27,10 +27,11 @@ header {
   font-size: 50px;
   font-weight: bold;
   background: #fff;
-  position: relative;
+  position: static;
   width: 100%;
   text-align: center;
   z-index: 3;
+  transition: .2s;
 }
 .header-container {
   position: relative;
@@ -140,6 +141,7 @@ header {
 
 .event {
   height: 200px;
+  width: 100%;
   display: flex;
   width: 100%;
   border-top: 3px dashed #ccc;

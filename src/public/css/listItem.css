@@ -87,6 +87,7 @@
   .list-page i {
     cursor: pointer;
     align-items: center;
+    align-content: center;
   }
   .list-number {
     display: flex;
@@ -101,6 +102,15 @@
     margin-left: 5px;
     align-items: center;
     text-align: center;
+    height: 100%;
+  }
+
+  .list-number li a {
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    color: #333;
+    align-items: center;
   }
 
   @media (max-width: 600px) {

@@ -33,6 +33,8 @@ scrollBox.addEventListener('mouseleave', () => {
 const webTitle = document.querySelector('.web-title');
 const eventElement = document.querySelector('.event');
 const santaImage = document.querySelector('.santa'); 
+const noel = document.querySelector('.noel'); 
+
 
 window.addEventListener('scroll', function() {
   webTitle.classList.add('fixed');
@@ -41,6 +43,13 @@ window.addEventListener('scroll', function() {
   let newHeight = Math.max(200 - scrollPosition*5, 0); 
 
   eventElement.style.height = newHeight + 'px';
+
+  if (newHeight < 20 ) {
+    noel.style.display = 'none';
+  }
+  else {
+    noel.style.display = 'block';
+  }
 
   if (newHeight === 0) {
     webTitle.classList.add('fixed');
