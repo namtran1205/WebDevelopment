@@ -14,6 +14,7 @@
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 5px;
+    height: 500px;
     background-color: #f9f9f9;
     cursor: pointer;
     text-decoration: none;
@@ -105,12 +106,37 @@
     height: 100%;
   }
 
-  .list-number li a {
+  .list-page a {
     text-decoration: none;
     text-align: center;
     display: flex;
     color: #333;
     align-items: center;
+  }
+
+  .list-number a i{
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    color: #333;
+    align-items: center;
+  }
+
+  .no-posts {
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+    padding: 10px;
+    margin-bottom: 50px;
+  }
+
+  .no-posts i {
+    font-size: 170px;
+    text-align: center;
+  }
+
+  .event {
+    display: none;
   }
 
   @media (max-width: 600px) {

@@ -1,39 +1,62 @@
-const scrollBox = document.querySelector('.scroll_box');
+const listCate = document.querySelector('.list_category');
 
 let isDragging = false; 
 let startX; 
 let scrollLeft; 
 
-scrollBox.addEventListener('mousedown', (e) => {
+listCate.addEventListener('mousedown', (e) => {
   isDragging = true;
-  scrollBox.classList.add('active');
-  startX = e.pageX - scrollBox.offsetLeft; 
-  scrollLeft = scrollBox.scrollLeft; 
+  listCate.classList.add('active');
+  startX = e.pageX - listCate.offsetLeft;
+  scrollLeft = listCate.scrollLeft; 
 });
 
-scrollBox.addEventListener('mousemove', (e) => {
-  if (!isDragging) return;
+listCate.addEventListener('mousemove', (e) => {
+  if (!isDragging) return; 
   e.preventDefault();
-  const x = e.pageX - scrollBox.offsetLeft;
+  
+  const x = e.pageX - listCate.offsetLeft; 
   const walk = (x - startX) * 1.5; 
-  scrollBox.scrollLeft = scrollLeft - walk; 
+  
+  listCate.scrollLeft = scrollLeft - walk; 
 });
 
-scrollBox.addEventListener('mouseup', () => {
-  isDragging = false;
-  scrollBox.classList.remove('active');
+listCate.addEventListener('mouseup', () => {
+  isDragging = false; 
+  listCate.classList.remove('active');
 });
 
-scrollBox.addEventListener('mouseleave', () => {
-  isDragging = false;
-  scrollBox.classList.remove('active');
+listCate.addEventListener('mouseleave', () => {
+  isDragging = false; 
+  listCate.classList.remove('active');
 });
 
+const toggleButton = document.querySelector('.toggle i');
+const categoryDropdown = document.querySelector('.category-dropdown');
+const navList = document.querySelector('.list-nav');
+const body = document.body; 
+
+toggleButton.addEventListener('click', () => {
+  if (toggleButton.classList.contains('bx-menu')) {
+    toggleButton.classList.remove('bx-menu');
+    toggleButton.classList.add('bx-x');
+    categoryDropdown.classList.toggle('show');
+    navList.style.display = "none";
+    body.style.overflow = 'hidden';
+  } else {
+    toggleButton.classList.remove('bx-x');
+    toggleButton.classList.add('bx-menu');
+    categoryDropdown.classList.toggle('show');
+    navList.style.display = "flex";
+    body.style.overflow = 'auto';
+  }
+});
 
 const webTitle = document.querySelector('.web-title');
 const eventElement = document.querySelector('.event');
 const santaImage = document.querySelector('.santa'); 
 const noel = document.querySelector('.noel'); 
+const scrollBox = document.querySelector('.scroll_box'); 
 
 
 window.addEventListener('scroll', function() {
@@ -44,7 +67,7 @@ window.addEventListener('scroll', function() {
 
   eventElement.style.height = newHeight + 'px';
 
-  if (newHeight < 20 ) {
+  if (newHeight < 40 ) {
     noel.style.display = 'none';
   }
   else {
@@ -59,3 +82,16 @@ window.addEventListener('scroll', function() {
     scrollBox.classList.remove('fixed-nav');
   }
 });
+
+function toggleSubCategories(categoryId) {
+  const moreSubCategories = document.getElementById(categoryId);
+  const button = moreSubCategories.previousElementSibling.querySelector('.view-more-btn');
+  
+  if (moreSubCategories.style.display === "none") {
+      moreSubCategories.style.display = "block";
+      button.textContent = "Thu gọn"; 
+  } else {
+      moreSubCategories.style.display = "none";
+      button.textContent = "Xem thêm"; 
+  }
+}

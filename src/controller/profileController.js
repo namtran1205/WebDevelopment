@@ -12,6 +12,17 @@ const profileController =
         userType = capitalizeFirstLetter(user.type);
         res.render('profile', { userId, userType, user });
     },
+    async extend(req, res) {
+        user = JSON.parse(req.cookies.user);
+        userId = user._id;   
+        extendUser = await User.findOne({_id: userId});
+        const currentEndDate = new Date(extendUser.remainingTime);
+        let newEndDate = new Date(currentEndDate.setDate(currentEndDate.getDate() + 7));
+        extendUser.remainingTime = newEndDate;
+        res.cookie('user', JSON.stringify(extendUser), { httpOnly: true });
+        await  extendUser.save();
+        res.redirect(`/profile/${extendUser._id}`);
+    },
     async update(req, res)
     {
         let user = null;

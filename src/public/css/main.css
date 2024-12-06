@@ -26,6 +26,7 @@ main {
     flex: 1;
     overflow: hidden;
     max-width: 500px;
+    margin-top: 20px;
     height: 10%;
     width: 100%;
 }

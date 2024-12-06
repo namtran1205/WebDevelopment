@@ -27,9 +27,7 @@ router.get('/createPage', createPageController.show);
 // router.get('/detailPage', detailPageController.show);
 router.get('/favicon.ico', (req, res) => res.status(204).end());
   
-router.get('/tag/:id', getPosts.getPostsWithTag);
-
-router.get('/category/:id', getPosts.getPostsWithCategory);
+router.get(['/category/:id', '/tag/:id', '/subCategory/:id'],getPosts.getListPosts);
 
 
 module.exports = router;

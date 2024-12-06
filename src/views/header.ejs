@@ -19,11 +19,58 @@
             </div>
         </div>
         <div class="scroll_box">
-            <ul class="list_category">
-                <% for(let i = 0; i < categories.length; i++) { %>
-                    <li class="category"><a href="/category/<%=categories[i]._id%>"><%= categories[i].name %></a></li>
-                <% } %>
-            </ul>
+            <div class="nav-bar">
+                <ul class="list_category">
+                    <span></span>
+                    <% for(let i = 0; i < categories.length; i++) { %>
+                        <li class="category"><a href="/category/<%=categories[i]._id%>"><%= categories[i].name %></a></li> <span></span>
+                    <% } %>
+                </ul>
+                <div class="toggle"><i class='bx bx-menu'></i></div>
+            </div>
+            <div class="category-dropdown">
+                <h4>Tất Cả Chuyên Mục</h4>
+                <p>Vui Lòng Tắt Xem Tất Cả Chuyên Mục Để Có Thể Cuộn</p>
+                <ul class="dropdown-list">
+                    <% categories.forEach(category => { %>
+                        <div class="main-category">
+                            <li class="category-item">
+                                <a href="/category/<%= category._id %>"><%= category.name %></a>
+                            </li>
+                            <% if (category.subCategories && category.subCategories.length > 0) { %>
+                                <ul class="sub-categories">
+                                    <% 
+                                    // Hiển thị tối đa 5 phần tử
+                                    const visibleSubCategories = category.subCategories.slice(0, 5);
+                                    visibleSubCategories.forEach(subCategory => { 
+                                %>
+                                    <li class="sub-category">
+                                        <a href="/subcategory/<%= subCategory %>"><%= subCategory %></a>
+                                    </li>
+                                <% }); %>
+            
+                                <% if (category.subCategories.length > 5) { %>
+                                    <li class="view-more">
+                                        <span class="view-more-btn" onclick="toggleSubCategories('<%= category._id %>')">Xem thêm</span>
+                                    </li>
+                                <% } %>
+            
+                                <div class="more-sub-categories" id="<%= category._id %>" style="display: none;">
+                                    <% 
+                                        const remainingSubCategories = category.subCategories.slice(5);
+                                        remainingSubCategories.forEach(subCategory => { 
+                                    %>
+                                        <li class="sub-category">
+                                            <a href="/subcategory/<%= subCategory %>"><%= subCategory %></a>
+                                        </li>
+                                    <% }); %>
+                                </div>
+                                </ul>
+                            <% } %>
+                        </div>
+                    <% }); %>
+                </ul>
+            </div>
         </div>
         <div class="list-nav">
             <% if (user) { %>

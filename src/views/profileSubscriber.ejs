@@ -1,7 +1,19 @@
-<div>
+<div class="subscriber">
   <%
       const remainingTime = new Date(user.remainingTime);
-      const formattedDate = remainingTime.toISOString().split('T')[0];
+      const formattedDate = remainingTime.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const currentDate = new Date();
+      const timeDifference = remainingTime - currentDate;
+      const remainingDays = Math.ceil(timeDifference / (1000 * 3600 * 24)); 
     %>
-  <p>Subscription End Date: <%= formattedDate %></p>
+  <p>Thời Hạn Tài Khoản: <%= formattedDate %></p>
+  <p>Số ngày còn lại: <%= remainingDays %> ngày</p>
+  <% if (remainingDays === 0) {%>
+    <div class="extend">
+      <form action="/profile/extend-subscription" method="POST">
+        <h2>Bạn Cần Gia Hạn Tài Khoản Để Có Thể Xem & Download Ấn Bản Cho Bài Viết Prenium</h2>
+        <button type="submit">Gia Hạn Ngay</button>
+      </form>
+    </div> 
+  <%}%>
 </div>

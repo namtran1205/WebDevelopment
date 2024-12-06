@@ -53,8 +53,6 @@ class homeController {
           }
       ]);
         const tags = await Tag.find();
-        const categories = await MainCategory.find();
-        res.locals.categories = categories;
 
         res.render('homepage', {tags: tags, postOfWeek, postMostView, postNew, hotCategory});
     }
