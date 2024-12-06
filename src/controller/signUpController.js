@@ -1,7 +1,6 @@
 const { render } = require('ejs');
 const path = require('path');
 const fs = require('fs');
-const bcrypt = require('bcrypt');
 const User = require("../models/User");
 const insertUserService = require('../services/insertUser');
 
