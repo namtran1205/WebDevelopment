@@ -1,6 +1,6 @@
 const { render } = require('ejs');
 const User = require('../models/User');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const profileController =
 {
