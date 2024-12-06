@@ -208,14 +208,38 @@ const adminController = {
             }
             res.render('adminCreate');
         }
-        catch
+        catch(error)
         {
+            console.error(error);
             res.locals.parameters = {
                 title : "Không thể kết nối với cơ sở dữ liệu.",
             }
             res.render('adminError');
         }
     },
+
+    async showMainCategoryList (req, res) {
+        try
+        {
+            categories = await getMainCategories();
+            res.locals.parameters = {
+                categories : categories,
+            }
+            res.render('adminCategory');
+        }
+        catch(error)
+        {
+            console.error(error);
+            res.locals.parameters = {
+                title : "Không thể kết nối với cơ sở dữ liệu.",
+            }
+            res.render('adminError');
+        }
+    },
+
+    async removeCategory (req, res) {
+        res.send(req.body); // placeholder
+    }
 };
 
 module.exports = adminController;

@@ -22,5 +22,9 @@ router.post('/users/details/update', adminController.editUser);
 router.get('/users/create', adminController.showCreatePage);
 router.post('/users/create', adminController.createUser);
 
+// admin/categories - main category page
+router.get('/categories', adminController.showMainCategoryList);
+router.post('/categories/delete', adminController.removeCategory);
+
 
 module.exports = router;
