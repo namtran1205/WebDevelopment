@@ -34,7 +34,9 @@
               <div class="list-slide">
                 <% for (let i = 0; i < postOfWeek.length; i++) {%>
                   <div class="item">
+                    <a href="/detailPage/<%=postOfWeek[i]._id%>">
                     <img src="<%=postOfWeek[i].image%>" alt="News Image">
+                    </a>
                   </div>
                 <%}%>
               </div>
@@ -50,7 +52,7 @@
               </div>
               <div class="banner-menu">
                 <% for (let i = 0; i < postOfWeek.length; i++) {%>
-                  <div class="info">
+                  <a class="info" href="/detailPage/<%=postOfWeek[i]._id%>">
                     <h2 class="title"><%=postOfWeek[i].title%></h2>
                     <p class="category"><%=postOfWeek[i].subCategory%></p>
                     <span class="date">
@@ -60,9 +62,9 @@
                     %>
                     <%= formattedDate %>
                     </span>
-                  </div>        
+                  </a>    
                 <% }%>
-              </div>
+                </div>
             </div>
             <div class="home-page-content" id="home-page-content">
               <h2 class="title-top-view">
@@ -71,7 +73,7 @@
               <div class="most-view-1" id="scrollable">
                 <div class="list-item">
                   <% for (var i = 0; i < postMostView.length; i++) { %>
-                    <div class="item">
+                    <a class="item" href="/detailPage/<%=postMostView[i]._id%>">
                       <img src="<%=postMostView[i].image%>" alt="News Image">
                       <div class="info">
                         <div class="title"><%=postMostView[i].title%></div>
@@ -84,7 +86,7 @@
                         <%= formattedDate %>
                         </div>
                       </div>
-                    </div>
+                    </a>
                   <% } %>
                 </div>
               </div>
@@ -95,7 +97,7 @@
               <div class="most-view-2" id="scrollable">
                 <div class="list-item">
                   <% for (var i = 0; i < postNew.length; i++) { %>
-                    <div class="item">
+                    <a class="item" href="/detailPage/<%=postNew[i]._id%>">
                       <img src="<%=postNew[i].image%>" alt="News Image">
                       <div class="info">
                         <div class="title"><%=postNew[i].title%></div>
@@ -108,7 +110,7 @@
                         <%= formattedDate %>
                         </div>
                       </div>
-                    </div>
+                    </a>
                   <% } %>
                 </div>
               </div>
@@ -123,14 +125,14 @@
                     <% } %>
                 </div>
               </div>
-              <div class="post-new">
+              <a class="post-new" href="/detailPage/<%=hotCategory[0].latestPost._id%>">
                 <div class="img-post">
                   <img id="post-image" src="<%=hotCategory[0].latestPost.image%>" alt="">
                 </div>
                 <h2 class="title" id="post-title"><%=hotCategory[0].latestPost.title%></h2>
                 <p class="category" id="post-category"><%=hotCategory[0].latestPost.subCategory%></p>
                 <p class="date" id="post-date"><%=hotCategory[0].latestPost.publishedDate.toLocaleDateString()%></p>
-              </div>
+              </a>
             </div>
         </div>
     </main>

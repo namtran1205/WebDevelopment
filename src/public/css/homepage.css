@@ -21,6 +21,7 @@
   cursor: pointer;
 }
 
+
 .list-slide img {
   width: 1000px; 
   height: 500px; 
@@ -88,7 +89,10 @@
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none; 
+  text-decoration: none;
 }
+
+
 .info {
   position: relative;
   display: none;
@@ -100,9 +104,11 @@
   align-items: center;
   z-index: 3;
   height: 160px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  text-decoration: none;
 }
 .info:nth-child(1){
   display: flex;
@@ -176,6 +182,7 @@
     flex-direction: column;
     overflow: hidden;
     scroll-snap-align: start;
+    text-decoration: none;
     transition: 1s;
   }
 
@@ -264,6 +271,7 @@
     cursor: pointer;
     flex-direction: column;
     overflow: hidden;
+    text-decoration: none;
     scroll-snap-align: start;
     user-select: none;
   }
@@ -288,6 +296,7 @@
     color: #fff;
     z-index: 4;
     justify-content: center;
+    text-align: center;
   }
   .case-button-2 {
     width: 100%;
@@ -380,11 +389,14 @@
     justify-content: center;
     flex-direction: column;
     width: 100%;
+    text-align: center;
     max-width: 95vw;
     position: relative;
     border: 1px solid #000;
     border-radius: 5px;
     cursor: pointer;
+    color: #000;
+    text-decoration: none;
   }
   .img-post {
     overflow: hidden;
