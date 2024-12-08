@@ -64,6 +64,7 @@ const detailPageController =
             res.status(400).json({ error: error.message});
         }
     }
+    
 };
 
 module.exports = detailPageController;

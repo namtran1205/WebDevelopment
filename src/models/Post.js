@@ -64,6 +64,12 @@ const PostSchema = new mongoose.Schema({
     required: true,
   },
 
+  type: {
+    type: String,
+    enum: ['normal', 'premium'],
+    required: true,
+  }
+
 });
 
 PostSchema.pre('save', function(next) {

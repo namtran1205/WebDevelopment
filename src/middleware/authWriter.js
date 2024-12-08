@@ -3,6 +3,7 @@ const User = require('../models/User'); // Import model User
 const authWriter = async (req, res, next) => {
   try {
     // Lấy thông tin người dùng từ session hoặc request
+    let user = null;
     let userId = null;
     user = JSON.parse(req.cookies.user);
     userId = user._id;
