@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/main.css">
-
+    <link rel="stylesheet" href="/css/detailPage.css">
 </head>
 <body>
     <%-include('header.ejs')%>
@@ -37,21 +37,14 @@
             </div>
 
             <!-- Ảnh đại diện -->
-            <div class="text-center mb-4">
-                <img src="<%=post.image%>" alt="Ảnh đại diện" class="img-fluid rounded">
+            <div class="text-center mb-4 post-image">
+                <%-post.image%>
             </div>
 
             <!-- Nội dung bài viết -->
-            <% 
-            const paragraphs = post.content.split('\n\n');
-            for (let i = 0; i < paragraphs.length; i += 3) { 
-            %>
-                <article style="text-align: justify;">
-                    <% for (let j = i; j < i + 3 && j < paragraphs.length; j++) { %>
-                        <p><%= paragraphs[j] %></p>
-                    <% } %>
-                </article>
-            <% } %>
+             <div class="post-content">
+                <%-post.content%>
+             </div>
 
             <!-- Danh sách nhãn -->
             <div class="my-4">
