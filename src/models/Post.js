@@ -74,7 +74,7 @@ const PostSchema = new mongoose.Schema({
 
 PostSchema.pre('save', function(next) {
     if (this.content) {
-      this.abstract = this.content.substring(0, 100);
+      this.abstract = this.abstract.substring(0, 100);
     }
     next();
 });
