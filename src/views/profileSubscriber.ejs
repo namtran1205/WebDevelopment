@@ -8,7 +8,7 @@
     %>
   <p>Thời Hạn Tài Khoản: <%= formattedDate %></p>
   <p>Số ngày còn lại: <%= remainingDays %> ngày</p>
-  <% if (remainingDays === 0) {%>
+  <% if (remainingDays <= 0) {%>
     <div class="extend">
       <form action="/profile/extend-subscription" method="POST">
         <h2>Bạn Cần Gia Hạn Tài Khoản Để Có Thể Xem & Download Ấn Bản Cho Bài Viết Prenium</h2>
