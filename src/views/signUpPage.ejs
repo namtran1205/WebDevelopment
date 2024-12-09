@@ -72,7 +72,7 @@
               placeholder="deptrai@gmail.com">
             <div class="invalid-feedback">Mục này yêu cầu định dạng của một email.</div>
           </div>
-    
+
           <div class="mb-3">
             <label for="dateOfBirth" class="form-label">Ngày tháng năm sinh</label>
             <input 
@@ -80,8 +80,9 @@
               class="form-control" 
               id="dateOfBirth" 
               name="dateOfBirth" 
-              required>
-            <div class="invalid-feedback">Mục này không được để trống</div>
+              required 
+              max="<%= new Date().toISOString().split('T')[0] %>">
+            <div class="invalid-feedback">Ngày sinh không hợp lệ.</div>
           </div>
     
           <div class="mb-3">

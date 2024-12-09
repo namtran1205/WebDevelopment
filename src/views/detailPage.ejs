@@ -71,25 +71,24 @@
                 <h4>Bình luận</h4>
                 <!-- Danh sách bình luận -->
                 <ul class="list-group mb-4">
-                    <li class="list-group-item">
-                        <strong>Nguyễn Văn A</strong> <span class="text-muted">- 24/11/2024</span>
-                        <p>Đây là một bài viết rất hữu ích!</p>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>Trần Thị B</strong> <span class="text-muted">- 23/11/2024</span>
-                        <p>Cảm ơn tác giả vì bài viết này.</p>
-                    </li>
+                    <% comments.forEach(comment => { %>
+                        <li class="list-group-item">
+                            <strong><%= comment.writer || 'Anonymous' %></strong> 
+                            <span class="text-muted">- <%= comment.createdAt ? new Date(comment.createdAt).toLocaleDateString() : 'N/A' %></span>
+                            <p><%= comment.content %></p>
+                        </li>
+                    <% }); %>
                 </ul>
-
+            
                 <!-- Form đăng bình luận mới -->
-                <form>
+                <form action="/detailPage/<%= post._id %>" method="POST">
                     <div class="mb-3">
                         <label for="commentName" class="form-label">Tên của bạn</label>
-                        <input type="text" class="form-control" id="commentName" placeholder="Nhập tên của bạn">
+                        <input type="text" class="form-control" name="writer" id="commentName" placeholder="Nhập tên của bạn">
                     </div>
                     <div class="mb-3">
                         <label for="commentContent" class="form-label">Bình luận</label>
-                        <textarea class="form-control" id="commentContent" rows="3" placeholder="Nhập bình luận"></textarea>
+                        <textarea class="form-control" name="content" id="commentContent" rows="3" placeholder="Nhập bình luận"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Đăng bình luận</button>
                 </form>

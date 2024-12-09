@@ -17,14 +17,20 @@ class signUpController {
   async createUser(req, res) {
     try {
       const { fullName, password, nickname, email, dateOfBirth, type } = req.body;
+      const today = new Date();
+
+      console.log('Before comparing');
+      if (dateOfBirth > today) {
+        console.log('After comparing');
+        return res.redirect(`/app/v1/signup?error=true&message=${encodeURIComponent("Ngày sinh không hợp lệ")}`)
+      }
       let idCategory = "";
       const saltRounds = 10;
       bcrypt.hash(password, saltRounds, async function(err, hash) {
         if (err)
         {
           console.error(err);
-          res.redirect(`/api/v1/signup?error=true&message=${encodeURIComponent(error.message)}`);
-          return;
+          return res.redirect(`/api/v1/signup?error=true&message=${encodeURIComponent(error.message)}`);
         }
 
         const newUser = new User({
@@ -39,13 +45,13 @@ class signUpController {
         
         await newUser.save();
 
-        res.redirect('/api/v1/signup?success=true');
+        return res.redirect('/api/v1/signup?success=true');
       });
   
     } catch (error) {
       console.error("Error signing up user:", error.message);
   
-      res.redirect(`/api/v1/signup?error=true&message=${encodeURIComponent(error.message)}`);
+      return res.redirect(`/api/v1/signup?error=true&message=${encodeURIComponent(error.message)}`);
     }
   }
   
