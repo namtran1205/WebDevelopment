@@ -36,7 +36,7 @@
                 <% for (let i = 0; i < postOfWeek.length; i++) {%>
                   <div class="item">
                     <a href="/detailPage/<%=postOfWeek[i]._id%>">
-                    <img src="<%=postOfWeek[i].image%>" alt="News Image">
+                    <%-postOfWeek[i].image%>
                     </a>
                   </div>
                 <%}%>
@@ -55,7 +55,7 @@
                 <% for (let i = 0; i < postOfWeek.length; i++) {%>
                   <a class="info" href="/detailPage/<%=postOfWeek[i]._id%>">
                     <h2 class="title"><%=postOfWeek[i].title%></h2>
-                    <p class="category"><%=postOfWeek[i].subCategory%></p>
+                    <p class="category"><%-postOfWeek[i].subCategory%></p>
                     <span class="date">
                       <% 
                       let date = new Date(postOfWeek[i].publishedDate);
@@ -75,7 +75,7 @@
                 <div class="list-item">
                   <% for (var i = 0; i < postMostView.length; i++) { %>
                     <a class="item" href="/detailPage/<%=postMostView[i]._id%>">
-                      <img src="<%=postMostView[i].image%>" alt="News Image">
+                      <%-postMostView[i].image%>
                       <div class="info">
                         <div class="title"><%=postMostView[i].title%></div>
                         <div class="category"><%=postMostView[i].subCategory%></div>
@@ -99,7 +99,7 @@
                 <div class="list-item">
                   <% for (var i = 0; i < postNew.length; i++) { %>
                     <a class="item" href="/detailPage/<%=postNew[i]._id%>">
-                      <img src="<%=postNew[i].image%>" alt="News Image">
+                      <%-postNew[i].image%>
                       <div class="info">
                         <div class="title"><%=postNew[i].title%></div>
                         <div class="category"><%=postNew[i].subCategory%></div>
@@ -128,7 +128,7 @@
               </div>
               <a class="post-new" href="/detailPage/<%=hotCategory[0].latestPost._id%>">
                 <div class="img-post">
-                  <img id="post-image" src="<%=hotCategory[0].latestPost.image%>" alt="">
+                  <%-hotCategory[0].latestPost.image%>
                 </div>
                 <h2 class="title" id="post-title"><%=hotCategory[0].latestPost.title%></h2>
                 <p class="category" id="post-category"><%=hotCategory[0].latestPost.subCategory%></p>

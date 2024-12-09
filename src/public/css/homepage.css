@@ -268,6 +268,7 @@
     margin-left: 10px;
     position: relative;
     display: flex;
+    background-color: #000;
     cursor: pointer;
     flex-direction: column;
     overflow: hidden;
@@ -276,16 +277,24 @@
     user-select: none;
   }
 
-  .list-item .item img {
+  .list-item .item p {
     width: auto;
-    height: 60%;
+    height: 100%;
+    display: flex;
+    position: relative;
+  }
+
+  .list-item .item p img {
+    height: 100%;
+    width: 100%;
+    position: relative;
     background-size: auto;
     object-fit: cover;
     object-position: center;
     transition: 1s;
     cursor: pointer;
   }
-  .list-item .item:hover img {
+  .list-item .item p:hover img {
     transform: scale(1.2);
   }
   .list-item .item .info {
@@ -418,7 +427,8 @@
 
   .homepage-title {
     width: 100%;
-    font-size: 30px;
+    margin-top: 15px;
+    font-size: 60px;
     text-align: center;
   }
 

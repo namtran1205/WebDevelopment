@@ -36,7 +36,7 @@
                 <% posts.forEach(post => { %>
                   <a class="link-item" href="/detailPage/<%=post._id%>">
                     <div class="news-item">
-                      <img src="<%= post.image %>" alt="News Image">
+                      <%-post.image%>
                       <div class="news-title"><%= post.title %></div>
                       <div class="news-abstract">
                         <%= post.abstract.length > 15 ? post.abstract.slice(0, 100) + '[...]' : post.abstract %>
