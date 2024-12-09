@@ -102,16 +102,6 @@
             <div class="invalid-feedback">Mục này không được để trống được để trống.</div>
           </div>
     
-          <div class="mb-3" id="remainingTimeField" style="display: none;">
-            <label for="remainingTime" class="form-label">Thời hạn cho gói Subscriber membership</label>
-            <input 
-              type="date" 
-              class="form-control" 
-              id="remainingTime" 
-              name="remainingTime">
-            <div class="form-text">Mặc định là 7 ngày, bắt đầu từ ngày hôm nay.</div>
-          </div>
-    
           <div class="d-grid">
             <button type="submit" class="btn btn-primary">Đăng ký</button>
           </div>
@@ -174,7 +164,7 @@
     window.onload = function() {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has('success')) {
-        alert('Đăng ký thành công!');
+        alert('Đăng ký thành công!\nVui lòng xác thực email trước khi đăng nhập');
       } else if (urlParams.has('error')) {
         const errorMessage = urlParams.get('message');
         alert(`Lỗi: ${errorMessage}`);

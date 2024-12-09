@@ -17,7 +17,7 @@ const loginController =
                 {
                     failure: true
                 };
-                res.render('login');
+                return res.render('login');
             }
             
             bcrypt.compare(password, record.password, async function (err, result)

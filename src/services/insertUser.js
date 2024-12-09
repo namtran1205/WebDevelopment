@@ -6,7 +6,7 @@ const insertUserService = {
     {
         let defaultDay = new Date();
         defaultDay.setDate(defaultDay.getDate() + 7);
-        const { fullName, password, nickname, email, dateOfBirth, type, idCategory = null, remainingTime } = item;
+        const { fullName, password, nickname, email, dateOfBirth, type, idCategory = null, remainingTime, verificationToken } = item;
         const saltRounds = 10;
         let result;
         let fail = false;
@@ -21,6 +21,8 @@ const insertUserService = {
             type,
             idCategory: type === "editor" ? idCategory : null,
             remainingTime: type === "subscriber" ? (remainingTime ? remainingTime : defaultDay) : null,
+            verificationToken: verificationToken,
+            isVerified: false
         })
             
         try
