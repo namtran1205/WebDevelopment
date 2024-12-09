@@ -415,6 +415,13 @@
   .post-new h2 {
     text-align: center;
   }
+
+  .homepage-title {
+    width: 100%;
+    font-size: 30px;
+    text-align: center;
+  }
+
   @media (max-width: 600px) {
     .list-news {
       grid-template-columns: 1fr;
