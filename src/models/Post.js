@@ -18,7 +18,7 @@ const PostSchema = new mongoose.Schema({
   // For sub
   subCategory: {
     type: String,
-    required: true,
+    default: null,
   },
   tags: [
 
@@ -61,7 +61,7 @@ const PostSchema = new mongoose.Schema({
   // For Main Category
   idMainCategory: {
     type: String,
-    required: true,
+    default: null,
   },
 
   type: {
