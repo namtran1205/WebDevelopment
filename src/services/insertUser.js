@@ -10,7 +10,7 @@ const insertUserService = {
         const saltRounds = 10;
         let result;
         let fail = false;
-        const hash = bcrypt.hashSync(password, saltRounds)
+        const hash = bcrypt.hashSync(password, saltRounds);
 
         const newUser = new User({
             fullName,

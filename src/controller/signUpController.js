@@ -62,38 +62,31 @@ class signUpController {
       }
 
       let idCategory = "";
-      const saltRounds = 10;
-      bcrypt.hash(password, saltRounds, async (err, hash) => {
-        if (err) {
-          console.error(err);
-          return res.redirect(`/api/v1/signup?error=true&message=${encodeURIComponent(err.message)}`);
-        }
       
-        const verificationToken = crypto.randomBytes(32).toString('hex');
+      const verificationToken = crypto.randomBytes(32).toString('hex');
       
-        const newUser = new User({
-          fullName,
-          password: hash,
-          nickname: type === "writer" ? nickname : null,
-          email,
-          dateOfBirth,
-          type,
-          idCategory: type == "editor" ? idCategory: null,
-          verificationToken
-        });
-      
-        const { fail, result } = await insertUserService.insertUser(newUser);
-      
-        if (fail) {
-          console.error(result);
-          return res.redirect(`/api/v1/signup?error=true&message=${encodeURIComponent(result.message)}`);
-        }
-      
-        // Use arrow function to automatically bind 'this' to the signUpController instance
-        await this.sendVerificationEmail(email, verificationToken);
-      
-        return res.redirect('/api/v1/signup?success=true');
+      const newUser = new User({
+        fullName,
+        password,
+        nickname: type === "writer" ? nickname : null,
+        email,
+        dateOfBirth,
+        type,
+        idCategory: type == "editor" ? idCategory: null,
+        verificationToken
       });
+      
+      const { fail, result } = await insertUserService.insertUser(newUser);
+      
+      if (fail) {
+        console.error(result);
+        return res.redirect(`/api/v1/signup?error=true&message=${encodeURIComponent(result.message)}`);
+      }
+      
+      // Use arrow function to automatically bind 'this' to the signUpController instance
+      await this.sendVerificationEmail(email, verificationToken);
+    
+      return res.redirect('/api/v1/signup?success=true');
     } catch (error) {
       console.error("Error signing up user:", error.message);
   
