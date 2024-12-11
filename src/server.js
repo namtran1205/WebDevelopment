@@ -13,7 +13,9 @@ const authWriter = require('./middleware/authWriter');
 const fetchCategories = require('./middleware/fetchContent');
 const methodOverride = require('method-override');
 const createPageRouter = require('./router/createPage');
-const forgetPasswordRouter = require('./router/forgetPassword')
+const editorRouter = require('./router/editorPage');
+const forgetPasswordRouter = require('./router/forgetPassword');
+const { editUser } = require('./controller/adminController');
 
 
 const app = express();
@@ -34,6 +36,7 @@ app.use('/', profileRouter);
 app.use('/admin', adminRouter);
 app.use('/', webRouter);
 app.use('/', createPageRouter);
+app.use('/', editorRouter)
 
 
 const start = async () => {

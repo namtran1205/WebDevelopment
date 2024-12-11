@@ -1,7 +1,7 @@
 const PostSchema = require('../models/Post'); // Import model bài viết
 
 class editorController {
-    async show(req, res) {
+    async show(req, res,next) {
         let user = null;
         user = JSON.parse(req.cookies.user);
         if (user.type !== 'editor') {
@@ -16,14 +16,16 @@ class editorController {
         }
     }
     async get(req, res) {
-        try {
-            let user = null;
+        let user = null;
             user = JSON.parse(req.cookies.user);
+            //console.log("User", req.cookies);
+        try {
+            
             const drafts = await PostSchema.find({ 
               state: 'Chưa được duyệt', 
               idMainCategory: { $in: user.idCategory } // Chuyên mục do biên tập viên quản lý
             });
-            console.log("Draft", drafts);
+            //console.log("Draft", drafts);
             res.status(200).json(drafts);
           } catch (error) {
             console.error('Error fetching drafts:', error);
@@ -34,6 +36,7 @@ class editorController {
     async update(req, res) {
         try {
             const { category, tags, publishDate } = req.body;
+            console.log("Body", req.body);
             const postId = req.params.id;
         
             const updatedPost = await PostSchema.findByIdAndUpdate(
