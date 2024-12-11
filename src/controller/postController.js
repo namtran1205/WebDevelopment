@@ -15,19 +15,19 @@ class getPosts {
         try {
             let posts;
             if (isCategoryPage) {
-              posts = await Post.find({idMainCategory: id })
+              posts = await Post.find({idMainCategory: id, state: "Đã xuất bản"  })
                 .skip(skip)
                 .limit(pageSize)
                 .sort({ publishedDate: -1 });
                 totalPage = Math.ceil((await Post.find({idMainCategory: id})).length/pageSize);
             } else if (isTagPage) {
-              posts = await Post.find({tags: { $in: id }}) 
+              posts = await Post.find({tags: { $in: id }, state: "Đã xuất bản" }) 
                 .skip(skip)
                 .limit(pageSize)
                 .sort({ publishedDate: -1 });
                 totalPage = Math.ceil((await Post.find({tags: { $in: id }})).length/pageSize);
             } else if (isSubCategoryPage) {
-              posts = await Post.find({subCategory: id})
+              posts = await Post.find({subCategory: id, state: "Đã xuất bản" })
               .skip(skip)
               .limit(pageSize)
               .sort({ publishedDate: -1 });

@@ -92,6 +92,7 @@ main {
     background-color: #333;
     color: #fff;
 }
+
 .tag a {
     text-decoration: none;
     color: #000;
@@ -101,4 +102,8 @@ main {
     height: 100%;
     text-align: center;
     padding: 5px 10px;
+}
+
+.tag a:hover {
+    color: #fff;
 }

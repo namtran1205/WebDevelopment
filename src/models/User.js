@@ -49,7 +49,13 @@ const userSchema = new mongoose.Schema({
   idCategory: {
     type: String,
     required: false
-  } 
+  },
+  verificationToken: {
+    type: String
+  },
+  isVerified: {
+    type: Boolean
+  }
 });
 
 const User = mongoose.model('User', userSchema);

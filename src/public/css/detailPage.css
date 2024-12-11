@@ -1,0 +1,35 @@
+.post-image {
+    position: relative;
+    display: flex;
+    padding: 20px;
+}
+
+.post-image p {
+    display: flex;
+    justify-content: center;
+}
+
+.post-image p img{
+    display: flex;
+    position: relative;
+    width: 90%;
+}
+
+.post-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+}
+
+.post-content p {
+    display: flex;
+    justify-content: center;
+}
+
+.post-content p img {
+    display: flex;
+    position: relative;
+    width: 80%;
+}

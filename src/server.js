@@ -13,6 +13,7 @@ const authWriter = require('./middleware/authWriter');
 const fetchCategories = require('./middleware/fetchContent');
 const methodOverride = require('method-override');
 const createPageRouter = require('./router/createPage');
+const forgetPasswordRouter = require('./router/forgetPassword')
 
 
 const app = express();
@@ -28,6 +29,7 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(methodOverride('_method'));
 
 app.use('/api/v1/signup', signUpRouter);
+app.use('/api/v1/forgetPassword', forgetPasswordRouter);
 app.use('/', profileRouter);
 app.use('/admin', adminRouter);
 app.use('/', webRouter);

@@ -1,9 +1,7 @@
 const User = require('../models/User');
 const Post = require('../models/Post');
 const MainCategory = require('../models/MainCategory');
-const { name } = require('ejs');
 const insertUserService = require('../services/insertUser');
-const { query } = require('express');
 
 // data fetch
 function getUsers (limit, skip)
@@ -60,7 +58,18 @@ function getMainCategories ()
 {
     return MainCategory.find({}).select({ name : 1 });
 }
-
+async function deleteMainCategory (id)
+{   
+    return {
+        updateResult : await Post.updateMany({ idMainCategory : id }, {
+            $set : {
+                idMainCategory : null,
+                subCategory : null,
+            }
+        }),
+        deleteResult : await MainCategory.deleteOne({ _id : id }),
+    }
+}
 
 const adminController = {
     async show(req, res) {
@@ -224,6 +233,7 @@ const adminController = {
             categories = await getMainCategories();
             res.locals.parameters = {
                 categories : categories,
+                delete : req.query.delete,
             }
             res.render('adminCategory');
         }
@@ -238,7 +248,27 @@ const adminController = {
     },
 
     async removeCategory (req, res) {
-        res.send(req.body); // placeholder
+        try
+        {
+            result = await deleteMainCategory(req.body._id);
+            if (result.deleteResult.deletedCount === 1)
+            {
+                res.redirect('/admin/categories?delete=success');
+            }
+            else
+            {
+                res.redirect('/admin/categories?delete=failure')
+            }
+        }
+        catch (error)
+        {
+            console.error(error);
+            res.locals.parameters = {
+                title : "Lỗi kết nối cơ sở dữ liệu",
+                action : false,
+            }
+            res.render('adminError')
+        }
     }
 };
 

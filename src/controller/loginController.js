@@ -7,17 +7,17 @@ const loginController =
     async loginUser (req, res)
     {
         const { mail, password } = req.body;
-
+        
         try 
         {
-            const record = await User.findOne({ email: mail });
+            const record = await User.findOne({ email: mail, isVerified: true });
             if (record === null)
             {
                 res.locals.parameters = 
                 {
                     failure: true
                 };
-                res.render('login');
+                return res.render('login');
             }
             
             bcrypt.compare(password, record.password, async function (err, result)

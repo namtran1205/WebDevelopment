@@ -73,7 +73,7 @@
               placeholder="deptrai@gmail.com">
             <div class="invalid-feedback">Mục này yêu cầu định dạng của một email.</div>
           </div>
-    
+
           <div class="mb-3">
             <label for="dateOfBirth" class="form-label">Ngày tháng năm sinh</label>
             <input 
@@ -81,8 +81,9 @@
               class="form-control" 
               id="dateOfBirth" 
               name="dateOfBirth" 
-              required>
-            <div class="invalid-feedback">Mục này không được để trống</div>
+              required 
+              max="<%= new Date().toISOString().split('T')[0] %>">
+            <div class="invalid-feedback">Ngày sinh không hợp lệ.</div>
           </div>
     
           <div class="mb-3">
@@ -99,16 +100,6 @@
               <option value="editor">Biên tập viên</option>
             </select>
             <div class="invalid-feedback">Mục này không được để trống được để trống.</div>
-          </div>
-    
-          <div class="mb-3" id="remainingTimeField" style="display: none;">
-            <label for="remainingTime" class="form-label">Thời hạn cho gói Subscriber membership</label>
-            <input 
-              type="date" 
-              class="form-control" 
-              id="remainingTime" 
-              name="remainingTime">
-            <div class="form-text">Mặc định là 7 ngày, bắt đầu từ ngày hôm nay.</div>
           </div>
     
           <div class="d-grid">
@@ -173,7 +164,7 @@
     window.onload = function() {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has('success')) {
-        alert('Đăng ký thành công!');
+        alert('Đăng ký thành công!\nVui lòng xác thực email trước khi đăng nhập');
       } else if (urlParams.has('error')) {
         const errorMessage = urlParams.get('message');
         alert(`Lỗi: ${errorMessage}`);

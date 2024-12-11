@@ -70,17 +70,16 @@ window.addEventListener('scroll', function() {
   webTitle.classList.add('fixed');
   const scrollPosition = window.scrollY;
 
-  let newHeight = Math.max(200 - scrollPosition*5, 0); 
+  let newHeight = Math.max(120 - scrollPosition*4, 0); 
 
   eventElement.style.height = newHeight + 'px';
 
-  if (newHeight < 40 ) {
+  if (newHeight < 10 ) {
     noel.style.display = 'none';
   }
   else {
     noel.style.display = 'block';
   }
-
   if (newHeight === 0) {
     webTitle.classList.add('fixed');
     scrollBox.classList.add('fixed-nav');

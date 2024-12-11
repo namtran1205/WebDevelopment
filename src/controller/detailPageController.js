@@ -8,7 +8,7 @@ const detailPageController =
     async show(req, res)
     {   
         try {
-            const idPost = req.params.idPost;
+            const { idPost } = req.params;
 
             const post = await Post.findOneAndUpdate(
                 { _id: idPost },
@@ -24,12 +24,11 @@ const detailPageController =
             const tags = await Tag.find({ _id: { $in: post.tags } });
             const tagNames = tags.map(tag => tag.name);
             //Chưa có dữ liệu nên tôi không test được sorry
-            // const comments = await Comment.find( {idPost: idPost}, {
-            //     _id: 0,
-            //     idPost: 0,
-            //     writer: 1,
-            //     content: 1,
-            // });
+            const comments = await Comment.find(
+                { idPost: idPost },
+                { writer: 1, content: 1, createdAt: 1 }
+            );
+
 
             const relevantPosts = await Post.find( { subCategory: post.subCategory }, {
                 _id: 1,
@@ -40,7 +39,7 @@ const detailPageController =
             }).sort( { publishedDate: -1 }).limit(5);
             let subCategory = post.subCategory;
 
-            res.render('detailPage', { post, tagNames, relevantPosts, subCategory });
+            res.render('detailPage', { post, tagNames, relevantPosts, subCategory, comments });
         } catch(err) {
             res.status(400).json( { error: err.message });
         }
@@ -48,7 +47,7 @@ const detailPageController =
     
     async postComment(req, res) {
         try {
-            const idPost = req.params;
+            const { idPost } = req.params;
             const { writer, content } = req.body;
 
             const comment = new Comment({
@@ -59,7 +58,7 @@ const detailPageController =
 
             const savedComment = await comment.save();
 
-            res.status(201).json(savedComment);
+            res.redirect(`/detailPage/${idPost}`);
         } catch(error) {    
             res.status(400).json({ error: error.message});
         }
