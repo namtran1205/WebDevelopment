@@ -6,6 +6,12 @@ class createPageController {
     
     // Hiển thị trang tạo bài viết
     async show(req, res) {
+        let user = null;
+        user = JSON.parse(req.cookies.user);
+        if (user.type !== 'writer') {
+            //res.alert('Bạn không có quyền truy cập trang này');
+            return res.redirect('/');
+        }
         try {
             res.render('createPage'); // Render trang tạo bài viết
         } catch (err) {
@@ -19,9 +25,6 @@ class createPageController {
         try {
             console.log('Request body:', req.body);
 
-            const tagas = "Con Người, Khoa Học".split(',').map(tag => tag.trim());
-            console.log(tagas); // Output: ["Con Người", "Khoa Học"]
-
             const { title, content, abstract, image, subCategory, tags, idMainCategory, type} = req.body;
             
             console.log('title:', title);
@@ -32,7 +35,6 @@ class createPageController {
                 return res.status(400).json({ error: 'Vui lòng điền đầy đủ các trường bắt buộc.' });
             }
 
-            console.log(typeof tags);
             // Kiểm tra xem tags có phải là mảng không
             const tagNames = typeof tags === 'string' ? tags.split(',').map(tag => tag.trim()) : tags;
 
