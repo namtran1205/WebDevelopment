@@ -95,7 +95,7 @@
                         <div class="col-md-6 col-lg-4 mb-3">
                             <a href="/detailPage/<%=relevantPosts[i]._id%>" class="text-decoration-none">
                                 <div class="card">
-                                    <img src="<%=relevantPosts[i].image%>" class="card-img-top" alt="Bài viết 3" style="height: 300px; object-fit: cover;">
+                                    <%-relevantPosts[i].image%>
                                     <div class="card-body" style="height: 200px;">
                                         <h5 class="card-title"><%=relevantPosts[i].title%></h5>
                                         <span><%=relevantPosts[i].abstract%></span>

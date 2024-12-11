@@ -49,7 +49,12 @@
                           %>
                           <%= formattedDate %>
                         </div>                  
-                        <div class="news-category"><%= post.categories[0].name %> >> <%= post.subCategory %></div>
+                        <div class="news-category">
+                          <% if (post.categories[0] && post.categories[0].name) { %>
+                              <%= post.categories[0].name %> >>
+                          <% } %>
+                          <%= post.subCategory %>
+                      </div>
                       </div>
                       <div class="news-tags">
                         <p>Tags: </p>
