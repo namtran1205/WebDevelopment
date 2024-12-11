@@ -4,6 +4,7 @@ const MainCategory = require('../models/MainCategory');
 const insertUserService = require('../services/insertUser');
 
 // data fetch
+// users
 function getUsers (limit, skip)
 {
     limit = limit > 0 ? limit : 0; // 0 = no limit
@@ -15,7 +16,24 @@ function getUsers (limit, skip)
         type : 1,
     }).skip(skip).limit(limit);
 }
+function deleteUser (id)
+{
+    return User.deleteOne({ _id : id });
+}
+function getUserDetails (id)
+{
+    return User.findOne( { _id : id });
+}
+function updateUser (id, setAttribute)
+{
+    return User.updateOne( { _id : id }, 
+        {
+            $set : setAttribute
+        }
+    )
+}
 
+// posts
 function getPosts (limit, skip)
 {
 
@@ -29,31 +47,12 @@ function getPosts (limit, skip)
         state : 1,
     }).limit(limit).skip(skip);
 }
-
-function deleteUser (id)
-{
-    return User.deleteOne({ _id : id });
-}
-
 function deletePost (id)
 {
     return Post.deleteOne({ _id : id });
 }
 
-function getUserDetails (id)
-{
-    return User.findOne( { _id : id });
-}
-
-function updateUser (id, setAttribute)
-{
-    return User.updateOne( { _id : id }, 
-        {
-            $set : setAttribute
-        }
-    )
-}
-
+// categories
 function getMainCategories ()
 {
     return MainCategory.find({}).select({ name : 1 });
@@ -61,10 +60,18 @@ function getMainCategories ()
 async function deleteMainCategory (id)
 {   
     return {
-        updateResult : await Post.updateMany({ idMainCategory : id }, {
+        updatePostResult : await Post.updateMany({ idMainCategory : id }, {
             $set : {
                 idMainCategory : null,
                 subCategory : null,
+            }
+        }),
+        updateUserResult : await Post.updateMany( { 
+            type : "editor",
+            idCategory : id,
+        }, {
+            $set : {
+                idCategory : null,
             }
         }),
         deleteResult : await MainCategory.deleteOne({ _id : id }),
