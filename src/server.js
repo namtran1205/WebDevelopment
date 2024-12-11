@@ -9,9 +9,11 @@ const adminRouter = require('./router/admin');
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 const authMiddleware = require('./middleware/auth');
+const authWriter = require('./middleware/authWriter');
 const fetchCategories = require('./middleware/fetchContent');
 const methodOverride = require('method-override');
 const createPageRouter = require('./router/createPage');
+
 
 const app = express();
 const port = 8080;

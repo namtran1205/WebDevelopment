@@ -44,7 +44,9 @@ const loginController =
                             break;
         
                         case 'editor':
-                            res.send('editor page');
+                            res.cookie('user', JSON.stringify(record), { httpOnly: true });
+                            res.redirect(`/profile/${record.id}`);
+
                             break;
         
                         case 'admin':
