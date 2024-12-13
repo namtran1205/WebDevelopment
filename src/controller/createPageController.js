@@ -23,6 +23,8 @@ class createPageController {
     // Xử lý tạo bài viết
     async post(req, res) {
         try {
+            let user = null;
+            user = JSON.parse(req.cookies.user);
             console.log('Request body:', req.body);
 
             const { title, content, abstract, image, subCategory, tags, idMainCategory, type} = req.body;
@@ -72,7 +74,7 @@ class createPageController {
                 subCategory,
                 idMainCategory,
                 state: 'Chưa được duyệt',
-                idWriter: req.idWriter,
+                idWriter: user._id,
                 view: 0,
                 viewWeek: 0,
                 type,
