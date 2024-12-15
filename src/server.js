@@ -16,6 +16,7 @@ const createPageRouter = require('./router/createPage');
 const editorRouter = require('./router/editorPage');
 const forgetPasswordRouter = require('./router/forgetPassword');
 const { editUser } = require('./controller/adminController');
+const verifyOTPRouter = require('./router/verifyOTP');
 
 
 const app = express();
@@ -37,6 +38,7 @@ app.use('/admin', adminRouter);
 app.use('/', webRouter);
 app.use('/', createPageRouter);
 app.use('/', editorRouter)
+app.use('/', verifyOTPRouter);
 
 
 const start = async () => {

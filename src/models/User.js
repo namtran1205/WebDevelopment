@@ -55,7 +55,9 @@ const userSchema = new mongoose.Schema({
   },
   isVerified: {
     type: Boolean
-  }
+  },
+  verificationOTP: { type: String },
+  otpExpiresAt: { type: Date },
 });
 
 const User = mongoose.model('User', userSchema);
