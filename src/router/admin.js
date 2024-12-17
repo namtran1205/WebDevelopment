@@ -25,6 +25,7 @@ router.post('/users/create', adminController.createUser);
 // admin/categories - main category page
 router.get('/categories', adminController.showMainCategoryList);
 router.post('/categories/delete', adminController.removeCategory);
-
+router.get('/categories/exists', adminController.checkCategory); // .../exists?name=CATNAME
+router.post('/categories/create', adminController.createCategory);
 
 module.exports = router;

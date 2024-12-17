@@ -77,6 +77,35 @@ async function deleteMainCategory (id)
         deleteResult : await MainCategory.deleteOne({ _id : id }),
     }
 }
+async function existsCategory (name)
+{
+    const query = await MainCategory.findOne({name : name});
+    return query !== null;
+}
+async function insertCategory (name)
+{
+    for (let i = 0; i < 100; i++)
+    {
+        id = Math.floor(Math.random() * 10000000000);
+        const newCategory = new MainCategory ({
+            _id : id.toString(),
+            name : name,
+            posts : [],
+        })
+        try
+        {
+            result = await newCategory.save();
+            return result;
+        }
+        catch (error)
+        {
+            
+        }
+
+    }
+
+    return false;
+}
 
 const adminController = {
     async show(req, res) {
@@ -241,6 +270,7 @@ const adminController = {
             res.locals.parameters = {
                 categories : categories,
                 delete : req.query.delete,
+                create : req.query.create,
             }
             res.render('adminCategory');
         }
@@ -276,6 +306,25 @@ const adminController = {
             }
             res.render('adminError')
         }
+    },
+
+    async checkCategory (req, res) {
+        const name = req.query.name;
+        console.log(name);
+        exist = await existsCategory(name);
+        console.log(exist);
+        return res.json(exist);
+    },
+
+    async createCategory (req, res) {
+        const name = req.body.name;
+        if (!name)
+            res.redirect('/admin/categories?create=failure');
+        const query = await insertCategory(name);
+        if (query)
+            res.redirect('/admin/categories?create=success');
+        else
+            res.redirect('/admin/categories?create=failure');
     }
 };
 
