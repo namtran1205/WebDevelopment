@@ -84,24 +84,26 @@ async function existsCategory (name)
 }
 async function insertCategory (name)
 {
+    const unavailableID = []
     for (let i = 0; i < 100; i++)
     {
         id = Math.floor(Math.random() * 10000000000);
-        const newCategory = new MainCategory ({
+        if (unavailableID.includes(id))
+            id += 1;
+        const newCategory = {
             _id : id.toString(),
             name : name,
             posts : [],
-        })
+        };
         try
         {
-            result = await newCategory.save();
+            result = await MainCategory.insertMany([newCategory]);
             return result;
         }
         catch (error)
         {
-            
+            unavailableID.push(id);
         }
-
     }
 
     return false;
@@ -310,9 +312,7 @@ const adminController = {
 
     async checkCategory (req, res) {
         const name = req.query.name;
-        console.log(name);
         exist = await existsCategory(name);
-        console.log(exist);
         return res.json(exist);
     },
 
@@ -321,7 +321,7 @@ const adminController = {
         if (!name)
             res.redirect('/admin/categories?create=failure');
         const query = await insertCategory(name);
-        if (query)
+        if (query !== null && query.length > 0)
             res.redirect('/admin/categories?create=success');
         else
             res.redirect('/admin/categories?create=failure');

@@ -135,7 +135,7 @@
                             <td> <%= categories[i]._id %> </td>
                             <td> <%= categories[i].name %> </td>
                             <form id="delete_<%= i %>" action="/admin/categories/delete" method="post">
-                                <input name="_id" type="text" value="<%= categories[i]._id %>" hidden>
+                                <input name="_id" type="text" value="<%= categories[i]._id %>" readonly hidden>
                             </form>
                             
                             <td> 
