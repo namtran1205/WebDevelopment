@@ -20,35 +20,39 @@
 
     <%-include('adminHeader.ejs')%>
 
+    <% parameters = typeof parameters !== 'object' ? { category : {_id : null, name : ""}, subcategories : [] } : parameters %>
+    <% category = parameters.category %>
+
     <h2 class="mb-2">Quản Lý Chuyên Mục</h2>
+    <h3> Chuyên mục: <%= category.name %> </h3>
+
     <div class="tables-container">
         <div class="main-category">
             <!-- alerts -->
-            <% parameters = typeof parameters !== 'object' ? {} : parameters %>
             <% if (parameters.delete === 'success') { %>
               <div class="alert alert-success alert-dismissible fade show infoAlert" role="alert">
-                Xóa chuyên mục thành công.
+                Xóa chuyên mục phụ thành công.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
             <% } %>
             <% if (parameters.delete === 'failure') { %>
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong> Đã có lỗi xảy ra </strong> khi xóa chuyên mục.
+                <strong> Đã có lỗi xảy ra </strong> khi xóa chuyên mục phụ.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
             <% } %>
-            <% if (parameters.create === 'success') { %>
+            <% if (parameters.update === 'success') { %>
                 <div class="alert alert-success alert-dismissible fade show infoAlert" role="alert">
                   Tạo chuyên mục thành công.
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-              <% } %>
-              <% if (parameters.create === 'failure') { %>
+            <% } %>
+            <% if (parameters.update === 'failure') { %>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                  <strong> Đã có lỗi xảy ra </strong> khi tạo chuyên mục.
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <strong> Đã có lỗi xảy ra </strong> khi tạo chuyên mục.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-              <% } %>
+            <% } %>
 
             <script>
                 $(".alert").alert();
@@ -73,7 +77,7 @@
                     location.appendChild(element);
                 }
 
-                async function attemptAdd ()
+                async function attemptUpdate ()
                 {                    
                     const value = $('#name').val();
                     if (value.length === 0)
@@ -81,7 +85,7 @@
                         createAlert("Cần nhập tên chuyên mục");
                         return;
                     }
-                    if (!confirm(`Tạo chuyên mục ${value}?`))
+                    if (!confirm(`Đổi tên chuyên mục thành "${value}"?`))
                         return;
                     try
                     {
@@ -94,10 +98,10 @@
                         const exist = await res.json();
                         if (exist)
                         {
-                            createAlert("Đã tồn tại chuyên mục này.");
+                            createAlert("Không thể thay đổi tên. Đã có chuyên mục với tên này.");
                             return;
                         }
-                        $('#addCategoryForm').submit();
+                        $('#updateCategoryForm').submit();
                     }
                     catch (err)
                     {
@@ -106,7 +110,25 @@
                 }
             </script>
 
-            <h3>Chuyên Mục Chính</h3>
+            <table style="width: 100%;">
+                <tbody style="height: 3em;">
+                    <form id="updateCategoryForm" action="/admin/categories/update" method="post" class="form-control">
+                    <tr>
+                        <td>
+                            <label for="name"> Đổi tên chuyên mục </label>
+                        </td>
+                        <td>
+                            <input type="text" name="name" id="name" class="form-control" placeholder="Tên chuyên mục" autocomplete="off" required>
+                        </td>
+                        <td> 
+                            <a title="Xác nhận tạo chuyên mục" class="btn btn-success" href="javascript: attemptUpdate()" role="button"> <i class="bi bi-plus-square"></i> </a>
+                        </td> 
+                    </tr>
+                    </form>
+                </tbody>
+            </table>
+
+            <h3> Các chuyên mục phụ thuộc chuyên mục này </h3>
 
             <script>
                 function attemptDelete(i)
@@ -118,28 +140,25 @@
                     }
                 }
             </script>
-            <table class="table">
+            <table class="table tableSubcategory">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Tên Chuyên Mục</th>
+                        <th> Tên chuyên mục phụ </th>
                         <th> &nbsp; </th>
                     </tr>
                 </thead>
                 <tbody id="main-category-table">
                     
-                    <% parameters = typeof parameters !== 'object' ? { categories : [] } : parameters %>
-                    <% categories = parameters.categories %>
-                    <% for (let i = 0; i < categories.length; i++) { %>
+                    <% subcategories = parameters.subcategories %>
+                    <% for (let i = 0; i < subcategories.length; i++) { %>
                         <tr>
-                            <td> <%= categories[i]._id %> </td>
-                            <td> <%= categories[i].name %> </td>
-                            <form id="delete_<%= i %>" action="/admin/categories/delete" method="post">
-                                <input name="_id" type="text" value="<%= categories[i]._id %>" readonly hidden>
+                            <td> <%= subcategories[i] %> </td>
+                            <form id="delete_<%= i %>" action="/admin/subcategories/delete" method="post">
+                                <input name="idMainCategory" type="text" value="<%= category._id %>" readonly hidden>
+                                <input name="name" type="text" value="<%= subcategories[i] %>" readonly hidden>
                             </form>
                             
-                            <td>
-                                <a style="margin-right: 5px;" title="Xem chi tiết chuyên mục này" class="btn btn-primary" href="/admin/subcategories?id=<%= categories[i]._id %>" role="button"> <i class="bi bi-card-list"></i> </a>
+                            <td> 
                                 <a title="Xóa chuyên mục" class="btn btn-danger" href="javascript: attemptDelete(<%= i %>)" role="button"> <i class="bi bi-trash3"></i> </a> 
                             </td>
                         </tr>
@@ -147,23 +166,7 @@
                 </tbody>
             </table>
 
-            <table style="width: 100%;">
-                <tbody style="height: 3em;">
-                    <form id="addCategoryForm" action="/admin/categories/create" method="post" class="form-control">
-                    <tr>
-                        <td>
-                            <label for="name"> Tạo chuyên mục mới </label>
-                        </td>
-                        <td>
-                            <input type="text" name="name" id="name" class="form-control" placeholder="Tên chuyên mục" autocomplete="off" required>
-                        </td>
-                        <td> 
-                            <a title="Xác nhận tạo chuyên mục" class="btn btn-success" href="javascript: attemptAdd()" role="button"> <i class="bi bi-plus-square"></i> </a>
-                        </td> 
-                    </tr>
-                    </form>
-                </tbody>
-            </table>
+            
 
         </div>
     </div>

@@ -106,7 +106,24 @@ async function insertCategory (name)
         }
     }
 
-    return false;
+    return null;
+}
+function updateCategory (id, name)
+{
+    //// change name
+}
+
+function getCategoryByID (id)
+{
+    return MainCategory.findOne({_id : id});
+}
+function getSubcategories (idMainCategory)
+{
+    return Post.distinct("subCategory", {idMainCategory : idMainCategory});
+}
+function deleteSubcategory (idMainCategory, name)
+{
+    //// delete subcat  
 }
 
 const adminController = {
@@ -305,8 +322,8 @@ const adminController = {
             res.locals.parameters = {
                 title : "Lỗi kết nối cơ sở dữ liệu",
                 action : false,
-            }
-            res.render('adminError')
+            };
+            res.render('adminError');
         }
     },
 
@@ -325,6 +342,36 @@ const adminController = {
             res.redirect('/admin/categories?create=success');
         else
             res.redirect('/admin/categories?create=failure');
+    },
+
+    async showSubcategoryList (req, res) {
+        const idMain = req.query.id;
+        if (!idMain)
+            res.redirect('/admin/categories');
+
+        try
+        {
+            const category = await getCategoryByID(idMain);
+            if (category === null)
+                res.redirect('/admin/categories');
+            const subcategories = await getSubcategories(idMain);
+            res.locals.parameters = {
+                category : category,
+                subcategories : subcategories,
+                delete : req.query.delete,
+                update : req.query.update,
+            };
+            res.render('adminSubcategory');
+        }
+        catch (error)
+        {
+            console.error(error)
+            res.locals.parameters = {
+                title : "Lỗi kết nối cơ sở dữ liệu",
+                action : false,
+            };
+            res.render('adminError');
+        }
     }
 };
 

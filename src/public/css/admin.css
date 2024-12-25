@@ -211,4 +211,6 @@ body, h1, h2, ul, li, p, button {
     width: 80px;
   }
 
-  
+.tableSubcategory th, td {
+  width: 50%;
+}
