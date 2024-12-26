@@ -130,7 +130,7 @@ class editorController {
     async reject(req, res) {
       try {
         const { reason } = req.body;
-        await PostSchema.findByIdAndUpdate(req.params.id, { status: 'rejected', rejectionReason: reason });
+        await PostSchema.findByIdAndUpdate(req.params.id, { state: 'Bị từ chối', reason: reason });
         res.redirect('/editor/drafts');
       } catch (err) {
         res.status(500).send('Server Error');
