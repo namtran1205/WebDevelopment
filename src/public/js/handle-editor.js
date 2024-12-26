@@ -27,9 +27,11 @@
       // Render bài viết
       drafts.forEach((draft) => {
         const row = document.createElement('tr');
+        const authorName = draft.idWriter ? draft.idWriter.fullName : 'Không xác định';
+        console.log(authorName);
         row.innerHTML = `
           <td>${draft.title}</td>
-          <td>${draft.reporter?.name || 'Không rõ'}</td>
+          <td>${authorName}</td>
           <td>
             <button class="btn btn-primary btn-sm" onclick="approveDraft('${draft._id}')">Duyệt</button>
             <button class="btn btn-danger btn-sm" onclick="rejectDraft('${draft._id}')">Từ chối</button>
@@ -47,7 +49,7 @@
   // Hàm duyệt bài viết
   async function approveDraft(postId) {
     try {
-      const response = await fetch(`/editor/approve/${postId}`, { method: 'POST' });
+      const response = await fetch(`/editor/draft/${postId}/approve`, { method: 'POST' });
       if (response.ok) {
         alert('Bài viết đã được duyệt.');
         location.reload(); // Reload lại trang
@@ -68,7 +70,7 @@
     }
 
     try {
-      const response = await fetch(`/editor/reject/${postId}`, {
+      const response = await fetch(`/editor/draft/${postId}/reject`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reason }),

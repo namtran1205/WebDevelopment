@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
-    <%- include('header.ejs') %>
+    <%- include('../header.ejs') %>
     <main>
       <div class="content" id="content">
         <div class="container my-5">
@@ -25,57 +25,29 @@
             <thead>
               <tr>
                 <th>Tiêu đề</th>
-                <th>Phóng viên</th>
                 <th>Thao tác</th>
               </tr>
             </thead>
-            <tbody id="drafts">
-              <script src="/js/handle-editor.js"></script>
+            <tbody>
+              <% drafts.forEach(draft => { %>
+                <tr>
+                  <td>
+                    <a href="/editor/draft/<%= draft._id %>"><%= draft.title %></a>
+                  </td>
+                  <td>
+                    <a href="/editor/approve/<%= draft._id %>" class="btn btn-success">Duyệt</a>
+                    <a href="/editor/reject/<%= draft._id %>" class="btn btn-danger">Từ chối</a>
+                  </td>
+                </tr>
+              <% }); %>
             </tbody>
           </table>
 
-          <!-- Modal -->
-          <div class="modal" id="reviewModal">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Duyệt bài viết</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                  <form id="reviewForm">
-                    <div class="mb-3">
-                      <label for="category" class="form-label">Chuyên mục</label>
-                      <select id="category" class="form-select" required>
-                        <!-- Options từ API -->
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                      <label for="tags" class="form-label">Nhãn</label>
-                      <input type="text" id="tags" class="form-control" placeholder="Nhãn, cách nhau bằng dấu phẩy">
-                    </div>
-                    <div class="mb-3">
-                      <label for="publishDate" class="form-label">Thời điểm xuất bản</label>
-                      <input type="datetime-local" id="publishDate" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                      <label for="rejectionReason" class="form-label">Lý do từ chối</label>
-                      <textarea id="rejectionReason" class="form-control" placeholder="Điền lý do nếu từ chối"></textarea>
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button id="approveBtn" class="btn btn-success">Duyệt</button>
-                  <button id="rejectBtn" class="btn btn-danger">Từ chối</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
+         
         </div>
       </div>
     </main>
-    <%- include('footer.ejs') %>
+    <%- include('../footer.ejs') %>
     
   
   
