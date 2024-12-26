@@ -110,7 +110,11 @@ async function insertCategory (name)
 }
 function updateCategory (id, name)
 {
-    //// change name
+    return MainCategory.updateOne({ _id : id}, {
+        $set : {
+            name : name,
+        }
+    })
 }
 
 function getCategoryByID (id)
@@ -119,11 +123,21 @@ function getCategoryByID (id)
 }
 function getSubcategories (idMainCategory)
 {
-    return Post.distinct("subCategory", {idMainCategory : idMainCategory});
+    return Post.distinct("subCategory", {
+        idMainCategory : idMainCategory,
+        subCategory : { $ne : null }
+    });
 }
 function deleteSubcategory (idMainCategory, name)
 {
-    //// delete subcat  
+    return Post.updateMany({ 
+        idMainCategory : idMainCategory,
+        subCategory : name,
+     }, {
+        $set : {
+            subCategory : null,
+        }
+    })
 }
 
 const adminController = {
@@ -147,20 +161,6 @@ const adminController = {
         {
             console.error(error);
             res.redirect('/admin');
-        }
-    },
-
-    async showPostList (req, res) {
-        try
-        {
-            list = await getPosts(0, 0);
-            // render here
-            console.log(list);
-            res.send(list);
-        }
-        catch (error)
-        {
-            console.error(error);
         }
     },
 
@@ -347,7 +347,10 @@ const adminController = {
     async showSubcategoryList (req, res) {
         const idMain = req.query.id;
         if (!idMain)
+        {
             res.redirect('/admin/categories');
+            return;
+        }
 
         try
         {
@@ -355,6 +358,7 @@ const adminController = {
             if (category === null)
                 res.redirect('/admin/categories');
             const subcategories = await getSubcategories(idMain);
+            console.log(subcategories);
             res.locals.parameters = {
                 category : category,
                 subcategories : subcategories,
@@ -372,7 +376,50 @@ const adminController = {
             };
             res.render('adminError');
         }
-    }
+    },
+
+    async editMainCategory (req, res) {
+        const {_id, name} = req.body;
+        try
+        {
+            const query = await updateCategory(_id, name);
+            if (query.modifiedCount === 0)
+            {
+                res.redirect(`/admin/subcategories?id=${_id}&update=failure`);
+            }
+            else
+            {
+                res.redirect(`/admin/subcategories?id=${_id}&update=success`);
+            }
+        }
+        catch (error)
+        {
+            console.error(error);
+            res.redirect(`/admin/subcategories?id=${_id}&update=failure`);
+        }
+    },
+
+    async removeSubcategory (req, res) {
+        const {idMainCategory, name} = req.body;
+        const query = await deleteSubcategory(idMainCategory, name);
+        if (query.modifiedCount === 0)
+            res.redirect(`/admin/subcategories?id=${idMainCategory}&delete=failure`);
+        else
+            res.redirect(`/admin/subcategories?id=${idMainCategory}&delete=success`);
+    },
+
+    async showPostList (req, res) {
+        try
+        {
+            list = await getPosts(0, 0);
+            // render here
+            res.send(list);
+        }
+        catch (error)
+        {
+            console.error(error);
+        }
+    },
 };
 
 module.exports = adminController;

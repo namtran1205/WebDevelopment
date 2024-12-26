@@ -113,6 +113,7 @@
             <table style="width: 100%;">
                 <tbody style="height: 3em;">
                     <form id="updateCategoryForm" action="/admin/categories/update" method="post" class="form-control">
+                        <input type="text" name="_id" class="form-control" value="<%= category._id %>" readonly hidden>
                     <tr>
                         <td>
                             <label for="name"> Đổi tên chuyên mục </label>
@@ -121,7 +122,7 @@
                             <input type="text" name="name" id="name" class="form-control" placeholder="Tên chuyên mục" autocomplete="off" required>
                         </td>
                         <td> 
-                            <a title="Xác nhận tạo chuyên mục" class="btn btn-success" href="javascript: attemptUpdate()" role="button"> <i class="bi bi-plus-square"></i> </a>
+                            <a title="Thay đổi tên chuyên mục" class="btn btn-success" href="javascript: attemptUpdate()" role="button"> <i class="bi bi-check-lg"></i> </a>
                         </td> 
                     </tr>
                     </form>
@@ -153,6 +154,7 @@
                     <% for (let i = 0; i < subcategories.length; i++) { %>
                         <tr>
                             <td> <%= subcategories[i] %> </td>
+                            
                             <form id="delete_<%= i %>" action="/admin/subcategories/delete" method="post">
                                 <input name="idMainCategory" type="text" value="<%= category._id %>" readonly hidden>
                                 <input name="name" type="text" value="<%= subcategories[i] %>" readonly hidden>

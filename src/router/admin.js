@@ -29,6 +29,8 @@ router.get('/categories/exists', adminController.checkCategory); // .../exists?n
 router.post('/categories/create', adminController.createCategory);
 
 // admin/subcategories - subcategory page for a main category
-router.get('/subcategories', adminController.showSubcategoryList) // subcategories?id=MAIN_CAT_ID
+router.get('/subcategories', adminController.showSubcategoryList); // subcategories?id=MAIN_CAT_ID
+router.post('/categories/update', adminController.editMainCategory);
+router.post('/subcategories/delete', adminController.removeSubcategory);
 
 module.exports = router;
