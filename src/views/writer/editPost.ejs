@@ -83,8 +83,25 @@
     
             <!-- Tag -->
             <div class="mb-3">
-              <label for="tags" class="form-label">Tag:</label>
-              <input type="text" class="form-control" id="tags" name="tags" value="<%= post.tags.join(', ') %>" required>
+              <h4>Tags:</h4>
+              <div id="existingTags">
+                <% post.tags.forEach(tag => { %>
+                  <div class="tag-item d-inline-block me-2">
+                    <span class="badge bg-secondary">
+                      <%= tag.name %>
+                      <button type="button" class="btn-close btn-close-white btn-sm ms-2" aria-label="Close" onclick="removeTag('<%= tag._id %>')"></button>
+                    </span>
+                  </div>
+                <% }); %>
+              </div>
+            
+      
+              <!-- Input for Tags to Remove -->
+              <input type="hidden" id="tagsToRemove" name="tagsToRemove" value="">
+
+      
+              <label for="tagsToAdd" class="form-label mt-2">Thêm tag mới:</label>
+              <input type="text" id="tagsToAdd" name="tagsToAdd" class="form-control" placeholder="Nhập tag mới, cách nhau bởi dấu phẩy">
             </div>
     
             <!-- Nút Submit -->

@@ -69,7 +69,15 @@
               <%= post.state %>
             </span>
           </p>
-          <p class="card-text"><strong>Thể loại chính:</strong> <%= post.idMainCategory.name %></p>
+            <p class="card-text"><strong>Thể loại chính:</strong>
+            <% categories.forEach(category => { %>
+              <% if(category._id.toString() === post.idMainCategory.toString()) { %>
+              <span value="<%= category._id %>">
+                <%= category.name %>
+              </span>
+              <% } %>
+            <% }); %>
+            </p>
           <p class="card-text"><strong>Danh mục phụ:</strong> <%= post.subCategory %></p>
           <p class="card-text"><strong>Thẻ:</strong></p>
           <div>
@@ -78,9 +86,11 @@
             <% }); %>
           </div>
           <div class="mt-4">
-            <a href="/writer/edit/<%= post._id %>" class="btn btn-edit btn-sm">
-              <i class="bi bi-pencil"></i> Chỉnh sửa
-            </a>
+            <% if (post.state !== 'Đã xuất bản') { %>
+              <a href="/writer/edit/<%= post._id %>" class="btn btn-edit btn-sm">
+                <i class="bi bi-pencil"></i> Chỉnh sửa
+              </a>
+            <% } %>
             <a href="/writer/listPosts" class="btn btn-back btn-sm float-end" style="outline: 2px solid #000;">
                 <i class="bi bi-arrow-left"></i> Quay lại danh sách
             </a>

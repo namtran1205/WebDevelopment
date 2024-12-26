@@ -162,7 +162,7 @@ class writerController {
           return res.redirect('/');
       }
       try {
-          const post = await PostSchema.findById(req.params.id);
+          const post = await PostSchema.findById(req.params.id).populate('tags').exec();
           res.render('writer/postDetail', { post });
       } catch (err) {
           console.error('Error rendering post:', err);
@@ -170,30 +170,31 @@ class writerController {
       }
     }
 
-    async detail(req, res) {
-      try {
-        const post = await PostSchema.findById(req.params.id)
-          .populate('idMainCategory', 'name') // Populate main category name
-          .populate('tags', 'name'); // Populate tag names
+    // async detail(req, res) {
+    //   try {
+    //     const post = await PostSchema.findById(req.params.id).populate('tags').exec();
+    //     const tags = await Tag.find();
+    //     console.log(post);
+    //     if (!post) {
+    //       return res.status(404).send('Draft not found');
+    //     }
     
-        if (!post) {
-          return res.status(404).send('Draft not found');
-        }
-    
-        res.render('writer/postDetail', { post });
-      } catch (error) {
-        console.error(error);
-        res.status(500).send('Server Error');
-      }
-    }
+    //     res.render('writer/postDetail', { post, tags});
+    //   } catch (error) {
+    //     console.error(error);
+    //     res.status(500).send('Server Error');
+    //   }
+    // }
 
     async show_editPost(req, res) {
       try {
-        const post = await PostSchema.findById(req.params.id);
+        const post = await PostSchema.findById(req.params.id).populate('tags').exec();
+        //console.log(post);
+        const tags = await Tag.find();
         //const categories = await MainCategory.find();
     
         if (!post) return res.status(404).send('Post not found');
-        res.render('writer/editPost', { post});
+        res.render('writer/editPost', { post, tags});
       } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');
@@ -203,7 +204,43 @@ class writerController {
 
     async post_updatePost(req, res) {
       try {
-        const { title, abstract, image, content, idMainCategory, subCategory, type, tags } = req.body;
+        const { title, abstract, image, content, idMainCategory, subCategory, type, tagsToAdd, tagsToRemove } = req.body;
+
+        // Handle tags to add
+        if (tagsToAdd && tagsToAdd.length > 0) {
+          const tagNamesToAdd = tagsToAdd.split(',').map(tag => tag.trim());
+          const tagIdsToAdd = await Promise.all(
+            tagNamesToAdd.map(async (tagName) => {
+              let tag = await Tag.findOne({ name: tagName });
+  
+              // Create new tag if it doesn't exist
+              if (!tag) {
+                tag = await Tag.create({ name: tagName });
+              }
+  
+              // Add post reference to the tag
+              await Tag.findByIdAndUpdate(tag._id, { $addToSet: { posts: post._id } });
+              return tag._id;
+            })
+          );
+  
+          // Add new tags to the post
+          post.tags = [...new Set([...post.tags, ...tagIdsToAdd])]; // Avoid duplicates
+        }
+  
+        // Handle tags to remove
+        if (tagsToRemove && tagsToRemove.length > 0) {
+          const tagIdsToRemove = tagsToRemove.split(',').map(tag => tag.trim());
+          await Promise.all(
+            tagIdsToRemove.map(async (tagId) => {
+              // Remove post reference from the tag
+              await Tag.findByIdAndUpdate(tagId, { $pull: { posts: post._id } });
+            })
+          );
+  
+          // Remove tags from the post
+          post.tags = post.tags.filter(tagId => !tagIdsToRemove.includes(tagId.toString()));
+        }
     
         await PostSchema.findByIdAndUpdate(req.params.id, {
           title,
@@ -213,7 +250,7 @@ class writerController {
           idMainCategory,
           subCategory,
           type,
-          tags: tags.split(',').map(tag => tag.trim())
+          tags: post.tags,
         });
     
         res.redirect(`/writer/post/${req.params.id}`);

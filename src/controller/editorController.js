@@ -43,7 +43,7 @@ class editorController {
       try {
     
         const draft = await PostSchema.findById(req.params.id).populate('tags').exec();
-        //console.log(draft);
+        console.log(draft);
         const tags = await TagSchema.find();
         //console.log(draft);
         if (!draft || draft.state !== "Chưa được duyệt") {
