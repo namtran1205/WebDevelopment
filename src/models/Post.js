@@ -34,6 +34,11 @@ const PostSchema = new mongoose.Schema({
     default: 'Chưa được duyệt'
   },
 
+  reason: {
+    type: String,
+    default: null,
+    required: false
+  },
 
   
   image: {

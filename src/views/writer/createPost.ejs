@@ -20,11 +20,11 @@
 
 </head>
 <body>
-    <%- include('header.ejs') %>
+    <%- include('../header.ejs') %>
   <main>
     <div class="content" id="content">
       <div class="container my-5">
-        <form id="form" action="/createPage" method="POST" class="needs-validation" novalidate>
+        <form id="form" action="/writer/createPost" method="POST" class="needs-validation" novalidate>
           <!-- Tiêu đề -->
           <div class="mb-3">
             <label for="title" class="form-label">Tiêu đề:</label>
@@ -39,14 +39,14 @@
 
           <!-- Ảnh đại diện -->
           <div class="mb-3">
-            <label for="editor_image" class="form-label">Ảnh:</label>
-            <div id="editor_image" style="height: 300px; background-color: #fff; border: 1px solid #ccc;"></div>
+            <label for="create_image" class="form-label">Ảnh:</label>
+            <div id="create_image" style="height: 300px; background-color: #fff; border: 1px solid #ccc;"></div>
             <input type="hidden" id="hiddenContentImage" name="image">
           </div>
           <!-- Nội dung (Quill Editor) -->
           <div class="mb-3">
-            <label for="editor" class="form-label">Nội dung:</label>
-            <div id="editor" style="height: 300px; background-color: #fff; border: 1px solid #ccc;"></div>
+            <label for="create_content" class="form-label">Nội dung:</label>
+            <div id="create_content" style="height: 300px; background-color: #fff; border: 1px solid #ccc;"></div>
             <!-- Input ẩn để chứa nội dung Quill -->
             <input type="hidden" id="hiddenContent" name="content">
           </div>
@@ -96,7 +96,7 @@
     
   </main>
   
-  <%- include('footer.ejs') %>
+  <%- include('../footer.ejs') %>
   
   
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

@@ -4,9 +4,6 @@ const homeController = require('../controller/homeController');
 const loginController = require('../controller/loginController');
 const detailPageController = require('../controller/detailPageController');
 const profileController = require('../controller/profileController');
-const editorController = require('../controller/editorController');
-
-const createPageController = require('../controller/createPageController');
 const getPosts = require('../controller/postController');
 
 
@@ -22,9 +19,7 @@ router.get('/detailPage/:idPost', detailPageController.show);
 
 router.post('/detailPage/:idPost', detailPageController.postComment);
 
-
-router.get('/createPage', createPageController.show);
-router.get('/editor/confirm', editorController.show);
+//router.get('/editor/', editorController.show);
 
 // router.get('/detailPage', detailPageController.show);
 router.get('/favicon.ico', (req, res) => res.status(204).end());

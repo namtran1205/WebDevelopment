@@ -12,7 +12,7 @@ const authMiddleware = require('./middleware/auth');
 const authWriter = require('./middleware/authWriter');
 const fetchCategories = require('./middleware/fetchContent');
 const methodOverride = require('method-override');
-const createPageRouter = require('./router/createPage');
+const writerRouter = require('./router/writer');
 const editorRouter = require('./router/editorPage');
 const forgetPasswordRouter = require('./router/forgetPassword');
 const { editUser } = require('./controller/adminController');
@@ -36,7 +36,7 @@ app.use('/api/v1/forgetPassword', forgetPasswordRouter);
 app.use('/', profileRouter);
 app.use('/admin', adminRouter);
 app.use('/', webRouter);
-app.use('/', createPageRouter);
+app.use('/writer', writerRouter);
 app.use('/', editorRouter)
 app.use('/', verifyOTPRouter);
 
