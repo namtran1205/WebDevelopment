@@ -20,7 +20,7 @@ const verifyOTPRouter = require('./router/verifyOTP');
 
 
 const app = express();
-const port = 8080;
+const port = 8081;
 
 configViewEngine(app)
 
@@ -31,11 +31,11 @@ app.use(fetchCategories);
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(methodOverride('_method'));
 
+app.use('/', webRouter);
 app.use('/api/v1/signup', signUpRouter);
 app.use('/api/v1/forgetPassword', forgetPasswordRouter);
 app.use('/', profileRouter);
 app.use('/admin', adminRouter);
-app.use('/', webRouter);
 app.use('/writer', writerRouter);
 app.use('/', editorRouter)
 app.use('/', verifyOTPRouter);

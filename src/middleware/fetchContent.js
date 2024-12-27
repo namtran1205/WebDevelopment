@@ -5,20 +5,41 @@ const Post = require('../models/Post');
 
 async function fetchCategories(req, res, next) {
     try {
-        const mainCategories = await MainCategory.find();
-
-        const categoriesWithSubCategories = await Promise.all(
-            mainCategories.map(async (category) => {
-                const posts = await Post.find({ idMainCategory: category._id });
-
-                const subCategories = posts.map(post => post.subCategory);
-                return {
-                    _id: category._id,
-                    name: category.name,
-                    subCategories: [...new Set(subCategories)] 
-                };
-            })
-        );
+        const categoriesWithSubCategories = await MainCategory.aggregate([
+            {
+                $lookup: {
+                    from: 'posts', // Name of the posts collection
+                    localField: '_id',
+                    foreignField: 'idMainCategory',
+                    as: 'posts'
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    name: 1,
+                    subCategories: {
+                        $reduce: {
+                            input: {
+                                $map: {
+                                    input: '$posts',
+                                    as: 'post',
+                                    in: {
+                                        $cond: {
+                                            if: { $isArray: '$$post.subCategory' },
+                                            then: '$$post.subCategory',
+                                            else: [{ $ifNull: ['$$post.subCategory', null] }]
+                                        }
+                                    }
+                                }
+                            },
+                            initialValue: [],
+                            in: { $setUnion: ['$$value', '$$this'] }
+                        }
+                    }
+                }
+            }
+        ]);
 
         res.locals.categories = categoriesWithSubCategories;
         next();
@@ -26,5 +47,7 @@ async function fetchCategories(req, res, next) {
         next(error);
     }
 }
+
+
 
 module.exports = fetchCategories;

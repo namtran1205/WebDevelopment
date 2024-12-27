@@ -279,9 +279,12 @@
 
   .list-item .item p {
     width: auto;
-    height: 100%;
-    display: flex;
     position: relative;
+    display: block;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    height: 50%;
   }
 
   .list-item .item p img {
@@ -298,14 +301,17 @@
     transform: scale(1.2);
   }
   .list-item .item .info {
-    display: flex;
+    display: block;
     position: relative;
     width: 100%;
+    height: 50%;
     background-color: #222;
     color: #fff;
     z-index: 4;
     justify-content: center;
     text-align: center;
+    align-content: center;
+    align-items: center;
   }
   .case-button-2 {
     width: 100%;
