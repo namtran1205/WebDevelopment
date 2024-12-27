@@ -3,7 +3,7 @@ const MainCategory = require('../models/MainCategory');
 const Tag = require('../models/Tag');
 
 class getPosts {
-    getListPosts= async (req, res) => {
+    getListPosts = async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const pageSize = 8;
         const skip = (page - 1) * pageSize;
@@ -11,57 +11,68 @@ class getPosts {
         const isCategoryPage = req.originalUrl.includes('/category/');
         const isTagPage = req.originalUrl.includes('/tag/');
         const isSubCategoryPage = req.originalUrl.includes('/subcategory/');
-        let totalPage;
+        
         try {
-            let posts;
+            let filter = { state: "Đã xuất bản" };
+
             if (isCategoryPage) {
-              posts = await Post.find({idMainCategory: id, state: "Đã xuất bản"  })
-                .skip(skip)
-                .limit(pageSize)
-                .sort({ publishedDate: -1 });
-                totalPage = Math.ceil((await Post.find({idMainCategory: id})).length/pageSize);
+                filter.idMainCategory = id;
             } else if (isTagPage) {
-              posts = await Post.find({tags: { $in: id }, state: "Đã xuất bản" }) 
-                .skip(skip)
-                .limit(pageSize)
-                .sort({ publishedDate: -1 });
-                totalPage = Math.ceil((await Post.find({tags: { $in: id }})).length/pageSize);
+                filter.tags = { $in: id };
             } else if (isSubCategoryPage) {
-              posts = await Post.find({subCategory: id, state: "Đã xuất bản" })
-              .skip(skip)
-              .limit(pageSize)
-              .sort({ publishedDate: -1 });
-              totalPage = Math.ceil((await Post.find({subCategory: id})).length/pageSize);
+                filter.subCategory = id;
             }
-            const postsWithTags = await Promise.all(
-                posts.map(async (post) => {
-                    const tags = await Tag.find({ _id: { $in: post.tags } });
-                    const categories = await MainCategory.find({ _id: post.idMainCategory } );
-                    await Promise.all(
-                        tags.map(async (tag) => {
-                            await Tag.findByIdAndUpdate(
-                                tag._id,
-                                { $addToSet: { posts: post.id } }, 
-                                { new: true } 
-                            );
-                        })
-                    );
-                    const tagNames = tags.map(tag => tag.name);
-                    await Promise.all(
-                        categories.map(async (cate) => {
-                            await MainCategory.findByIdAndUpdate(
-                                cate._id,
-                                { $addToSet: { posts: post.id } }, 
-                                { new: true } 
-                            );
-                        })
-                    );
-                    return { ...post._doc, tagNames, categories};
-                })
-            );
-            const tags = await Tag.find();
-    
-            res.render('listItem', {posts: postsWithTags, tags: tags, currentPage: page, id, isCategoryPage, isTagPage, isSubCategoryPage, totalPage });
+            const tags = await Tag.find({});
+            // Fetch posts with pagination and sort
+            const [posts, totalPosts] = await Promise.all([
+                Post.find(filter)
+                    .skip(skip)
+                    .limit(pageSize)
+                    .sort({ publishedDate: -1 }),
+                Post.countDocuments(filter),
+            ]);
+
+            const totalPage = Math.ceil(totalPosts / pageSize);
+
+            // Fetch associated tags and categories in one go
+            const tagIds = [...new Set(posts.flatMap(post => post.tags))];
+            const categoryIds = [...new Set(posts.map(post => post.idMainCategory))];
+
+            const [categories] = await Promise.all([
+                MainCategory.find({ _id: { $in: categoryIds } }),
+            ]);
+
+            // Map tag names and categories to posts
+            const tagsMap = tags.reduce((acc, tag) => {
+                acc[tag._id] = tag.name;
+                return acc;
+            }, {});
+            const categoriesMap = categories.reduce((acc, category) => {
+                acc[category._id] = category.name;
+                return acc;
+            }, {});
+
+            const postsWithDetails = posts.map(post => ({
+                ...post._doc,
+                tagNames: post.tags.map(tagId => tagsMap[tagId]),
+                categories: categoriesMap[post.idMainCategory] || null,
+            }));
+            // Update tag and category post references in bulk
+            await Promise.all([
+                Tag.updateMany({ _id: { $in: tagIds } }, { $addToSet: { posts: { $each: posts.map(post => post._id) } } }),
+                MainCategory.updateMany({ _id: { $in: categoryIds } }, { $addToSet: { posts: { $each: posts.map(post => post._id) } } }),
+            ]);
+
+            res.render('listItem', {
+                posts: postsWithDetails,
+                tags,
+                currentPage: page,
+                id,
+                isCategoryPage,
+                isTagPage,
+                isSubCategoryPage,
+                totalPage,
+            });
         } catch (error) {
             console.error(error.message);
             res.status(500).json({
@@ -70,6 +81,6 @@ class getPosts {
             });
         }
     };
-} 
+}
 
 module.exports = new getPosts();

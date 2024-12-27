@@ -8,6 +8,7 @@
   .link-item {
     text-decoration: none;
     color: #333;
+    padding: 1px;
   }
 
   .news-item {
@@ -37,6 +38,15 @@
     color: #333;
   }
 
+  .news-title {
+    display: -webkit-box; /* Bật chế độ hiển thị theo block-level với dòng cụ thể */
+    -webkit-line-clamp: 2; /* Giới hạn tối đa 2 dòng */
+    -webkit-box-orient: vertical; /* Hướng nội dung theo chiều dọc */
+    overflow: hidden; /* Ẩn phần nội dung vượt giới hạn */
+    text-overflow: ellipsis; /* Thêm "..." vào phần bị ẩn */
+    word-break: break-word; /* Ngắt từ nếu quá dài */
+  }
+
   .news-abstract {
     font-size: 14px;
   }
@@ -56,6 +66,7 @@
   .news-category {
     font-size: 14px;
     color: #555;
+    white-space: wrap;
   }
 
   .news-tags {

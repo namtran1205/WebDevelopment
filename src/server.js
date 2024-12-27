@@ -20,7 +20,7 @@ const verifyOTPRouter = require('./router/verifyOTP');
 
 
 const app = express();
-const port = 8081;
+const port = 8080;
 
 configViewEngine(app)
 

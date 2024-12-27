@@ -50,11 +50,12 @@
                           <%= formattedDate %>
                         </div>                  
                         <div class="news-category">
-                          <% if (post.categories[0] && post.categories[0].name) { %>
-                              <%= post.categories[0].name %> >>
+                          <% if (post.categories && post.categories.length > 0 && post.categories[0].name) { %>
+                            <%= post.categories[0].name %>
+                          <% } else { %>
                           <% } %>
                           <%= post.subCategory %>
-                      </div>
+                        </div>                        
                       </div>
                       <div class="news-tags">
                         <p>Tags: </p>
