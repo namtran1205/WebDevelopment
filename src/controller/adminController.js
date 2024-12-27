@@ -93,7 +93,6 @@ async function insertCategory (name)
         const newCategory = {
             _id : id.toString(),
             name : name,
-            posts : [],
         };
         try
         {

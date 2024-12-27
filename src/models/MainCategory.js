@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
 
 const MainCategorySchema = new mongoose.Schema({
-    posts: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Post',
-        },
-    ],
     name: {
         type: String,
         required: true,
