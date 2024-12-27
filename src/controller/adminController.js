@@ -142,20 +142,19 @@ function deleteSubcategory (idMainCategory, name)
 
 const adminController = {
     async show(req, res) {
-        res.render('adminMain');
+        res.render('admin/adminMain');
     },
 
     async showUserList (req, res) {
         try
         {
             list = await getUsers(0, 0);
-            // render here
             res.locals.parameters = {
                 userList : list,
                 delete : req.query.delete,
                 update : req.query.update,
             }
-            res.render('adminUser');
+            res.render('admin/adminUser');
         }
         catch (error)
         {
@@ -177,7 +176,7 @@ const adminController = {
                 categories : queries.availableCategories,
                 notFound : queries.item === null,
             };
-            res.render('adminUserDetails');
+            res.render('admin/adminUserDetails');
         }
         catch (error)
         {
@@ -198,7 +197,7 @@ const adminController = {
                     title : 'Không tìm thấy user',
                     action : false,
                 }
-                res.render('adminError');
+                res.render('admin/adminError');
                 return;
             }
             if (item.type === 'admin')
@@ -207,7 +206,7 @@ const adminController = {
                     title : 'Không thể chỉnh sửa user này',
                     action : false,
                 }
-                res.render('adminError');
+                res.render('admin/adminError');
                 return;
             }
             result = await deleteUser(id);
@@ -270,7 +269,7 @@ const adminController = {
             res.locals.parameters = {
                 categories : query
             }
-            res.render('adminCreate');
+            res.render('admin/adminCreate');
         }
         catch(error)
         {
@@ -278,7 +277,7 @@ const adminController = {
             res.locals.parameters = {
                 title : "Không thể kết nối với cơ sở dữ liệu.",
             }
-            res.render('adminError');
+            res.render('admin/adminError');
         }
     },
 
@@ -291,7 +290,7 @@ const adminController = {
                 delete : req.query.delete,
                 create : req.query.create,
             }
-            res.render('adminCategory');
+            res.render('admin/adminCategory');
         }
         catch(error)
         {
@@ -299,7 +298,7 @@ const adminController = {
             res.locals.parameters = {
                 title : "Không thể kết nối với cơ sở dữ liệu.",
             }
-            res.render('adminError');
+            res.render('admin/adminError');
         }
     },
 
@@ -323,7 +322,7 @@ const adminController = {
                 title : "Lỗi kết nối cơ sở dữ liệu",
                 action : false,
             };
-            res.render('adminError');
+            res.render('admin/adminError');
         }
     },
 
@@ -365,7 +364,7 @@ const adminController = {
                 delete : req.query.delete,
                 update : req.query.update,
             };
-            res.render('adminSubcategory');
+            res.render('admin/adminSubcategory');
         }
         catch (error)
         {
@@ -374,7 +373,7 @@ const adminController = {
                 title : "Lỗi kết nối cơ sở dữ liệu",
                 action : false,
             };
-            res.render('adminError');
+            res.render('admin/adminError');
         }
     },
 
