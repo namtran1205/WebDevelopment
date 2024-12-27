@@ -24,7 +24,7 @@
   <main>
     <div class="content" id="content">
       <div class="container my-5">
-        <form id="form" action="/writer/createPost" method="POST" class="needs-validation" novalidate>
+        <form id="createForm" action="/writer/createPost" method="POST" class="needs-validation" novalidate>
           <!-- Tiêu đề -->
           <div class="mb-3">
             <label for="title" class="form-label">Tiêu đề:</label>
@@ -63,7 +63,7 @@
     
           <!-- Nhãn -->
           <div class="mb-3">
-            <label for="subCategory" class="form-label">Nhãn:</label>
+            <label for="subCategory" class="form-label">Tiểu mục:</label>
             <input type="text" class="form-control" id="subCategory" name="subCategory" required>
           </div>
 
@@ -83,8 +83,12 @@
           </div>
 
           <!-- Nút Submit -->
-          <button type="submit" class="btn btn-success">Đăng bài</button>
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success me-2">Đăng bài</button>
+            <a href="/writer/listPosts" class="btn btn-secondary">Quay lại danh sách</a>
+          </div>
         </form>
+        
       </div>
     </div>
     

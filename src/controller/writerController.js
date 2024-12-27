@@ -25,58 +25,23 @@ class writerController {
         try {
             let user = null;
             user = JSON.parse(req.cookies.user);
-            console.log('Request body:', req.body);
+            //console.log('Request body:', req.body);
 
             const { title, content, abstract, image, subCategory, tags, idMainCategory, type} = req.body;
             
-            console.log('title:', title);
-            console.log('tag:',tags);
+            //console.log('title:', title);
+            //console.log('tag:',tags);
 
             // Kiểm tra dữ liệu đầu vào
             if (!title || !content || !abstract || !image || !subCategory || !tags || !idMainCategory || !type ) {
                 return res.status(400).json({ error: 'Vui lòng điền đầy đủ các trường bắt buộc.' });
             }
 
-            // Handle tags to add
-        if (tagsToAdd && tagsToAdd.length > 0) {
-          const tagNamesToAdd = tagsToAdd.split(',').map(tag => tag.trim());
-          const tagIdsToAdd = await Promise.all(
-            tagNamesToAdd.map(async (tagName) => {
-              let tag = await TagSchema.findOne({ name: tagName });
-  
-              // Create new tag if it doesn't exist
-              if (!tag) {
-                tag = await TagSchema.create({ name: tagName });
-              }
-  
-              // Add post reference to the tag
-              await Tag.findByIdAndUpdate(tag._id, { $addToSet: { posts: post._id } });
-              return tag._id;
-            })
-          );
-  
-          // Add new tags to the post
-          post.tags = [...new Set([...post.tags, ...tagIdsToAdd])]; // Avoid duplicates
-        }
-  
-        // Handle tags to remove
-        if (tagsToRemove && tagsToRemove.length > 0) {
-          const tagIdsToRemove = tagsToRemove.split(',').map(tag => tag.trim());
-          await Promise.all(
-            tagIdsToRemove.map(async (tagId) => {
-              // Remove post reference from the tag
-              await Tag.findByIdAndUpdate(tagId, { $pull: { posts: post._id } });
-            })
-          );
-  
-          // Remove tags from the post
-          post.tags = post.tags.filter(tagId => !tagIdsToRemove.includes(tagId.toString()));
-        }
             // Kiểm tra xem tags có phải là mảng không
             const tagNames = typeof tags === 'string' ? tags.split(',').map(tag => tag.trim()) : tags;
 
 
-            console.log('tagNames:', tagNames);
+            //console.log('tagNames:', tagNames);
 
             if (!Array.isArray(tagNames)) {
                 console.error('Invalid tags format:', tagNames);
@@ -98,7 +63,7 @@ class writerController {
                   return tag._id; // Chuyển đổi rõ ràng sang ObjectId
                 })
                 );
-            console.log('tagIds:', tagIds);
+            //console.log('tagIds:', tagIds);
 
             // Tạo bài viết mới
             const newPost = new PostSchema({
@@ -118,7 +83,7 @@ class writerController {
 
             // Lưu bài viết vào cơ sở dữ liệu
             await newPost.save();
-            console.log('New post:', newPost);
+            //console.log('New post:', newPost);
             // Gắn bài viết vào các tag
             await Promise.all(
                 tagIds.map(async (tagId) => {
@@ -141,12 +106,12 @@ class writerController {
     async show_listPosts(req, res) {
         let user = null;
         user = JSON.parse(req.cookies.user);
-        if (user.type !== 'writer') {
-            //res.alert('Bạn không có quyền truy cập trang này');
-            return res.redirect('/');
-        }
+        // if (user.type !== 'writer') {
+        //     //res.alert('Bạn không có quyền truy cập trang này');
+        //     return res.redirect('/');
+        // }
         try {
-            const posts = await PostSchema.find({ idWriter: user._id });
+            const posts = await PostSchema.find({ idWriter: user._id }).select('title state').exec();
             res.render('writer/listPosts', { posts });
         } catch (err) {
             console.error('Error rendering listPage:', err);
@@ -205,7 +170,11 @@ class writerController {
     async post_updatePost(req, res) {
       try {
         const { title, abstract, image, content, idMainCategory, subCategory, type, tagsToAdd, tagsToRemove } = req.body;
-
+        console.log(req.params.id);
+        const post = await PostSchema.findById(req.params.id);
+        if (!post) {
+          return res.status(404).send('Post not found');
+        }
         // Handle tags to add
         if (tagsToAdd && tagsToAdd.length > 0) {
           const tagNamesToAdd = tagsToAdd.split(',').map(tag => tag.trim());
