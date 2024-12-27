@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Post = require('../models/Post');
 const MainCategory = require('../models/MainCategory');
+const Tag = require('../models/Tag');
 const insertUserService = require('../services/insertUser');
 
 // data fetch
@@ -36,7 +37,6 @@ function updateUser (id, setAttribute)
 // posts
 function getPosts (limit, skip)
 {
-
     limit = limit > 0 ? limit : 0; // 0 = no limit
     skip = skip > 0 ? skip : 0;
 
@@ -137,6 +137,36 @@ function deleteSubcategory (idMainCategory, name)
             subCategory : null,
         }
     })
+}
+
+function getTags ()
+{
+    return Tag.find({}).select({ name : 1 });
+}
+async function existsTag (name)
+{
+    const query = await Tag.findOne({ name : name });
+    return query !== null;
+}
+function insertTag (name) 
+{
+    return Tag.insertMany([{
+        name : name,
+    }])
+}
+async function deleteTag (id)
+{
+    return {
+        updateResult : await Post.updateMany(
+            {},
+            {
+                $pull : {
+                    tags : id,
+                }
+            }
+        ),
+        deleteResult : await Tag.deleteOne({ _id : id }),
+    }
 }
 
 const adminController = {
@@ -327,7 +357,7 @@ const adminController = {
 
     async checkCategory (req, res) {
         const name = req.query.name;
-        exist = await existsCategory(name);
+        const exist = await existsCategory(name);
         return res.json(exist);
     },
 
@@ -335,11 +365,24 @@ const adminController = {
         const name = req.body.name;
         if (!name)
             res.redirect('/admin/categories?create=failure');
-        const query = await insertCategory(name);
-        if (query !== null && query.length > 0)
-            res.redirect('/admin/categories?create=success');
-        else
-            res.redirect('/admin/categories?create=failure');
+
+        try
+        {
+            const query = await insertCategory(name);
+            if (query !== null && query.length > 0)
+                res.redirect('/admin/categories?create=success');
+            else
+                res.redirect('/admin/categories?create=failure');
+        }
+        catch (error)
+        {
+            console.error(error);
+            res.locals.parameters = {
+                title : "Lỗi từ cơ sở dữ liệu",
+                action : false,
+            };
+            res.render('adminError');
+        }
     },
 
     async showSubcategoryList (req, res) {
@@ -399,11 +442,89 @@ const adminController = {
 
     async removeSubcategory (req, res) {
         const {idMainCategory, name} = req.body;
-        const query = await deleteSubcategory(idMainCategory, name);
-        if (query.modifiedCount === 0)
-            res.redirect(`/admin/subcategories?id=${idMainCategory}&delete=failure`);
-        else
-            res.redirect(`/admin/subcategories?id=${idMainCategory}&delete=success`);
+        try
+        {
+            const query = await deleteSubcategory(idMainCategory, name);
+            if (query.modifiedCount === 0)
+                res.redirect(`/admin/subcategories?id=${idMainCategory}&delete=failure`);
+            else
+                res.redirect(`/admin/subcategories?id=${idMainCategory}&delete=success`);
+        }
+        catch (error)
+        {
+            console.error(error);
+            res.redirect
+        }
+    },
+
+    async showTagList (req, res) {
+        try
+        {
+            const tags = await getTags();
+            res.locals.parameters = {
+                tags : tags,
+                delete : req.query.delete,
+                create : req.query.create,
+            };
+            res.render('admin/adminTag');
+        }
+        catch (error)
+        {
+            console.error(error);
+            res.locals.parameters = {
+                title : "Lỗi kết nối cơ sở dữ liệu",
+                action : false,
+            };
+            res.render('admin/adminError');
+        }
+    },
+
+    async checkTag (req, res) {
+        const name = req.query.name;
+        const exist = await existsTag(name);
+        return res.json(exist);
+    },
+
+    async createTag (req, res) {
+        const name = req.body.name;
+        if (!name)
+            res.redirect('/admin/tags?create=failure');
+        try
+        {
+            const query = await insertTag(name);
+            if (query !== null && query.length > 0)
+                res.redirect('/admin/tags?create=success');
+            else
+                res.redirect('/admin/tags?create=failure');
+        }
+        catch (error)
+        {
+            console.error(error);
+            res.locals.parameters = {
+                title : "Lỗi từ cơ sở dữ liệu",
+                action : false,
+            };
+            res.render('adminError');
+        }
+    },
+
+    async removeTag (req, res) {
+        const id = req.body._id
+        if (!id)
+            res.redirect('/admin/tags?delete=failure');
+        try
+        {
+            const queries = await deleteTag (id);
+            if (queries.deleteResult.deletedCount > 0)
+                res.redirect('/admin/tags?delete=success');
+            else
+                res.redirect('/admin/tags?delete=failure');
+        }
+        catch (error)
+        {
+            console.error(error);
+            res.redirect('/admin/tags?delete=failure');
+        }
     },
 
     async showPostList (req, res) {

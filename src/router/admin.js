@@ -33,4 +33,13 @@ router.get('/subcategories', adminController.showSubcategoryList); // subcategor
 router.post('/categories/update', adminController.editMainCategory);
 router.post('/subcategories/delete', adminController.removeSubcategory);
 
+// admin/tags
+router.get('/tags', adminController.showTagList);
+router.get('/tags/exists', adminController.checkTag); // .../exists?name=TAGNAME
+router.post('/tags/create', adminController.createTag);
+router.post('/tags/delete', adminController.removeTag);
+
+// admin/posts
+router.get('/posts', adminController.showPostList);
+
 module.exports = router;
