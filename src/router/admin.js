@@ -36,8 +36,11 @@ router.post('/subcategories/delete', adminController.removeSubcategory);
 // admin/tags
 router.get('/tags', adminController.showTagList);
 router.get('/tags/exists', adminController.checkTag); // .../exists?name=TAGNAME
-router.post('/tags/create', adminController.createTag);
-router.post('/tags/delete', adminController.removeTag);
+router.post('/tags/create', adminController.createTag); // form: create new tag
+router.post('/tags/delete', adminController.removeTag); // form: delete tag
+router.get('/tags/details', adminController.showTagDetails); // tag details page; .../details?id=TAGID
+router.post('/tags/update', adminController.changeTag); // form: change tag name
+router.post('/tags/pull', adminController.dropTag); // form: remove a tag from post
 
 // admin/posts
 router.get('/posts', adminController.showPostList);

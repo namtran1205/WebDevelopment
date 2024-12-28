@@ -136,7 +136,7 @@ function deleteSubcategory (idMainCategory, name)
         $set : {
             subCategory : null,
         }
-    })
+    });
 }
 
 function getTags ()
@@ -152,7 +152,7 @@ function insertTag (name)
 {
     return Tag.insertMany([{
         name : name,
-    }])
+    }]);
 }
 async function deleteTag (id)
 {
@@ -166,7 +166,33 @@ async function deleteTag (id)
             }
         ),
         deleteResult : await Tag.deleteOne({ _id : id }),
-    }
+    };
+}
+function getTagByID (id)
+{
+    return Tag.findOne({ _id : id }).select({ name : 1 });
+}
+function updateTag (id, name)
+{
+    return Tag.updateOne({ _id : id }, {
+        $set : {
+            name : name,
+        },
+    });
+}
+function getPostByTag (tagID)
+{
+    return Post.find({ tags : tagID }).select({
+        title : 1,
+    });
+}
+function pullTagFromPost (postId, tagID)
+{
+    return Post.updateOne({_id : postId}, {
+        $pull : {
+            tags : tagID,
+        }
+    });
 }
 
 const adminController = {
@@ -291,7 +317,6 @@ const adminController = {
     },
 
     async showCreatePage (req, res) {
-        
         try
         {
             const query = await getMainCategories();
@@ -364,7 +389,10 @@ const adminController = {
     async createCategory (req, res) {
         const name = req.body.name;
         if (!name)
+        {
             res.redirect('/admin/categories?create=failure');
+            return;
+        }
 
         try
         {
@@ -488,7 +516,10 @@ const adminController = {
     async createTag (req, res) {
         const name = req.body.name;
         if (!name)
+        {
             res.redirect('/admin/tags?create=failure');
+            return;
+        }
         try
         {
             const query = await insertTag(name);
@@ -511,7 +542,10 @@ const adminController = {
     async removeTag (req, res) {
         const id = req.body._id
         if (!id)
+        {
             res.redirect('/admin/tags?delete=failure');
+            return;
+        }
         try
         {
             const queries = await deleteTag (id);
@@ -527,10 +561,88 @@ const adminController = {
         }
     },
 
+    async showTagDetails (req, res) {
+        const id = req.query.id;
+        if (!id)
+        {
+            res.redirect('/admin/tags');
+            return;
+        }
+        
+        try
+        {
+            const queries = {
+                tag : await getTagByID(id),
+                posts : await getPostByTag(id),
+            };
+            if (queries.tag === null)
+            {
+                res.redirect('/admin/tags');
+                return;
+            }
+
+            res.locals.parameters = {
+                tag : queries.tag,
+                posts : queries.posts,
+                delete : req.query.delete,
+                update : req.query.update,
+            };
+            res.render('admin/adminTagDetails');
+        }
+        catch (error)
+        {
+            console.error(error);
+            res.locals.parameters = {
+                title : "Không thể lấy dữ liệu",
+            };
+            res.render('admin/adminError');
+        }
+    },
+
+    async changeTag (req, res) {
+        const {_id, name} = req.body;
+        try
+        {
+            const query = await updateTag(_id, name);
+            if (query.modifiedCount === 0)
+                res.redirect(`/admin/tags/details?id=${_id}&update=failure`);
+            else
+                res.redirect(`/admin/tags/details?id=${_id}&update=success`);
+        }
+        catch (error)
+        {
+            res.locals.parameters = {
+                title : "Lỗi khi kết nối cơ sở dữ liệu",
+                action : false,
+            };
+            res.render('admin/adminError');
+        }
+    },
+
+    async dropTag (req, res) {
+        const {tagID, postID} = req.body;
+        try
+        {
+            const query = await pullTagFromPost(postID, tagID);
+            if (query.modifiedCount === 0)
+                res.redirect(`/admin/tags/details?id=${tagID}&delete=failure`);
+            else
+                res.redirect(`/admin/tags/details?id=${tagID}&delete=success`);
+        }
+        catch (error)
+        {
+            res.locals.parameters = {
+                title : "Lỗi khi kết nối cơ sở dữ liệu",
+                action : false,
+            };
+            res.render('admin/adminError');
+        }
+    },
+
     async showPostList (req, res) {
         try
         {
-            list = await getPosts(0, 0);
+            const list = await getPosts(0, 0);
             // render here
             res.send(list);
         }
