@@ -5,6 +5,7 @@ body {
     position: relative;
     display: flex;
     overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 header {
   position: static;
@@ -260,26 +261,37 @@ header {
 
 .list-nav {
   position: relative;
+  display: flex;
   flex-wrap: wrap;
   border: 1px solid #ccc;
   border-radius: 10px;
+  flex-direction: row;
+  text-decoration: none;
 }
+
 .login {
     margin-right: 10px;
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
 }
+
 .login i {
     font-size: 50px;
     color: #333;
     cursor: pointer;
+    text-decoration: none;
 }
 .home {
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
 }
 .home i {
   font-size: 50px;
   color: #333;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .fixed {

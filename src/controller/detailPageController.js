@@ -30,7 +30,7 @@ const detailPageController =
             );
 
 
-            const relevantPosts = await Post.find( { subCategory: post.subCategory }, {
+            const relevantPosts = await Post.find( { subCategory: post.subCategory, state: "Đã xuất bản", _id: { $ne: idPost } }, {
                 _id: 1,
                 title: 1,
                 abstract: 1,

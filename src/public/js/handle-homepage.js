@@ -153,6 +153,7 @@ document.querySelectorAll('.list-category a').forEach(category => {
 
       this.classList.add('hightlight');
       const post = JSON.parse(this.getAttribute('data-post'));
+      document.getElementById('post-new').href = `/detailPage/${post._id}`
       document.getElementById('img-post').innerHTML = post.image;
       document.getElementById('post-title').textContent = post.title;
       document.getElementById('post-category').textContent = post.subCategory;
