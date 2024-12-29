@@ -427,7 +427,6 @@ const adminController = {
             if (category === null)
                 res.redirect('/admin/categories');
             const subcategories = await getSubcategories(idMain);
-            console.log(subcategories);
             res.locals.parameters = {
                 category : category,
                 subcategories : subcategories,

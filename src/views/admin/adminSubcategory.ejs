@@ -30,7 +30,7 @@
         <div class="main-category">
             <!-- alerts -->
             <% if (parameters.delete === 'success') { %>
-              <div class="alert alert-success alert-dismissible fade show infoAlert" role="alert">
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
                 Xóa chuyên mục phụ thành công.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
@@ -42,7 +42,7 @@
               </div>
             <% } %>
             <% if (parameters.update === 'success') { %>
-                <div class="alert alert-success alert-dismissible fade show infoAlert" role="alert">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
                   Tạo chuyên mục thành công.
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -53,10 +53,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <% } %>
-
-            <script>
-                $(".alert").alert();
-            </script>
 
             <div id="alertSpace"></div>
 
