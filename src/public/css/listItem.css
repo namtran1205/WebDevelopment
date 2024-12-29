@@ -150,6 +150,12 @@
     display: none;
   }
 
+  .disabled {
+    pointer-events: none; 
+    color: grey; 
+    opacity: 0;
+  }
+
   @media (max-width: 600px) {
     .list-news {
       grid-template-columns: 1fr;

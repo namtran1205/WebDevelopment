@@ -3,6 +3,10 @@ const Comment = require('../models/Comment');
 const Post = require('../models/Post');
 const Tag = require('../models/Tag')
 
+const sanitizeFilename = (filename) => {
+    return filename.replace(/[^a-z0-9_\-]/gi, '_');
+};
+
 const detailPageController =
 {
     async show(req, res)
@@ -62,8 +66,23 @@ const detailPageController =
         } catch(error) {    
             res.status(400).json({ error: error.message});
         }
+    },
+  
+    async download(req, res) {
+        try {
+            const { id } = req.params;
+            const article = await Post.findOne({ _id: id });
+            if (!article) {
+                return res.status(404).send('Article not found.');
+            }
+            const sanitizedTitle = sanitizeFilename(article.title);
+            res.setHeader('Content-Disposition', `attachment; filename="${sanitizedTitle}.txt"`);
+            res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+            res.send(article.content);
+        } catch (error) {
+            res.status(500).send('Error downloading the article.');
+        }
     }
-    
 };
 
 module.exports = detailPageController;

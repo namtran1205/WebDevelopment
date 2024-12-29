@@ -17,7 +17,8 @@ const profileController =
         userId = user._id;   
         extendUser = await User.findOne({_id: userId});
         const currentEndDate = new Date(extendUser.remainingTime);
-        let newEndDate = new Date(currentEndDate.setDate(currentEndDate.getDate() + 7));
+        const currentDate = new Date();
+        let newEndDate = new Date(currentDate.setDate(currentDate.getDate() + 7));
         extendUser.remainingTime = newEndDate;
         res.cookie('user', JSON.stringify(extendUser), { httpOnly: true });
         await  extendUser.save();

@@ -12,10 +12,21 @@
     margin: 0;
 }
 
+.view-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.view-box  span {
+    margin-right: 15px;
+}
+
 .post-image p img{
     display: flex;
     position: relative;
-    width: auto;
+    width: 100%;
+    object-fit: cover;
 }
 
 .post-content {

@@ -18,13 +18,13 @@ class homeController {
     
             console.time('Data Fetching');
             const [postOfWeek, postMostView, postNew, hotCategory, tags] = await Promise.all([
-                Post.find({ state: "Đã xuất bản" }, { title: 1, publishedDate: 1, image: 1, subCategory: 1 })
+                Post.find({ state: "Đã xuất bản" }, { title: 1, publishedDate: 1, image: 1, subCategory: 1, type: 1 })
                     .sort({ viewWeek: -1 })
                     .limit(4),
-                Post.find({ state: "Đã xuất bản" }, { title: 1, publishedDate: 1, image: 1, subCategory: 1 })
+                Post.find({ state: "Đã xuất bản" }, { title: 1, publishedDate: 1, image: 1, subCategory: 1, type: 1 })
                     .sort({ view: -1 })
                     .limit(10),
-                Post.find({ state: "Đã xuất bản" }, { title: 1, publishedDate: 1, image: 1, subCategory: 1 })
+                Post.find({ state: "Đã xuất bản" }, { title: 1, publishedDate: 1, image: 1, subCategory: 1, type: 1 })
                     .sort({ publishedDate: -1 })
                     .limit(10),
                 MainCategory.aggregate([

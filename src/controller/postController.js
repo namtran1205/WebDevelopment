@@ -28,7 +28,7 @@ class getPosts {
                 Post.find(filter)
                     .skip(skip)
                     .limit(pageSize)
-                    .sort({ publishedDate: -1 }),
+                    .sort({type: -1, publishedDate: -1}),
                 Post.countDocuments(filter),
             ]);
 

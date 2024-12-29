@@ -33,7 +33,12 @@
                   %>
                   <%= formattedDate %>
                 </span>
-                <span>Chuyên mục: <%=subCategory%></span>
+                <div class="view-box">
+                    <span>Chuyên mục: <%=subCategory%></span>
+                    <% if (user && new Date(user.remainingTime) > new Date()) { %>
+                        <a href="/download/<%= post._id %>" class="btn btn-primary">Download</a>
+                    <% } %>
+                </div>
             </div>
 
             <!-- Ảnh đại diện -->

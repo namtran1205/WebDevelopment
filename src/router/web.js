@@ -19,6 +19,9 @@ router.get('/detailPage/:idPost', detailPageController.show);
 
 router.post('/detailPage/:idPost', detailPageController.postComment);
 
+router.get('/download/:id', detailPageController.download);
+
+
 //router.get('/editor/', editorController.show);
 
 // router.get('/detailPage', detailPageController.show);

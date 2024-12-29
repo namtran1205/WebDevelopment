@@ -77,6 +77,9 @@
                     <a class="item" href="/detailPage/<%=postMostView[i]._id%>">
                       <%-postMostView[i].image%>
                       <div class="info">
+                        <% if (postMostView[i].type === 'premium') { %>
+                          <span class="premium-label">Premium</span>
+                        <% } %>
                         <div class="title"><%=postMostView[i].title%></div>
                         <div class="category"><%=postMostView[i].subCategory%></div>
                         <div class="date">
@@ -101,6 +104,9 @@
                     <a class="item" href="/detailPage/<%=postNew[i]._id%>">
                       <%-postNew[i].image%>
                       <div class="info">
+                        <% if (postNew[i].type === 'premium') { %>
+                          <span class="premium-label">Premium</span>
+                        <% } %>
                         <div class="title"><%=postNew[i].title%></div>
                         <div class="category"><%=postNew[i].subCategory%></div>
                         <div class="date">
