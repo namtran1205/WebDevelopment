@@ -44,5 +44,6 @@ router.post('/tags/pull', adminController.dropTag); // form: remove a tag from p
 
 // admin/posts
 router.get('/posts', adminController.showPostList);
+router.post('/posts/delete', adminController.removePost); // form: delete post
 
 module.exports = router;

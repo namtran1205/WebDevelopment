@@ -35,17 +35,77 @@ function updateUser (id, setAttribute)
 }
 
 // posts
-function getPosts (limit, skip)
+function getPosts () // (limit, skip)
 {
-    limit = limit > 0 ? limit : 0; // 0 = no limit
-    skip = skip > 0 ? skip : 0;
+    // limit = limit > 0 ? limit : 0; // 0 = no limit
+    // skip = skip > 0 ? skip : 0;
 
-    return Post.find({}).select({
-        title : 1,
-        category : 1,
-        tag : 1,
-        state : 1,
-    }).limit(limit).skip(skip);
+    return Post.aggregate([
+        {
+            $project : {
+                title : 1,
+                abstract : 1,
+                idMainCategory : 1,
+                subCategory : 1,
+                idWriter : 1,
+            }
+        },
+        {
+            $lookup : {
+                from : "maincategories",
+                localField : "idMainCategory",
+                foreignField : "_id",
+                as : "categoryRef",
+            }
+        },
+        {
+            $replaceRoot : {
+                newRoot : {
+                    $mergeObjects : [{ $arrayElemAt : ["$categoryRef", 0] }, "$$ROOT"]
+                }
+            }
+        },
+        {
+            $project : {
+                title : 1,
+                abstract : 1,
+                subCategory : 1,
+                idWriter : 1,
+                name : 1,
+            }
+        },
+        {
+            $addFields : {
+                objUser : {
+                    $toObjectId : "$idWriter"
+                }
+            }
+        },
+        {
+            $lookup : {
+                from : "users",
+                localField : "objUser",
+                foreignField : "_id",
+                as : "writerRef",
+            }
+        },
+        {
+            $replaceRoot : {
+                newRoot : {
+                    $mergeObjects : [{ $arrayElemAt : ["$writerRef", 0] }, "$$ROOT"]
+                }
+            }
+        },
+        {
+            $project : {
+                title : 1,
+                abstract : 1,
+                subCategory : 1,
+                name : 1,
+                nickname : 1,
+            }
+        }
+    ])
 }
 function deletePost (id)
 {
@@ -116,6 +176,7 @@ function updateCategory (id, name)
     })
 }
 
+// subcategories
 function getCategoryByID (id)
 {
     return MainCategory.findOne({_id : id});
@@ -139,6 +200,7 @@ function deleteSubcategory (idMainCategory, name)
     });
 }
 
+// tags
 function getTags ()
 {
     return Tag.find({}).select({ name : 1 });
@@ -641,15 +703,44 @@ const adminController = {
     async showPostList (req, res) {
         try
         {
-            const list = await getPosts(0, 0);
-            // render here
-            res.send(list);
+            const posts = await getPosts();
+            res.locals.parameters = {
+                posts : posts,
+                delete : req.query.delete,
+            }
+            res.render('admin/adminPost');
         }
         catch (error)
         {
             console.error(error);
+            res.locals.parameters = {
+                title : "Lỗi khi kết nối cơ sở dữ liệu",
+            };
+            res.render('admin/adminError');
         }
     },
+
+    async removePost (req, res) {
+        const id = req.body._id;
+        if (!id)
+        {
+            res.redirect('/admin/posts');
+            return
+        }
+        try
+        {
+            const query = await deletePost(id);
+            if (query.deletedCount === 0)
+                res.redirect('admin/posts?delete=failure');
+            else
+                res.redirect('/admin/posts?delete=success');
+        }
+        catch (error)
+        {
+            console.error(error);
+            res.redirect('/admin/posts?delete=failure');
+        }
+    }
 };
 
 module.exports = adminController;
