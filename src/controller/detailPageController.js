@@ -2,6 +2,8 @@ const { render } = require('ejs');
 const Comment = require('../models/Comment');
 const Post = require('../models/Post');
 const Tag = require('../models/Tag')
+const PDFDocument = require('pdfkit');
+const path = require('path');
 
 const sanitizeFilename = (filename) => {
     return filename.replace(/[^a-z0-9_\-]/gi, '_');
@@ -76,9 +78,17 @@ const detailPageController =
                 return res.status(404).send('Article not found.');
             }
             const sanitizedTitle = sanitizeFilename(article.title);
-            res.setHeader('Content-Disposition', `attachment; filename="${sanitizedTitle}.txt"`);
-            res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-            res.send(article.content);
+            const doc = new PDFDocument();
+        
+            res.setHeader('Content-Disposition', `attachment; filename="${sanitizedTitle}.pdf"`);
+            res.setHeader('Content-Type', 'application/pdf');
+            
+            doc.pipe(res);
+            const fontPath = path.join(__dirname, '../fonts', 'font.ttf');
+            doc.font(fontPath);
+            doc.fontSize(12).text(article.content);
+            
+            doc.end();
         } catch (error) {
             res.status(500).send('Error downloading the article.');
         }
