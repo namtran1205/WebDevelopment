@@ -37,12 +37,32 @@
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <% } %>
+    <% if (parameters.publish === 'success') { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          Xuất bản bài viết thành công.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+    <% if (parameters.publish === 'failure') { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong> Đã có lỗi xảy ra </strong> khi xuất bản bài viết.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
 
     <script>
         function attemptDelete (id)
         {
             jqString = '#delete_' + id.toString();
             if (confirm("Xóa bài viết này?"))
+            {
+                $(jqString).submit();
+            }
+        }
+        function attemptPublish (id)
+        {
+            jqString = '#publish_' + id.toString();
+            if (confirm("Xuất bản bài viết này?"))
             {
                 $(jqString).submit();
             }
@@ -70,13 +90,22 @@
                                 <% } %>
                             <p>
                             <p class="card-title"> <i> <%= posts[i].nickname %> </i> viết </p>
+                            <p class="card-title text-muted"> <%= posts[i].state %> </p>
                             <p class="card-text"> <%- posts[i].abstract %> </p>
                         </div>
                         <form id="delete_<%= i %>" action="/admin/posts/delete" method="post">
                             <input type="text" name="_id" value="<%= posts[i]._id %>" readonly hidden>
                         </form>
                         <div class="card-footer">
-                            <a title="Xóa bài viết" class="btn btn-danger" href="javascript: attemptDelete(<%= i %>)" role="button"> <i class="bi bi-trash3"></i> </a>
+                            <a title="Xem bài viết" class="btn btn-primary me-1" href="/detailPage/<%= posts[i]._id %>" target="_blank" rel="noreferrer noopener" role="button"> <i class="bi bi-eye"></i> </a>
+                            <a title="Chỉnh sửa bài viết" class="btn btn-primary me-1" href="/writer/edit/<%= posts[i]._id %>" target="_blank" rel="noreferrer noopener" role="button"> <i class="bi bi-pencil"></i> </a>
+                            <a title="Xóa bài viết" class="btn btn-danger me-1" href="javascript: attemptDelete(<%= i %>)" role="button"> <i class="bi bi-trash3"></i> </a>
+                            <% if (posts[i].state === 'Chưa được duyệt' || posts[i].state === 'Đã được duyệt và chờ xuất bản') { %>
+                                <a title="Duyệt và xuất bản bài viết" class="btn btn-success" href="javascript: attemptPublish(<%= i %>)" role="button"> <i class="bi bi-check-circle"></i> </a>
+                                <form id="publish_<%= i %>" action="/admin/posts/publish" method="post">  
+                                    <input type="text" name="_id" value="<%= posts[i]._id %>" readonly hidden>
+                                </form>
+                            <% } %>
                         </div>
                     </div>
                 </div>

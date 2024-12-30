@@ -48,6 +48,7 @@ function getPosts () // (limit, skip)
                 idMainCategory : 1,
                 subCategory : 1,
                 idWriter : 1,
+                state : 1,
             }
         },
         {
@@ -72,6 +73,7 @@ function getPosts () // (limit, skip)
                 subCategory : 1,
                 idWriter : 1,
                 name : 1,
+                state : 1,
             }
         },
         {
@@ -103,6 +105,7 @@ function getPosts () // (limit, skip)
                 subCategory : 1,
                 name : 1,
                 nickname : 1,
+                state : 1,
             }
         }
     ])
@@ -255,6 +258,15 @@ function pullTagFromPost (postId, tagID)
             tags : tagID,
         }
     });
+}
+function publishPost (id)
+{
+    return Post.updateOne({ _id : id }, {
+        $set : {
+            state : "Đã xuất bản",
+            publishedDate : new Date(),
+        }
+    })
 }
 
 const adminController = {
@@ -707,6 +719,7 @@ const adminController = {
             res.locals.parameters = {
                 posts : posts,
                 delete : req.query.delete,
+                publish : req.query.publish,
             }
             res.render('admin/adminPost');
         }
@@ -724,8 +737,8 @@ const adminController = {
         const id = req.body._id;
         if (!id)
         {
-            res.redirect('/admin/posts');
-            return
+            res.redirect('/admin/posts?delete=failure');
+            return;
         }
         try
         {
@@ -739,6 +752,28 @@ const adminController = {
         {
             console.error(error);
             res.redirect('/admin/posts?delete=failure');
+        }
+    },
+
+    async approvePost (req, res) {
+        const id = req.body._id;
+        if (!id)
+        {
+            res.redirect('/admin/posts?publish=failure');
+            return;
+        }
+        try
+        {
+            const query = await publishPost(id);
+            if (query.modifiedCount === 0)
+                res.redirect('/admin/posts?publish=failure');
+            else
+                res.redirect('/admin/posts?publish=success');
+        }
+        catch (error)
+        {
+            console.error(error);
+            res.redirect('/admin/posts?publish=failure');
         }
     }
 };
