@@ -8,7 +8,7 @@ const profileRouter = require('./router/profile');
 const adminRouter = require('./router/admin');
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
-const authMiddleware = require('./middleware/auth');
+const { authMiddleware, authAdmin } = require('./middleware/auth');
 const authWriter = require('./middleware/authWriter');
 const fetchCategories = require('./middleware/fetchContent');
 const methodOverride = require('method-override');
@@ -35,7 +35,7 @@ app.use('/', webRouter);
 app.use('/api/v1/signup', signUpRouter);
 app.use('/api/v1/forgetPassword', forgetPasswordRouter);
 app.use('/', profileRouter);
-app.use('/admin', adminRouter);
+app.use('/admin', authAdmin, adminRouter);
 app.use('/writer', writerRouter);
 app.use('/', editorRouter)
 app.use('/', verifyOTPRouter);

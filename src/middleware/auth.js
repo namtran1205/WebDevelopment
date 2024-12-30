@@ -7,4 +7,22 @@ const authMiddleware = (req, res, next) => {
     next();
 };
 
-module.exports = authMiddleware;
+const authAdmin = (req, res, next) => {
+    if (!res.locals.user)
+    {
+        res.redirect('/login');
+        return;
+    }
+    if (res.locals.user.type !== 'admin')
+    {
+        res.locals.parameters = {
+            title : "403 Forbidden",
+            access : false,
+        }
+        res.status(403).render('admin/adminError');
+        return;
+    }
+    next();
+}
+
+module.exports = {authMiddleware, authAdmin};
