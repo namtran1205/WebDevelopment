@@ -55,6 +55,7 @@
           <div class="mb-3">
             <label for="idMainCategory" class="form-label">Chuyên mục:</label>
             <select id="idMainCategory" name="idMainCategory" required>
+              <option value="null"> Không có </option>
               <% for (let i = 0; i < categories.length; i++) { %>
                 <option value="<%= categories[i]._id %>"><%= categories[i].name %></option>
               <% } %>

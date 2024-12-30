@@ -68,17 +68,21 @@
             <span class="badge <%= post.state === 'Chưa được duyệt' ? 'bg-warning' : 'bg-success' %>">
               <%= post.state %>
             </span>
-          </p>
-            <p class="card-text"><strong>Thể loại chính:</strong>
-            <% categories.forEach(category => { %>
-              <% if(category._id.toString() === post.idMainCategory.toString()) { %>
-              <span value="<%= category._id %>">
-                <%= category.name %>
-              </span>
-              <% } %>
-            <% }); %>
+          <% if (post.idMainCategory !== null) { %>
             </p>
-          <p class="card-text"><strong>Danh mục phụ:</strong> <%= post.subCategory %></p>
+              <p class="card-text"><strong>Thể loại chính:</strong>
+              <% categories.forEach(category => { %>
+                <% if(category._id.toString() === post.idMainCategory.toString()) { %>
+                <span value="<%= category._id %>">
+                  <%= category.name %>
+                </span>
+                <% } %>
+              <% }); %>
+              </p>
+            <p class="card-text"><strong>Danh mục phụ:</strong> <%= post.subCategory %></p>
+          <% } else { %>
+            <p class="card-text"> <strong>Thể loại chính:</strong> Không có </p>
+          <% } %>
           <p class="card-text"><strong>Thẻ:</strong></p>
           <div>
             <% post.tags.forEach(tag => { %>

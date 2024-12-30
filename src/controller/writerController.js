@@ -29,6 +29,16 @@ class writerController {
                 return res.status(400).json({ error: 'Vui lòng điền đầy đủ các trường bắt buộc.' });
             }
 
+            // kiểm tra không phân loại category
+            let postCategory = idMainCategory;
+            let postSubcategory = subCategory;
+            console.log(idMainCategory);
+            if (idMainCategory == "null")
+            {
+              postCategory = null;
+              postSubcategory = null;
+            }
+
             // Kiểm tra xem tags có phải là mảng không
             const tagNames = typeof tags === 'string' ? tags.split(',').map(tag => tag.trim()) : tags;
 
@@ -63,8 +73,8 @@ class writerController {
                 content,//content,
                 abstract,
                 image,//image,
-                subCategory,
-                idMainCategory,
+                subCategory : postSubcategory,
+                idMainCategory : postCategory,
                 state: 'Chưa được duyệt',
                 idWriter: req.idWriter,
                 view: 0,
@@ -160,6 +170,17 @@ class writerController {
         if (!post) {
           return res.status(404).send('Post not found');
         }
+
+        // kiểm tra không phân loại category
+        let postCategory = idMainCategory;
+        let postSubcategory = subCategory;
+        console.log(idMainCategory);
+        if (idMainCategory == "null")
+        {
+          postCategory = null;
+          postSubcategory = null;
+        }
+
         // Handle tags to add
         if (tagsToAdd && tagsToAdd.length > 0) {
           const tagNamesToAdd = tagsToAdd.split(',').map(tag => tag.trim());
@@ -201,8 +222,8 @@ class writerController {
           abstract,
           image,
           content,
-          idMainCategory,
-          subCategory,
+          idMainCategory : postCategory,
+          subCategory : postSubcategory,
           type,
           tags: post.tags,
         });

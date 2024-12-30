@@ -77,8 +77,10 @@
             <div class="mb-3">
               <label for="idMainCategory" class="form-label">Chuyên mục:</label>
               <select id="idMainCategory" name="idMainCategory" required>
+                <% if (post.idMainCategory !== null) { idSelected = post.idMainCategory.toString() } else { idSelected = "" } %>
+                <option value="null" <%= idSelected === "" ? 'selected' : '' %>> Không có </option>
                 <% categories.forEach(category => { %>
-                  <option value="<%= category._id %>" <%= category._id.toString() === post.idMainCategory.toString() ? 'selected' : '' %>>
+                  <option value="<%= category._id %>" <%= category._id.toString() === idSelected ? 'selected' : '' %>>
                     <%= category.name %>
                   </option>
                 <% }); %>
