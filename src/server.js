@@ -36,7 +36,7 @@ app.use('/api/v1/signup', signUpRouter);
 app.use('/api/v1/forgetPassword', forgetPasswordRouter);
 app.use('/', profileRouter);
 app.use('/admin', authAdmin, adminRouter);
-app.use('/writer', writerRouter);
+app.use('/writer', authWriter, writerRouter);
 app.use('/', editorRouter)
 app.use('/', verifyOTPRouter);
 

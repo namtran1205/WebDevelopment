@@ -41,6 +41,7 @@
   <main>
     <div class="content" id="content">
       <div class="container my-5">
+        <% if (editable) { %>
         <form id="editForm" action="/writer/update/<%= post._id %>" method="POST" class="needs-validation" novalidate>
             <!-- Tiêu đề -->
             <div class="mb-3">
@@ -125,7 +126,10 @@
             <!-- Nút Submit -->
             <button type="submit" class="btn btn-primary">Cập nhật bài viết</button>
           </form>
-
+          <% } else { %>
+            <p> Bài viết này đã được duyệt, bạn không có quyền chỉnh sửa. </p>
+            <a class="btn btn-primary" href="/writer/listPosts" role="button"> Quay lại </a>
+          <% } %>
 
       </div>
     </div>

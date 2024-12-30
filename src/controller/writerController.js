@@ -6,12 +6,6 @@ class writerController {
     
     // Hiển thị trang tạo bài viết
     async show_createPost(req, res) {
-        let user = null;
-        user = JSON.parse(req.cookies.user);
-        if (user.type !== 'writer') {
-            //res.alert('Bạn không có quyền truy cập trang này');
-            return res.redirect('/');
-        }
         try {
             res.render('writer/createPost'); // Render trang tạo bài viết
         } catch (err) {
@@ -23,8 +17,6 @@ class writerController {
     // Xử lý tạo bài viết
     async post_createPost(req, res) {
         try {
-            let user = null;
-            user = JSON.parse(req.cookies.user);
             //console.log('Request body:', req.body);
 
             const { title, content, abstract, image, subCategory, tags, idMainCategory, type} = req.body;
@@ -74,7 +66,7 @@ class writerController {
                 subCategory,
                 idMainCategory,
                 state: 'Chưa được duyệt',
-                idWriter: user._id,
+                idWriter: req.idWriter,
                 view: 0,
                 viewWeek: 0,
                 type,
@@ -104,14 +96,8 @@ class writerController {
     }
     
     async show_listPosts(req, res) {
-        let user = null;
-        user = JSON.parse(req.cookies.user);
-        // if (user.type !== 'writer') {
-        //     //res.alert('Bạn không có quyền truy cập trang này');
-        //     return res.redirect('/');
-        // }
         try {
-            const posts = await PostSchema.find({ idWriter: user._id }).select('title state').exec();
+            const posts = await PostSchema.find({ idWriter: req.idWriter }).select('title state').exec();
             res.render('writer/listPosts', { posts });
         } catch (err) {
             console.error('Error rendering listPage:', err);
@@ -120,12 +106,6 @@ class writerController {
     }
 
     async show_post(req, res) {
-      let user = null;
-      user = JSON.parse(req.cookies.user);
-      if (user.type !== 'writer') {
-          //res.alert('Bạn không có quyền truy cập trang này');
-          return res.redirect('/');
-      }
       try {
           const post = await PostSchema.findById(req.params.id).populate('tags').exec();
           res.render('writer/postDetail', { post });
@@ -154,12 +134,17 @@ class writerController {
     async show_editPost(req, res) {
       try {
         const post = await PostSchema.findById(req.params.id).populate('tags').exec();
-        //console.log(post);
+        let editable = true;
+        if (post.state != "Bị từ chối" && post.state != "Chưa được duyệt" && res.locals.user.type !== "admin")
+        {
+          editable = false;
+        }
         const tags = await Tag.find();
         //const categories = await MainCategory.find();
+
     
         if (!post) return res.status(404).send('Post not found');
-        res.render('writer/editPost', { post, tags});
+        res.render('writer/editPost', { post, tags, editable });
       } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');
