@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const searchRouter = require('./router/router');
 const webRouter = require('./router/web');
 const configViewEngine = require('./config/viewEngine');
 const connectDB = require('./db/connectDB');
@@ -40,6 +41,7 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(methodOverride('_method'));
 
 app.use('/', webRouter);
+app.use('/', searchRouter);
 app.use('/api/v1/signup', signUpRouter);
 app.use('/api/v1/forgetPassword', forgetPasswordRouter);
 app.use('/', profileRouter);

@@ -22,10 +22,10 @@
     <main>
         <div class="content" id="content">
           <h2 class="homepage-title">Trang Chủ</h2>
-            <div class="search-container">
-                <input type="text" placeholder="Tìm kiếm...">
-                <i class='bx bx-search'></i>
-            </div>
+            <form action="/search" method="GET" class="d-flex align-items-center" style="max-width: 400px; margin: 0 auto;">
+              <input type="text" name="q" placeholder="Nhập từ khóa..." required class="form-control" style="flex: 1; border-radius: 8px 0 0 8px; padding: 10px;">
+              <button type="submit" class="btn btn-primary" style="border-radius: 0 8px 8px 0;">Tìm kiếm</button>
+            </form>
             <div class="tag-list">
               <% for(let i = 0; i < tags.length; i++) { %>
                 <span class="tag"><a href="/tag/<%= tags[i]._id %>"><%= tags[i].name %></a></span>

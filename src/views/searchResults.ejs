@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kết quả tìm kiếm</title>
+  <!-- Thêm các liên kết CSS -->
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/detailPage.css">
+</head>
+<body>
+  <!-- Header -->
+  <%- include('header.ejs') %>
+
+  <!-- Nội dung chính -->
+   <!-- Phần tiêu đề và số lượng kết quả (đưa ra ngoài khung) -->
+  <div class="text-center mb-5">
+    <h1>Kết quả tìm kiếm cho "<%= query %>"</h1>
+    <p><strong><%= results.length %></strong> kết quả phù hợp</p>
+  </div>
+  <main class="container my-5">
+    
+
+    <!-- Kiểm tra nếu có kết quả -->
+    <% if (results.length > 0) { %>
+      <div class="row">
+        <% results.forEach(result => { 
+          let imageUrl = "/images/placeholder.jpg"; // Đường dẫn mặc định
+          if (result.image) {
+            const match = result.image.match(/<img src="([^"]+)"/);
+            if (match) {
+              imageUrl = match[1];
+            }
+          }
+        %>
+          <div class="col-md-12 mb-4">
+            <div class="d-flex border p-3 align-items-center" style="background-color: #f8f9fa; border-radius: 8px;">
+              <!-- Hiển thị hình ảnh -->
+              <div style="flex: 0 0 150px; height: 150px; background-image: url('<%= imageUrl %>'); background-size: cover; background-position: center; border-radius: 8px;"></div>
+              
+              <!-- Nội dung bài viết -->
+              <div class="ms-3">
+                <h5 class="card-title mb-2"><a href="/detailPage/<%= result._id %>" class="text-decoration-none text-dark"><%= result.title %></a></h5>
+                <p class="text-muted mb-2"><%= result.content.substring(0, 200) %>...</p>
+                <a href="/detailPage/<%= result._id %>" class="btn btn-primary btn-sm">Đọc thêm</a>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    <% } else { %>
+      <!-- Không có kết quả -->
+      <div class="text-center">
+        <p>Không tìm thấy kết quả phù hợp.</p>
+      </div>
+    <% } %>
+  </main>
+
+  <!-- Footer -->
+  <%- include('footer.ejs') %>
+</body>
+</html>
