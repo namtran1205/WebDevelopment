@@ -26,6 +26,17 @@ const detailPageController =
                 return res.status(404).json( { error: "Post not found" } );
             }
 
+            if (post.type === "premium" && 
+                (   
+                    !res.locals.user || 
+                    (res.locals.user.type != "subscriber" && res.locals.user.type != "admin") ||
+                    (res.locals.user.type == "subscriber" && Date(res.locals.user.remainingTime) < new Date())
+                ))
+            {
+                res.status(403).render('noAccess');
+                return;
+            }
+
 
             const tags = await Tag.find({ _id: { $in: post.tags } });
             const tagNames = tags.map(tag => tag.name);
