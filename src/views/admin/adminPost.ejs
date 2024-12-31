@@ -98,7 +98,7 @@
                                     Không có
                                 <% } %>
                             <p>
-                            <p class="card-title"> <i> <%= posts[i].nickname %> </i> viết </p>
+                            <p class="card-title"> <i> <%= posts[i].nickname %> <%if (!posts[i].nickname) { %> Ẩn danh <% } %> </i> viết </p>
                             <p class="card-title text-muted"> <%= posts[i].state %> </p>
                             <p class="card-text"> <%- posts[i].abstract %> </p>
                         </div>

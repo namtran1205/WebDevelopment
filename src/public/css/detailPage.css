@@ -37,11 +37,6 @@
     justify-content: center;
 }
 
-.post-content p {
-    display: flex;
-    justify-content: center;
-}
-
 .post-content p img {
     display: flex;
     position: relative;

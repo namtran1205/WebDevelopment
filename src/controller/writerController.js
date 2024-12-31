@@ -87,15 +87,15 @@ class writerController {
             await newPost.save();
             //console.log('New post:', newPost);
             // Gắn bài viết vào các tag
-            await Promise.all(
-                tagIds.map(async (tagId) => {
-                  await Tag.findByIdAndUpdate(
-                    tagId,
-                    { $addToSet: { posts: newPost._id } }, // Chỉ thêm nếu chưa có
-                    { new: true }
-                  );
-                })
-              );
+            // await Promise.all(
+            //     tagIds.map(async (tagId) => {
+            //       await Tag.findByIdAndUpdate(
+            //         tagId,
+            //         { $addToSet: { posts: newPost._id } }, // Chỉ thêm nếu chưa có
+            //         { new: true }
+            //       );
+            //     })
+            //   );
             // Thành công
             //res.status(201).json({ message: 'Bài viết đã được tạo thành công.', post: newPost });
             res.redirect('/writer/createPost');
@@ -194,7 +194,7 @@ class writerController {
               }
   
               // Add post reference to the tag
-              await Tag.findByIdAndUpdate(tag._id, { $addToSet: { posts: post._id } });
+              // await Tag.findByIdAndUpdate(tag._id, { $addToSet: { posts: post._id } });
               return tag._id;
             })
           );
@@ -209,7 +209,7 @@ class writerController {
           await Promise.all(
             tagIdsToRemove.map(async (tagId) => {
               // Remove post reference from the tag
-              await Tag.findByIdAndUpdate(tagId, { $pull: { posts: post._id } });
+              // await Tag.findByIdAndUpdate(tagId, { $pull: { posts: post._id } });
             })
           );
   
