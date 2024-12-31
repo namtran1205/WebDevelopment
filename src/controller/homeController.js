@@ -15,18 +15,15 @@ class homeController {
             if (dayOfWeek === 0) {
                 await Post.updateMany({ viewWeek: { $gt: 0 } }, { $set: { viewWeek: 0 } });
             }
-    
+            
+            const postProjection = { title: 1, publishedDate: 1, image: 1, subCategory: 1, type: 1 };
+            const postsQuery = Post.find({ state: "Đã xuất bản" }, postProjection);
+            
             console.time('Data Fetching');
             const [postOfWeek, postMostView, postNew, hotCategory, tags] = await Promise.all([
-                Post.find({ state: "Đã xuất bản" }, { title: 1, publishedDate: 1, image: 1, subCategory: 1, type: 1 })
-                    .sort({ viewWeek: -1 })
-                    .limit(4),
-                Post.find({ state: "Đã xuất bản" }, { title: 1, publishedDate: 1, image: 1, subCategory: 1, type: 1 })
-                    .sort({ view: -1 })
-                    .limit(10),
-                Post.find({ state: "Đã xuất bản" }, { title: 1, publishedDate: 1, image: 1, subCategory: 1, type: 1 })
-                    .sort({ publishedDate: -1 })
-                    .limit(10),
+                postsQuery.clone().sort({ viewWeek: -1 }).limit(4),
+                postsQuery.clone().sort({ view: -1 }).limit(10),
+                postsQuery.clone().sort({ publishedDate: -1 }).limit(10),
                 MainCategory.aggregate([
                     { $lookup: { 
                         from: 'posts', 

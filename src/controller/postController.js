@@ -4,6 +4,7 @@ const Tag = require('../models/Tag');
 
 class getPosts {
     getListPosts = async (req, res) => {
+        console.time('Data Fetching');
         const page = parseInt(req.query.page) || 1;
         const pageSize = 8;
         const skip = (page - 1) * pageSize;
@@ -26,6 +27,7 @@ class getPosts {
             // Fetch posts with pagination and sort
             const [posts, totalPosts] = await Promise.all([
                 Post.find(filter)
+                    .select("title abstract subCategory tags image publishedDate idMainCategory type")
                     .skip(skip)
                     .limit(pageSize)
                     .sort({type: -1, publishedDate: -1}),
@@ -63,6 +65,8 @@ class getPosts {
                 MainCategory.updateMany({ _id: { $in: categoryIds } }, { $addToSet: { posts: { $each: posts.map(post => post._id) } } }),
             ]);
 
+            console.timeEnd('Data Fetching');
+            
             res.render('listItem', {
                 posts: postsWithDetails,
                 tags,
@@ -80,6 +84,7 @@ class getPosts {
                 message: 'Có lỗi xảy ra khi lấy danh sách bài viết',
             });
         }
+        
     };
 }
 

@@ -1,26 +1,26 @@
 const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
-  title: {
+  title: { // yes
     type: String,
     required: true
   },
-  content: {
+  content: { // no
     type: String,
     required: true
   },
-  abstract: {
+  abstract: { // yes
     type: String,
     required: true,
     maxlength: 100
   },
 
   // For sub
-  subCategory: {
+  subCategory: { // yes
     type: String,
     default: null,
   },
-  tags: [
+  tags: [ // yes
 
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -28,54 +28,56 @@ const PostSchema = new mongoose.Schema({
     },
   ],
 
-  state: {
+  state: { // no
     type: String,
     enum: ['Chưa được duyệt', 'Bị từ chối', 'Đã được duyệt và chờ xuất bản', 'Đã xuất bản'],
     default: 'Chưa được duyệt'
   },
 
-  reason: {
+  reason: { // no
     type: String,
     default: null,
     required: false
   },
 
   
-  image: {
+  image: { // yes
     type: String,
     required: true
   },
   
-  publishedDate: {
+  publishedDate: { // yes
     type: Date,
     default: null,
   },
 
-  view: {
+  view: { // no
     type: Number,
     require: true,
   },
 
-  viewWeek: { type: Number, },
+  viewWeek: { type: Number, }, // no
 
-  idWriter: {
+  idWriter: { // no
     type: String,
     required: true
   },
 
   // For Main Category
-  idMainCategory: {
+  idMainCategory: { // yes
     type: String,
     default: null,
   },
 
-  type: {
+  type: { // yes
     type: String,
     enum: ['normal', 'premium'],
     required: true,
   }
 
 });
+
+PostSchema.index({ state: -1 });
 
 PostSchema.pre('save', function(next) {
     if (this.content) {
