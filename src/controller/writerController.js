@@ -1,8 +1,47 @@
 const PostSchema = require('../models/Post'); // Import model bài viết
-const MainCategory = require('../models/MainCategory');
+const Comment = require('../models/Comment');
 const Tag = require('../models/Tag');
 
 class writerController {
+  async show(req, res) {
+    let user = null;
+    user = JSON.parse(req.cookies.user);
+    if (user.type !== 'writer') {
+        //res.alert('Bạn không có quyền truy cập trang này');
+        return res.redirect('/');
+    }
+    try {
+
+      const approvedPostsCount = await PostSchema.countDocuments({
+        state: 'Đã được duyệt và chờ xuất bản',
+        idMainCategory: user.idCategory
+      });
+
+      const publishedPostsCount = await PostSchema.countDocuments({
+        state: 'Đã xuất bản',
+        idMainCategory: user.idCategory
+      });
+
+      const rejectedPostsCount = await PostSchema.countDocuments({
+        state: 'Bị từ chối',
+        idMainCategory: user.idCategory
+      });
+
+      const pendingPostsCount = await PostSchema.countDocuments({ state: 'Chưa được duyệt',
+        idMainCategory: user.idCategory
+       });
+      res.render('writer/dashboard', {
+        pendingPostsCount,
+        approvedPostsCount,
+        publishedPostsCount,
+        rejectedPostsCount
+      });
+    } catch (err) {
+        console.error('Error rendering page:', err);
+        res.status(500).send('Lỗi khi hiển thị trang');
+    }
+}
+
     
     // Hiển thị trang tạo bài viết
     async show_createPost(req, res) {
@@ -85,19 +124,6 @@ class writerController {
 
             // Lưu bài viết vào cơ sở dữ liệu
             await newPost.save();
-            //console.log('New post:', newPost);
-            // Gắn bài viết vào các tag
-            // await Promise.all(
-            //     tagIds.map(async (tagId) => {
-            //       await Tag.findByIdAndUpdate(
-            //         tagId,
-            //         { $addToSet: { posts: newPost._id } }, // Chỉ thêm nếu chưa có
-            //         { new: true }
-            //       );
-            //     })
-            //   );
-            // Thành công
-            //res.status(201).json({ message: 'Bài viết đã được tạo thành công.', post: newPost });
             res.redirect('/writer/createPost');
         } catch (err) {
             console.error('Error creating post:', err);
@@ -118,28 +144,16 @@ class writerController {
     async show_post(req, res) {
       try {
           const post = await PostSchema.findById(req.params.id).populate('tags').exec();
-          res.render('writer/postDetail', { post });
+          const comments = await Comment.find(
+            { idPost: req.params.id}
+        );
+
+          res.render('writer/postDetail', { post, comments });
       } catch (err) {
           console.error('Error rendering post:', err);
           res.status(500).send('Lỗi khi hiển thị trang bài viết');
       }
     }
-
-    // async detail(req, res) {
-    //   try {
-    //     const post = await PostSchema.findById(req.params.id).populate('tags').exec();
-    //     const tags = await Tag.find();
-    //     console.log(post);
-    //     if (!post) {
-    //       return res.status(404).send('Draft not found');
-    //     }
-    
-    //     res.render('writer/postDetail', { post, tags});
-    //   } catch (error) {
-    //     console.error(error);
-    //     res.status(500).send('Server Error');
-    //   }
-    // }
 
     async show_editPost(req, res) {
       try {
