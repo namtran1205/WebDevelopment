@@ -18,12 +18,19 @@ const editorRouter = require('./router/editorPage');
 const forgetPasswordRouter = require('./router/forgetPassword');
 const { editUser } = require('./controller/adminController');
 const verifyOTPRouter = require('./router/verifyOTP');
-
+const session = require('express-session')
+const passport = require('./config/passport')
 
 const app = express();
 const port = 8080;
 
 configViewEngine(app)
+
+app.use(session({
+  secret: '1234',
+  resave: false,
+  saveUninitialized: true
+}));
 
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cookieParser());
