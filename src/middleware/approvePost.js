@@ -6,7 +6,7 @@ const checkAndUpdatePosts = async () => {
 
   try {
     // Log current date
-    console.log('Current Date:', currentDate);
+    //console.log('Current Date:', currentDate);
 
 
     const result = await Post.updateMany(

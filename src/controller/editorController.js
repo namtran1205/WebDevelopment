@@ -12,7 +12,19 @@ class editorController {
             return res.redirect('/');
         }
         try {
-            res.render('editor/editor'); // Render trang tạo bài viết
+          const processedPostsCount = await PostSchema.countDocuments({ 
+            state: { $in: ['Đã được duyệt và chờ xuất bản', 'Đã xuất bản', 'Bị từ chối']},
+              idMainCategory: user.idCategory
+             
+          });
+    
+          const pendingPostsCount = await PostSchema.countDocuments({ state: 'Chưa được duyệt',
+            idMainCategory: user.idCategory
+           });
+          res.render('editor/editor', {
+            processedPostsCount,
+            pendingPostsCount,
+          });
         } catch (err) {
             console.error('Error rendering createPage:', err);
             res.status(500).send('Lỗi khi hiển thị trang tạo bài viết');
@@ -41,7 +53,7 @@ class editorController {
           }
     }
 
-    async getApproved(req, res) {
+    async getPosts(req, res) {
       let user = null;
       user = JSON.parse(req.cookies.user);
       if (user.type !== 'editor') {
@@ -50,16 +62,16 @@ class editorController {
       }
       try {
           const posts = await PostSchema.find({
-            state: 'Đã được duyệt và chờ xuất bản' || 'Đã xuất bản',
+            state: { $in: ['Đã được duyệt và chờ xuất bản', 'Đã xuất bản', 'Bị từ chối'] },
             idMainCategory: { $in: user.idCategory },
         }).select('title state').exec();
         
         //console.log(drafts);
         
-        res.render('editor/approvedPosts', { drafts });
+        res.render('editor/posts', { posts });
         } catch (error) {
-          console.error('Error fetching drafts:', error);
-          res.status(500).json({ error: 'Failed to fetch drafts' });
+          console.error('Error fetching posts:', error);
+          res.status(500).json({ error: 'Failed to fetch posts' });
         }
       }
 
