@@ -35,8 +35,12 @@
                     <a href="/editor/detail/<%= draft._id %>"><%= draft.title %></a>
                   </td>
                   <td>
-                    <a href="/editor/draft/<%= draft._id %>/approve" class="btn btn-success">Duyệt</a>
-                    <a href="/editor/draft/<%= draft._id %>/reject" class="btn btn-danger">Từ chối</a>
+                    <form action="/editor/draft/<%= draft._id %>/approve" method="POST" style="display:inline;">
+                      <button type="submit" class="btn btn-success">Duyệt</button>
+                    </form>
+                    <form action="/editor/draft/<%= draft._id %>/reject" method="POST" style="display:inline;">
+                      <button type="submit" class="btn btn-danger">Từ chối</button>
+                    </form>
                   </td>
                 </tr>
               <% }); %>
