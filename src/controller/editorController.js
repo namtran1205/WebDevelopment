@@ -1,6 +1,7 @@
 const PostSchema = require('../models/Post'); // Import model bài viết
 const UserSchema = require('../models/User'); // Import model người dùng
 const TagSchema = require('../models/Tag'); // Import model tag
+const Notification = require('../models/Notification');
 
 class editorController {
     // async show(req, res,next) {
@@ -29,8 +30,9 @@ class editorController {
           const drafts = await PostSchema.find({
               state: 'Chưa được duyệt',
               idMainCategory: { $in: user.idCategory },
-          })
+          }).select('title state').exec();
           
+          //console.log(drafts);
           
           res.render('editor/drafts', { drafts });
           } catch (error) {
@@ -59,13 +61,98 @@ class editorController {
       }
     }
 
+    // async reviewDraft(req, res) {
+    //   const {action, draftId, idMainCategory, tagsToAdd, tagsToRemove, publishTime } = req.body;
+    //   try {        
+  
+    //     const post = await PostSchema.findById(draftId);
+
+    //     if (!post || post.state !== 'Chưa được duyệt') {
+    //       return res.status(404).send('Post not found or already approved.');
+    //     }
+    //     if (action === 'approve') {
+    //       // Update main category
+    //       if (idMainCategory) {
+    //         post.idMainCategory = idMainCategory;
+    //       }
+    
+    //       // Handle tags to add
+    //       if (tagsToAdd && tagsToAdd.length > 0) {
+    //         const tagNamesToAdd = tagsToAdd.split(',').map(tag => tag.trim());
+    //         const tagIdsToAdd = await Promise.all(
+    //           tagNamesToAdd.map(async (tagName) => {
+    //             let tag = await TagSchema.findOne({ name: tagName });
+    
+    //             // Create new tag if it doesn't exist
+    //             if (!tag) {
+    //               tag = await TagSchema.create({ name: tagName });
+    //             }
+    
+    //             // Add post reference to the tag
+    //             await TagSchema.findByIdAndUpdate(tag._id, { $addToSet: { posts: post._id } });
+    //             return tag._id;
+    //           })
+    //         );
+    
+    //         // Add new tags to the post
+    //         post.tags = [...new Set([...post.tags, ...tagIdsToAdd])]; // Avoid duplicates
+    //       }
+    
+    //       // Handle tags to remove
+    //       if (tagsToRemove && tagsToRemove.length > 0) {
+    //         const tagIdsToRemove = tagsToRemove.split(',').map(tag => tag.trim());
+    //         await Promise.all(
+    //           tagIdsToRemove.map(async (tagId) => {
+    //             // Remove post reference from the tag
+    //             await Tag.findByIdAndUpdate(tagId, { $pull: { posts: post._id } });
+    //           })
+    //         );
+    
+    //         // Remove tags from the post
+    //         post.tags = post.tags.filter(tagId => !tagIdsToRemove.includes(tagId.toString()));
+    //       }
+    
+    //       // Update publish time
+    //       if (publishTime) {
+    //         post.publishedDate = new Date(publishTime);
+    //       }
+    
+    //       // Change post state to approved
+    //       post.state = 'Đã được duyệt và chờ xuất bản';
+    //       await post.save();
+
+    //       await Notification.create({
+    //         userId: post.idWriter, // Giả sử `authorId` là ID của người viết
+    //         title: 'Bài viết được duyệt',
+    //         message: 'Bài viết của bạn đã được chấp nhận và sẽ xuất bản vào ngày ' + new Date(publishTime).toLocaleString(),
+    //       });
+    //       res.redirect('/editor/drafts'); // Redirect to editor's main page
+    //     } 
+    //     else if (action === 'reject') {
+    //       const { reason } = req.body;
+    //       await PostSchema.findByIdAndUpdate(req.params.id, { state: 'Bị từ chối', reason: reason });
+
+    //       // Gửi thông báo cho writer
+    //       await Notification.create({
+    //         userId: post.idWriter,
+    //         title: 'Bài viết bị từ chối',
+    //         message: `Bài viết của bạn đã bị từ chối. Lý do: ${reason}`,
+    //       });
+
+    //       res.redirect('/editor/drafts');
+    //     }
+    //     } catch (err) {
+    //       console.error('Error post:', err);
+    //       res.status(500).send('Server Error');
+    //     }
+    // }
+
     async approve(req, res) {
       try {
         const { id } = req.params;
         const { idMainCategory, tagsToAdd, tagsToRemove, publishTime } = req.body;
   
         const post = await PostSchema.findById(id);
-
         if (!post || post.state !== 'Chưa được duyệt') {
           return res.status(404).send('Post not found or already approved.');
         }

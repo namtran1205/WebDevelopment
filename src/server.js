@@ -9,6 +9,7 @@ const adminRouter = require('./router/admin');
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 const { authMiddleware, authAdmin } = require('./middleware/auth');
+const checkAndUpdatePosts = require('./middleware/approvePost');
 const authWriter = require('./middleware/authWriter');
 const fetchCategories = require('./middleware/fetchContent');
 const methodOverride = require('method-override');
@@ -35,15 +36,23 @@ app.use('/', webRouter);
 app.use('/api/v1/signup', signUpRouter);
 app.use('/api/v1/forgetPassword', forgetPasswordRouter);
 app.use('/', profileRouter);
-app.use('/admin', authAdmin, adminRouter);
-app.use('/writer', authWriter, writerRouter);
-app.use('/', editorRouter)
+app.use('/admin', adminRouter);
+app.use('/writer', writerRouter);
+app.use('/editor', editorRouter)
 app.use('/', verifyOTPRouter);
 
 
 const start = async () => {
   try {
     await connectDB();
+    await checkAndUpdatePosts();
+
+    // Đặt lịch kiểm tra định kỳ (ví dụ: mỗi 5 phút)
+    const intervalTime = 5 * 60 * 1000; // 5 phút
+    setInterval(() => {
+      console.log('Running periodic post status check...');
+      checkAndUpdatePosts();
+    }, intervalTime);
     app.listen(port, () =>
       console.log(`Server running at http://127.0.0.1:${port}/`)
     );

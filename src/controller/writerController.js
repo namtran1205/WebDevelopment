@@ -235,6 +235,28 @@ class writerController {
       }
     }
     
+    async deletePost(req, res) {
+      try {
+        const post = await PostSchema.findById(req.params.id);
+        if (!post) {
+          return res.status(404).send('Post not found');
+        }
+        await post.remove();
+        res.redirect('/writer/listPosts');
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Server Error');
+      }
+    }
+
+    async getNotifications(req, res) {  
+      try {
+        const notifications = await Notification.find({ userId: req.user._id }).sort({ date: -1 });
+        res.render('writer/notifications', { notifications });
+      } catch (error) {
+        res.status(500).send('Lỗi server');
+      }
+    }
     
 }
 

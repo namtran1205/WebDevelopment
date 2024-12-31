@@ -25,6 +25,78 @@
               <%= draft.title %></h1>
             
             <p><%- draft.content %></p>
+
+            <!-- <form action="/editor/review" method="POST">
+              <h3>Approval Options</h3>
+              <input type="hidden" name="action" value="approve">
+              <input type="hidden" name="draftId" value="<%= draft._id %>">
+              
+              
+              <div class="mb-3">
+                <label for="idMainCategory" class="form-label">Chuyên mục:</label>
+                <select id="idMainCategory" name="idMainCategory" class="form-control" required>
+                  
+                  <% categories.forEach(category => { %>
+                    <option 
+                      value="<%= category._id %>" 
+                      <%= draft.idMainCategory && draft.idMainCategory.toString() === category._id.toString() ? 'selected' : '' %>
+                    >
+                      <%= category.name %>
+                    </option>
+                  <% }); %>
+                </select>
+              </div>
+            
+              <div class="mb-3">
+                <h4>Tags:</h4>
+                <div id="existingTags">
+                  <% draft.tags.forEach(tag => { %>
+                    <div class="tag-item d-inline-block me-2" id="tag-<%= tag._id %>">
+                      <span class="badge bg-secondary">
+                        <%= tag.name %>
+                        <button 
+                            type="button" 
+                            class="btn-close btn-close-white btn-sm ms-2" 
+                            aria-label="Close" 
+                            onclick="removeTag('<%= tag._id %>')">
+                        </button>
+                      </span>
+                    </div>
+                  <% }); %>
+                </div>
+
+        
+                <!- Input for Tags to Remove --
+                <input type="hidden" id="tagsToRemove" name="tagsToRemove" value="">
+
+        
+                <label for="tagsToAdd" class="form-label mt-2">Thêm tag mới:</label>
+                <input type="text" id="tagsToAdd" name="tagsToAdd" class="form-control" placeholder="Nhập tag mới, cách nhau bởi dấu phẩy">
+              </div>
+            
+              <-- Ngày xuất bản --
+              <div class="mb-3">
+                <label for="publishDate" class="form-label">Ngày xuất bản:</label>
+                <input type="datetime-local" id="publishDate" name="publishDate" class="form-control" required>
+              </div>
+            
+              <button type="submit" class="btn btn-success">Duyệt</button>
+            </form> -->
+            
+            <!-- Form từ chối -->
+            <!-- <form action="/editor/review" method="POST" style="margin-top: 20px;">
+              <h3>Reject Article</h3>
+              <input type="hidden" name="action" value="reject">
+              <input type="hidden" name="draftId" value="<%= draft._id %>">
+            
+              <div class="mb-3">
+                <label for="reason" class="form-label">Reason</label>
+                <textarea id="reason" name="reason" class="form-control" rows="3" required></textarea>
+              </div>
+              
+              <button type="submit" class="btn btn-danger">Reject</button>
+            </form> -->
+            
             
             <form action="/editor/draft/<%= draft._id %>/approve" method="POST">
               <h3>Approval Options</h3>
@@ -42,20 +114,17 @@
 
               <div class="mb-3">
                 <h4>Tags:</h4>
-                <div id="existingTags">
-                  <% draft.tags.forEach(tag => { %>
-                    <div class="tag-item d-inline-block me-2">
-                      <span class="badge bg-secondary">
+                <div id="tagsContainer">
+                  <% tags.forEach(tag => { %>
+                    <div class="tag-item">
+                      <span class="badge bg-primary">
                         <%= tag.name %>
-                        <button type="button" class="btn-close btn-close-white btn-sm ms-2" aria-label="Close" onclick="removeTag('<%= tag._id %>')"></button>
+                        <button type="button" class="btn-close" aria-label="Close" onclick="removeTag('<%= tag._id %>')"></button>
                       </span>
                     </div>
-                  <% }); %>
+                  <% }) %>
                 </div>
-
-        
-                <!-- Input for Tags to Remove -->
-                <input type="hidden" id="tagsToRemove" name="tagsToRemove" value="">
+                <input type="hidden" id="tagsToRemove" name="tagsToRemove">
 
         
                 <label for="tagsToAdd" class="form-label mt-2">Thêm tag mới:</label>
