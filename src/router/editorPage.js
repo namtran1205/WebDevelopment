@@ -3,9 +3,10 @@ const editorController = require('../controller/editorController'); // Import co
 const router = express.Router();
 
 // router.get('/editor/drafts', editorController.show); // Hiển thị trang tạo bài viết
-router.get('/editor/drafts', editorController.get);
-router.get('/editor/draft/:id', editorController.detail);
-router.post('/editor/draft/:id/approve', editorController.approve);
-router.post('/editor/draft/:id/reject', editorController.reject);
+router.get('/drafts', editorController.get);
+router.get('/draft/:id', editorController.detail);
+router.post('/draft/:id/approve', editorController.approve);
+router.post('/draft/:id/reject', editorController.reject);
+//router.post('/review', editorController.reviewDraft);
 
 module.exports = router;
