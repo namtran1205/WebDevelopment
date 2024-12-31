@@ -47,13 +47,25 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
         <% } %>
+        <% if (parameters.create === 'success') { %>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Tạo người dùng thành công.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% } %>
+        <% if (parameters.create === 'failure') { %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong> Đã có lỗi xảy ra </strong> khi tạo người dùng.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% } %>
         
         <!-- Danh sách người dùng -->
         <div class="user-list-container">
           <h3>Danh Sách Người Dùng</h3>
 
             <!-- create user button -->
-          <div  style="display: flex; justify-content: flex-end;">
+          <div style="display: flex; justify-content: flex-end;">
             <a class="btn btn-success" href="/admin/users/create" role="button"> Tạo người dùng </a>
           </div>
           <table class="table">

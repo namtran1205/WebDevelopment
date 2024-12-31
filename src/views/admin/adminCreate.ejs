@@ -92,12 +92,25 @@
         const pass = $('#password').val();
         const passConfirm = $('#confirmPassword').val();
 
-        console.log(pass);
-        console.log(passConfirm);
-
         if (pass !== passConfirm)
         {
-          alert('Ghi lại mật khẩu không khớp');
+          alert('Ghi lại mật khẩu không khớp.');
+          return;
+        }
+
+        const bday = $('#dateOfBirth').val()
+        console.log(bday);
+        if (!bday)
+        {
+          alert('Cần chọn ngày sinh');
+          return;
+        }
+
+        const type = $('#type').val();
+        const nickname = $('#nickname').val();
+        if (type == 'writer' && !nickname)
+        {
+          alert('Cần nhập bút danh cho writer.');
           return;
         }
 

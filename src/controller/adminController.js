@@ -282,6 +282,7 @@ const adminController = {
                 userList : list,
                 delete : req.query.delete,
                 update : req.query.update,
+                create : req.query.create,
             }
             res.render('admin/adminUser');
         }
