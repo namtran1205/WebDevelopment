@@ -79,12 +79,12 @@ const PostSchema = new mongoose.Schema({
 
 PostSchema.index({ state: -1 });
 
-PostSchema.pre('save', function(next) {
-    if (this.content) {
-      this.abstract = this.abstract.substring(0, 100);
-    }
-    next();
-});
+// PostSchema.pre('save', function(next) {
+//     if (this.content) {
+//       this.abstract = this.abstract.substring(0, 100);
+//     }
+//     next();
+// });
 
 PostSchema.post('save', async function (doc) {
   const MainCategory = mongoose.model('MainCategory');

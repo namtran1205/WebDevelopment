@@ -21,7 +21,7 @@ class editorController {
           const pendingPostsCount = await PostSchema.countDocuments({ state: 'Chưa được duyệt',
             idMainCategory: user.idCategory
            });
-          res.render('editor/editor', {
+          res.render('editor/dashboard', {
             processedPostsCount,
             pendingPostsCount,
           });
