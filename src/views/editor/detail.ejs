@@ -21,33 +21,82 @@
     <main>
       <div class="content" id="content">
         <div class="container my-5">
-            <h1>Approve Post</h1>
-            <form action="/editor/approve/<%= post._id %>" method="POST">
+            <h1>
+              <%= post.title %></h1>
+            
+            <p><%- post.content %></p>
+
+            
+            <% if (post.state === 'chưa được duyệt') { %>
+            <form action="/editor/draft/<%= draft._id %>/approve" method="POST">
+              <h3>Approval Options</h3>
               <div class="mb-3">
                 <div class="mb-3">
                   <label for="idMainCategory" class="form-label">Chuyên mục:</label>
                   <select id="idMainCategory" name="idMainCategory" required>
                     <% for (let i = 0; i < categories.length; i++) { %>
-                      <option value="<%= categories[i]._id %>" <%= draft.category && draft.category.toString() === categories[i]._id.toString() ? 'selected="selected"' : '' %>><%= categories[i].name %>
+                      <option value="<%= categories[i]._id %>" <%= post.category && post.category.toString() === categories[i]._id.toString() ? 'selected="selected"' : '' %>><%= categories[i].name %>
                       </option>
                     <% } %>
                   </select>
                 </div>
               </div>
+
               <div class="mb-3">
-                <label for="tags" class="form-label">Tags</label>
-                <input type="text" id="tags" name="tags" class="form-control" placeholder="Comma-separated" required />
+                <h4>Tags:</h4>
+                <div id="tagsContainer">
+                  <% post.tags.forEach(tag => { %>
+                    <div class="tag-item me-2 mb-2">
+                      <span class="badge bg-primary">
+                        <%= tag.name %>
+                        <button type="button" class="btn-close" aria-label="Close" onclick="removeTag('<%= tag._id %>')"></button>
+                      </span>
+                    </div>
+                  <% }) %>
+                </div>
+                <input type="hidden" id="tagsToRemove" name="tagsToRemove">
+
+        
+                <label for="tagsToAdd" class="form-label mt-2">Thêm tag mới:</label>
+                <input type="text" id="tagsToAdd" name="tagsToAdd" class="form-control" placeholder="Nhập tag mới, cách nhau bởi dấu phẩy">
               </div>
+
               <div class="mb-3">
-                <label for="publishDate" class="form-label">Publish Date</label>
+                <label for="publishDate" class="form-label">Ngày xuất bản</label>
                 <input type="datetime-local" id="publishDate" name="publishDate" class="form-control" required />
               </div>
-              <button type="submit" class="btn btn-primary">Approve</button>
+              <button type="submit" class="btn btn-success">Duyệt</button>
             </form>
+            
+            <form action="/editor/draft/<%= draft._id %>/reject" method="POST" style="margin-top: 20px;">
+              <h3>Reject Article</h3>
+              <div class="mb-3">
+                <label for="reason" class="form-label">Reason</label>
+                <textarea id="reason" name="reason" class="form-control" rows="3" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-danger">Reject</button>
+            </form>
+            <% } %>
+            
 
          
         </div>
       </div>
+      
+      <script>
+        const tagsToRemoveInput = document.getElementById('tagsToRemove');
+        let tagsToRemove = [];
+      
+        // Function to remove a tag
+        function removeTag(tagId) {
+          tagsToRemove.push(tagId);
+          tagsToRemoveInput.value = tagsToRemove.join(',');
+      
+          // Remove tag item from the DOM
+          const tagItem = document.querySelector(`.tag-item span.badge button[onclick="removeTag('${tagId}')"]`).parentElement;
+          tagItem.parentElement.remove();
+        }
+      </script>
     </main>
     <%- include('../footer.ejs') %>
     

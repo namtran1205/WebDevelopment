@@ -4,21 +4,21 @@ const TagSchema = require('../models/Tag'); // Import model tag
 const Notification = require('../models/Notification');
 
 class editorController {
-    // async show(req, res,next) {
-    //     let user = null;
-    //     user = JSON.parse(req.cookies.user);
-    //     if (user.type !== 'editor') {
-    //         //res.alert('Bạn không có quyền truy cập trang này');
-    //         return res.redirect('/');
-    //     }
-    //     try {
-    //         res.render('editor/drafts'); // Render trang tạo bài viết
-    //     } catch (err) {
-    //         console.error('Error rendering createPage:', err);
-    //         res.status(500).send('Lỗi khi hiển thị trang tạo bài viết');
-    //     }
-    // }
-    async get(req, res) {
+    async show(req, res) {
+        let user = null;
+        user = JSON.parse(req.cookies.user);
+        if (user.type !== 'editor') {
+            //res.alert('Bạn không có quyền truy cập trang này');
+            return res.redirect('/');
+        }
+        try {
+            res.render('editor/editor'); // Render trang tạo bài viết
+        } catch (err) {
+            console.error('Error rendering createPage:', err);
+            res.status(500).send('Lỗi khi hiển thị trang tạo bài viết');
+        }
+    }
+    async getDrafts(req, res) {
         let user = null;
         user = JSON.parse(req.cookies.user);
         if (user.type !== 'editor') {
@@ -41,116 +41,55 @@ class editorController {
           }
     }
 
+    async getApproved(req, res) {
+      let user = null;
+      user = JSON.parse(req.cookies.user);
+      if (user.type !== 'editor') {
+          return res.redirect('/');
+          //console.log("User", req.cookies);
+      }
+      try {
+          const posts = await PostSchema.find({
+            state: 'Đã được duyệt và chờ xuất bản' || 'Đã xuất bản',
+            idMainCategory: { $in: user.idCategory },
+        }).select('title state').exec();
+        
+        //console.log(drafts);
+        
+        res.render('editor/approvedPosts', { drafts });
+        } catch (error) {
+          console.error('Error fetching drafts:', error);
+          res.status(500).json({ error: 'Failed to fetch drafts' });
+        }
+      }
+
     async detail(req, res) {
       try {
     
-        const draft = await PostSchema.findById(req.params.id).populate('tags').exec();
-        console.log(draft);
+        const post = await PostSchema.findById(req.params.id).populate('tags').exec();
+        //console.log(draft);
         const tags = await TagSchema.find();
         //console.log(draft);
-        if (!draft || draft.state !== "Chưa được duyệt") {
-          return res.status(404).send('Draft not found');
+        // if (!draft || draft.state !== "Chưa được duyệt") {
+        //   return res.status(404).send('Draft not found');
+        // }
+        if (!post) {
+          return res.status(404).send('Post not found');
         }
-        //const associatedTags = await TagSchema.find({ _id: { $in: draft.tags } });
-        //const associatedTagNames = associatedTags.map(tag => tag.name);
-        //console.log(associatedTagNames);
-        res.render('editor/draftDetail', { draft, tags });
+        
+          res.render('editor/detail', { post, tags });
       } catch (err) {
         console.error(err); // Log the actual error for debugging
         res.status(500).send('Server Error');
       }
     }
 
-    // async reviewDraft(req, res) {
-    //   const {action, draftId, idMainCategory, tagsToAdd, tagsToRemove, publishTime } = req.body;
-    //   try {        
-  
-    //     const post = await PostSchema.findById(draftId);
-
-    //     if (!post || post.state !== 'Chưa được duyệt') {
-    //       return res.status(404).send('Post not found or already approved.');
-    //     }
-    //     if (action === 'approve') {
-    //       // Update main category
-    //       if (idMainCategory) {
-    //         post.idMainCategory = idMainCategory;
-    //       }
-    
-    //       // Handle tags to add
-    //       if (tagsToAdd && tagsToAdd.length > 0) {
-    //         const tagNamesToAdd = tagsToAdd.split(',').map(tag => tag.trim());
-    //         const tagIdsToAdd = await Promise.all(
-    //           tagNamesToAdd.map(async (tagName) => {
-    //             let tag = await TagSchema.findOne({ name: tagName });
-    
-    //             // Create new tag if it doesn't exist
-    //             if (!tag) {
-    //               tag = await TagSchema.create({ name: tagName });
-    //             }
-    
-    //             // Add post reference to the tag
-    //             await TagSchema.findByIdAndUpdate(tag._id, { $addToSet: { posts: post._id } });
-    //             return tag._id;
-    //           })
-    //         );
-    
-    //         // Add new tags to the post
-    //         post.tags = [...new Set([...post.tags, ...tagIdsToAdd])]; // Avoid duplicates
-    //       }
-    
-    //       // Handle tags to remove
-    //       if (tagsToRemove && tagsToRemove.length > 0) {
-    //         const tagIdsToRemove = tagsToRemove.split(',').map(tag => tag.trim());
-    //         await Promise.all(
-    //           tagIdsToRemove.map(async (tagId) => {
-    //             // Remove post reference from the tag
-    //             await Tag.findByIdAndUpdate(tagId, { $pull: { posts: post._id } });
-    //           })
-    //         );
-    
-    //         // Remove tags from the post
-    //         post.tags = post.tags.filter(tagId => !tagIdsToRemove.includes(tagId.toString()));
-    //       }
-    
-    //       // Update publish time
-    //       if (publishTime) {
-    //         post.publishedDate = new Date(publishTime);
-    //       }
-    
-    //       // Change post state to approved
-    //       post.state = 'Đã được duyệt và chờ xuất bản';
-    //       await post.save();
-
-    //       await Notification.create({
-    //         userId: post.idWriter, // Giả sử `authorId` là ID của người viết
-    //         title: 'Bài viết được duyệt',
-    //         message: 'Bài viết của bạn đã được chấp nhận và sẽ xuất bản vào ngày ' + new Date(publishTime).toLocaleString(),
-    //       });
-    //       res.redirect('/editor/drafts'); // Redirect to editor's main page
-    //     } 
-    //     else if (action === 'reject') {
-    //       const { reason } = req.body;
-    //       await PostSchema.findByIdAndUpdate(req.params.id, { state: 'Bị từ chối', reason: reason });
-
-    //       // Gửi thông báo cho writer
-    //       await Notification.create({
-    //         userId: post.idWriter,
-    //         title: 'Bài viết bị từ chối',
-    //         message: `Bài viết của bạn đã bị từ chối. Lý do: ${reason}`,
-    //       });
-
-    //       res.redirect('/editor/drafts');
-    //     }
-    //     } catch (err) {
-    //       console.error('Error post:', err);
-    //       res.status(500).send('Server Error');
-    //     }
-    // }
 
     async approve(req, res) {
       try {
         const { id } = req.params;
-        const { idMainCategory, tagsToAdd, tagsToRemove, publishTime } = req.body;
+        const { idMainCategory, tagsToAdd, tagsToRemove, publishDate } = req.body;
+        console.log(publishDate);
   
         const post = await PostSchema.findById(id);
         if (!post || post.state !== 'Chưa được duyệt') {
@@ -190,7 +129,7 @@ class editorController {
           await Promise.all(
             tagIdsToRemove.map(async (tagId) => {
               // Remove post reference from the tag
-              await Tag.findByIdAndUpdate(tagId, { $pull: { posts: post._id } });
+              await TagSchema.findByIdAndUpdate(tagId, { $pull: { posts: post._id } });
             })
           );
   
@@ -199,8 +138,8 @@ class editorController {
         }
   
         // Update publish time
-        if (publishTime) {
-          post.publishTime = new Date(publishTime);
+        if (publishDate) {
+          post.publishedDate = new Date(publishDate);
         }
   
         // Change post state to approved
@@ -223,6 +162,7 @@ class editorController {
         res.status(500).send('Server Error');
       }
     }
+
 
 }
 

@@ -105,7 +105,7 @@
                   <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
                 </form>
               </div>
-              <%-include(`profile${user.type.charAt(0).toUpperCase() + user.type.slice(1)}`) %>
+              
             
               <div class="card p-4" id="logoutFrame" style="display: none;">
                 <form action="/login" method="GET">
@@ -114,6 +114,7 @@
                   <button class="btn btn-danger" onclick="logout()">Đăng xuất</button>
                 </form>
               </div>
+              <%-include(`profile${user.type.charAt(0).toUpperCase() + user.type.slice(1)}`) %>
             </div>
           </div>
         </div>
