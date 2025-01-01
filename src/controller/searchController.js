@@ -4,7 +4,7 @@ const Post = require('../models/Post');
 exports.searchPosts = async (req, res) => {
   try {
     const query = req.query.q; // Nhận từ khóa từ URL (GET method)
-    const results = await Post.find({ title: { $regex: query, $options: 'i' } }).lean();
+    const results = await Post.find({ title: { $regex: query, $options: 'i' } }).select('title content') .lean();
     console.log(results);
     console.log('Xin chao');
     res.render('searchResults', { results, query }); // Render trang kết quả
