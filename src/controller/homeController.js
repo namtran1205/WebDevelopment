@@ -18,28 +18,26 @@ class homeController {
     
             const postProjection = { title: 1, publishedDate: 1, image: 1, subCategory: 1, type: 1 };
             console.time('Data Fetching');
-            
-            const [postData, hotCategory, tags] = await Promise.all([
-                await Promise.all([
-                    Post.aggregate([
-                        { $match: { state: "Đã xuất bản" } },
-                        { $sort: { viewWeek: -1 } },
-                        { $limit: 4 },
-                        { $project: postProjection }
-                    ]),
-                    Post.aggregate([
-                        { $match: { state: "Đã xuất bản" } },
-                        { $sort: { view: -1 } },
-                        { $limit: 10 },
-                        { $project: postProjection }
-                    ]),
-                    Post.aggregate([
-                        { $match: { state: "Đã xuất bản" } },
-                        { $sort: { createAt: -1 } },
-                        { $limit: 10 },
-                        { $project: postProjection }
-                    ])
-                ]),
+    
+            const [postOfWeek, postMostView, postNew, hotCategory, tags] = await Promise.all([
+                Post.aggregate([
+                    { $match: { state: "Đã xuất bản" } },
+                    { $sort: { viewWeek: -1 } },
+                    { $limit: 4 },
+                    { $project: postProjection }
+                ]).exec(),
+                Post.aggregate([
+                    { $match: { state: "Đã xuất bản" } },
+                    { $sort: { view: -1 } },
+                    { $limit: 10 },
+                    { $project: postProjection }
+                ]).exec(),
+                Post.aggregate([
+                    { $match: { state: "Đã xuất bản" } },
+                    { $sort: { createAt: -1 } },
+                    { $limit: 10 },
+                    { $project: postProjection }
+                ]).exec(),
                 MainCategory.aggregate([
                     { $lookup: { 
                         from: 'posts', 
@@ -62,7 +60,7 @@ class homeController {
                 ]).exec(),
                 Tag.find({}, { name: 1 }).lean()
             ]);
-            const [postOfWeek, postMostView, postNew] = postData;
+    
             console.timeEnd('Data Fetching');
     
             res.render('homepage', { tags, postOfWeek, postMostView, postNew, hotCategory });
@@ -70,7 +68,6 @@ class homeController {
             next(error);
         }
     }
-    
   
     getLogin(req, res, next) {
       res.locals.user = null;
