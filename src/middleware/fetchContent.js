@@ -8,10 +8,25 @@ async function fetchCategories(req, res, next) {
         const categoriesWithSubCategories = await MainCategory.aggregate([
             {
                 $lookup: {
-                    from: 'posts', // Name of the posts collection
+                    from: 'posts',
                     localField: '_id',
                     foreignField: 'idMainCategory',
                     as: 'posts'
+                }
+            },
+            {
+                $unwind: '$posts'
+            },
+            {
+                $match: {
+                    'posts.state': 'Đã xuất bản'
+                }
+            },
+            {
+                $group: {
+                    _id: '$_id',
+                    name: { $first: '$name' },
+                    posts: { $push: '$posts' }
                 }
             },
             {

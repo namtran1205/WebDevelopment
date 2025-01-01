@@ -78,6 +78,7 @@ const PostSchema = new mongoose.Schema({
 },{ timestamps: true });
 
 PostSchema.index({ state: -1 });
+PostSchema.index({ publishedDate: -1 });
 
 // PostSchema.pre('save', function(next) {
 //     if (this.content) {
