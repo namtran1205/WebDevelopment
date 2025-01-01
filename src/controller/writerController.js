@@ -56,7 +56,7 @@ class writerController {
     // Xử lý tạo bài viết
     async post_createPost(req, res) {
         try {
-            //console.log('Request body:', req.body);
+            console.log('Request body:', req.body);
 
             const { title, content, abstract, image, subCategory, tags, idMainCategory, type} = req.body;
             
@@ -67,6 +67,7 @@ class writerController {
             if (!title || !content || !abstract || !image || !subCategory || !tags || !idMainCategory || !type ) {
                 return res.status(400).json({ error: 'Vui lòng điền đầy đủ các trường bắt buộc.' });
             }
+            
 
             // kiểm tra không phân loại category
             let postCategory = idMainCategory;
@@ -105,13 +106,25 @@ class writerController {
                 })
                 );
             //console.log('tagIds:', tagIds);
-
+            // let compressedImageBase64 = null;
+            // if (image) {
+            //   const imageBuffer = Buffer.from(image, 'base64');
+            //   const compressedImage = await sharp(imageBuffer)
+            //     .resize({ width: 600 }) // Resize ảnh
+            //     .jpeg({ quality: 80 }) // Nén ảnh với chất lượng 80%
+            //     .toBuffer();
+            //   compressedImageBase64 = compressedImage.toString('base64');
+            // }
+            //let compressedImageBase64 = null;
+            
+            
+    
             // Tạo bài viết mới
             const newPost = new PostSchema({
                 title,
                 content,//content,
                 abstract,
-                image,//image,
+                image,
                 subCategory : postSubcategory,
                 idMainCategory : postCategory,
                 state: 'Chưa được duyệt',

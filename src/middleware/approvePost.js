@@ -6,7 +6,7 @@ const checkAndUpdatePosts = async () => {
 
   try {
     // Log current date
-    console.log('Current Date:', currentDate);
+    //console.log('Current Date:', currentDate);
 
 
     const result = await Post.updateMany(
@@ -17,7 +17,7 @@ const checkAndUpdatePosts = async () => {
       { $set: { state: 'Đã xuất bản' } }
     );
 
-    console.log(`Updated ${result.nModified || 0} posts to 'Đã xuất bản'.`);
+    //console.log(`Updated ${result.nModified || 0} posts to 'Đã xuất bản'.`);
   } catch (error) {
     console.error('Error checking and updating posts:', error);
   }
