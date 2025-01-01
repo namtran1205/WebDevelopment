@@ -35,7 +35,7 @@
                 </span>
                 <div class="view-box">
                     <span>Chuyên mục: <%=subCategory%></span>
-                    <% if (user && new Date(user.remainingTime) > new Date()) { %>
+                    <% if (user && new Date(user.remainingTime) > new Date() && post.type === "premium") { %>
                         <a href="/download/<%= post._id %>" class="btn btn-primary">Download</a>
                     <% } %>
                 </div>

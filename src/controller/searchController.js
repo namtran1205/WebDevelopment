@@ -8,7 +8,8 @@ exports.searchPosts = async (req, res) => {
     $text: { $search: query },
     state: "Đã xuất bản"
     })
-    .select('title abstract content image') 
+    .select('title abstract content image type')
+    .sort({type: -1}) 
     .lean();
     res.render('searchResults', { results, query }); 
   } catch (err) {
