@@ -1,7 +1,7 @@
 const PostSchema = require('../models/Post'); // Import model bài viết
 const Comment = require('../models/Comment');
 const Tag = require('../models/Tag');
-
+const upload = require('../middleware/upload');
 
 class writerController {
   async show(req, res) {
@@ -58,14 +58,15 @@ class writerController {
     async post_createPost(req, res) {
         try {
             console.log('Request body:', req.body);
-
-            const { title, content, abstract, image, subCategory, tags, idMainCategory, type} = req.body;
+            console.log('File:', req.file);
+            
+            const { title, content, abstract, subCategory, tags, idMainCategory, type} = req.body;
             
             //console.log('title:', title);
             //console.log('tag:',tags);
 
             // Kiểm tra dữ liệu đầu vào
-            if (!title || !content || !abstract || !image || !subCategory || !tags || !idMainCategory || !type ) {
+            if (!title || !content || !abstract || !subCategory || !tags || !idMainCategory || !type ) {
                 return res.status(400).json({ error: 'Vui lòng điền đầy đủ các trường bắt buộc.' });
             }
             
@@ -74,12 +75,18 @@ class writerController {
             let postCategory = idMainCategory;
             let postSubcategory = subCategory;
             console.log(idMainCategory);
+            let thumbnail = null;
             if (idMainCategory == "null")
             {
               postCategory = null;
               postSubcategory = null;
             }
 
+            if (req.file) {
+              thumbnail = `/uploads/${req.file.filename}`
+            }
+        
+            console.log('thumbnail:', thumbnail);
             // Kiểm tra xem tags có phải là mảng không
             const tagNames = typeof tags === 'string' ? tags.split(',').map(tag => tag.trim()) : tags;
 
@@ -125,7 +132,7 @@ class writerController {
                 title,
                 content,//content,
                 abstract,
-                image,
+                image: thumbnail,
                 subCategory : postSubcategory,
                 idMainCategory : postCategory,
                 state: 'Chưa được duyệt',

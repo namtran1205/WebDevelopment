@@ -30,14 +30,14 @@ const toolimmageOptions = [
       
       document.addEventListener('DOMContentLoaded', function () {
 
-      const container_image = document.getElementById('create_image');
+      // const container_image = document.getElementById('create_image');
       
-      const quill_image = new Quill(container_image, {
-        modules: {
-          toolbar: toolimmageOptions
-        },
-        theme: 'snow'
-      });
+      // const quill_image = new Quill(container_image, {
+      //   modules: {
+      //     toolbar: toolimmageOptions
+      //   },
+      //   theme: 'snow'
+      // });
 
       const container = document.getElementById('create_content');
       const quill_content = new Quill(container, {
@@ -50,7 +50,8 @@ const toolimmageOptions = [
 
 
       // Xử lý submit cho cả hai form
-      const handleFormSubmit = (form, quillImage, quillContent) => {
+      //const handleFormSubmit = (form, quillImage, quillContent) => {
+      const handleFormSubmit = (form,  quillContent) => {
         form.addEventListener('submit', function (event) {
           if (!form.checkValidity()) {
             event.preventDefault();
@@ -59,10 +60,10 @@ const toolimmageOptions = [
           }
 
           // Cập nhật nội dung từ Quill vào input ẩn
-          if (quillImage) {
-            const contentImage = quillImage.root.innerHTML;
-            form.querySelector('#hiddenContentImage').value = contentImage;
-          }
+          // if (quillImage) {
+          //   const contentImage = quillImage.root.innerHTML;
+          //   form.querySelector('#hiddenContentImage').value = contentImage;
+          // }
 
           if (quillContent) {
             const content = quillContent.root.innerHTML;
@@ -83,23 +84,15 @@ const toolimmageOptions = [
           return;
         }
         console.log('Script is running'); // Kiểm tra xem script đã chạy chưa
-        // Lấy nội dung từ Quill editor
-        // const imgTags = quill.container.querySelectorAll('img');
-        //   imgTags.forEach((img, index) => {
-        //     const src = img.src;
-        //     if (src.startsWith('data:image/')) {
-        //       // Gửi ảnh Base64 cùng với FormData
-        //       formData.append(`image_${index}`, src);
-        //     }
-        //   });
-        const content_image = quill_image.root.innerHTML;
-        document.getElementById('hiddenContentImage').value = content_image; // Đặt nội dung vào input ẩn
+
+        //const content_image = quill_image.root.innerHTML;
+        //document.getElementById('hiddenContentImage').value = content_image; // Đặt nội dung vào input ẩn
         const content = quill_content.root.innerHTML;
         document.getElementById('hiddenContent').value = content; // Đặt nội dung vào input ẩn
 
         // Chuẩn bị dữ liệu form
         const formData = new FormData(form);
-        formData.append('image', content_image); // Append nội dung từ Quill vào formData
+        //formData.append('image', content_image); // Append nội dung từ Quill vào formData
         formData.append('content', content); // Append nội dung từ Quill vào formData
 
         for (let [key, value] of formData.entries()) {

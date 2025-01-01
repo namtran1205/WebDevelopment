@@ -24,7 +24,7 @@
   <main>
     <div class="content" id="content">
       <div class="container my-5">
-        <form id="createForm" action="/writer/createPost" method="POST" class="needs-validation" novalidate>
+        <form id="createForm" action="/writer/createPost" method="POST" enctype="multipart/form-data">
           <!-- Tiêu đề -->
           <div class="mb-3">
             <label for="title" class="form-label">Tiêu đề:</label>
@@ -45,17 +45,16 @@
           </div> -->
           <div class="form-control">
             <label
-              for="thumbnail"
+              for="image"
               class="label text-lg font-semibold text-gray-700 flex items-center space-x-2"
             >
               <i data-lucide="image"></i>
-              <span>Thumbnail</span>
+              <span>Chọn ảnh</span>
             </label>
             <input
               type="file"
-              name="thumbnail"
-              id="thumbnail"
-              class="file-input file-input-bordered w-full"
+              name="image"
+              id="image"
               accept="image/*"
             />
           </div>
