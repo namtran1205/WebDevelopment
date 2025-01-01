@@ -1,11 +1,22 @@
 const Post = require('../models/Post'); 
 
-// Controller xử lý tìm kiếm
 exports.searchPosts = async (req, res) => {
   try {
-    const query = req.query.q; // Nhận từ khóa từ URL (GET method)
-    const results = await Post.find({ title: { $regex: query, $options: 'i' } }).select('image title content') .lean();
-    res.render('searchResults', { results, query }); // Render trang kết quả
+    const query = req.query.q; 
+
+    const results = await Post.find({
+      $or: [
+        { title: { $regex: query, $options: 'i' } },
+        { content: { $regex: query, $options: 'i' } },
+        { abstract: { $regex: query, $options: 'i' } }
+      ],
+      state: "Đã xuất bản"
+    })
+    .select('title content abstract image')
+    .lean();
+
+    console.log(results);
+    res.render('searchResults', { results, query }); 
   } catch (err) {
     console.error(err);
     res.status(500).send('Lỗi máy chủ!');
