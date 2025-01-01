@@ -22,9 +22,13 @@
     <main>
         <div class="content" id="content">
           <div class="search-container">
-              <input type="text" placeholder="Tìm kiếm...">
-              <i class='bx bx-search'></i>
-          </div>
+            <form action="/search" method="GET" class="search-form">
+              <input type="text" name="q" placeholder="Tìm kiếm..." required>
+              <button type="submit">
+                <i class='bx bx-search'></i>
+              </button>
+            </form>
+          </div>          
           <div class="tag-list">
             <% for(let i = 0; i < tags.length; i++) { %>
               <span class="tag"><a href="/tag/<%= tags[i]._id %>"><%= tags[i].name %></a></span>

@@ -49,36 +49,42 @@
 .search-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
-.search-container form {
+.search-form {
   display: flex;
   align-items: center;
+  width: 100%;
+  max-width: 500px;
   border: 1px solid #ccc;
   border-radius: 8px;
   overflow: hidden;
+  background-color: #fff;
 }
 
-.search-container input {
+.search-form input {
   flex: 1;
-  padding: 10px;
-  font-size: 16px;
+  padding: 10px 15px;
   border: none;
   outline: none;
+  font-size: 16px;
 }
 
-.search-container button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: white;
+.search-form button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
   border: none;
   cursor: pointer;
+  font-size: 18px;
 }
 
-.search-container button:hover {
-  background-color: #0056b3;
+.search-form button:hover {
+  background-color: #555;
 }
 .dots {
   position: absolute;
