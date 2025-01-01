@@ -9,11 +9,19 @@
   <link rel="stylesheet" href="/css/footer.css">
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/detailPage.css">
+  <link rel="stylesheet" href="/css/search.css">
 </head>
 <body>
   <!-- Header -->
   <%- include('header.ejs') %>
-
+  <div class="search-container">
+    <form action="/search" method="GET" class="search-form">
+      <input type="text" name="q" placeholder="<%= query %>" required>
+      <button type="submit">
+        <i class='bx bx-search'></i>
+      </button>
+    </form>
+  </div>
   <!-- Nội dung chính -->
    <!-- Phần tiêu đề và số lượng kết quả (đưa ra ngoài khung) -->
   <div class="text-center mb-5">
@@ -21,7 +29,6 @@
     <p><strong><%= results.length %></strong> kết quả phù hợp</p>
   </div>
   <main class="container my-5">
-    
 
     <!-- Kiểm tra nếu có kết quả -->
     <% if (results.length > 0) { %>

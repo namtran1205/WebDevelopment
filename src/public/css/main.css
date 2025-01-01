@@ -16,6 +16,7 @@ main {
     background-color: #fff;
     padding: 5px;
     align-items: center;
+    padding-bottom: 200px;
 }
 .search-container {
     display: flex;

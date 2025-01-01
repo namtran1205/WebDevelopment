@@ -34,7 +34,7 @@ class homeController {
                 ]).exec(),
                 Post.aggregate([
                     { $match: { state: "Đã xuất bản" } },
-                    { $sort: { createAt: -1 } },
+                    { $sort: { publishedDate: -1 } },
                     { $limit: 10 },
                     { $project: postProjection }
                 ]).exec(),
