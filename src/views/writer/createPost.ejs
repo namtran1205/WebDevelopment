@@ -38,15 +38,27 @@
           </div>
 
           <!-- Ảnh đại diện -->
-          <div class="mb-3">
+          <!-- <div class="mb-3">
             <label for="create_image" class="form-label">Ảnh:</label>
             <div id="create_image" style="height: 300px; background-color: #fff; border: 1px solid #ccc;"></div>
             <input type="hidden" id="hiddenContentImage" name="image">
-          </div>
-          <!-- <div class="mb-3">
-            <label for="image" class="form-label">Ảnh đại diện:</label>
-            <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
           </div> -->
+          <div class="form-control">
+            <label
+              for="thumbnail"
+              class="label text-lg font-semibold text-gray-700 flex items-center space-x-2"
+            >
+              <i data-lucide="image"></i>
+              <span>Thumbnail</span>
+            </label>
+            <input
+              type="file"
+              name="thumbnail"
+              id="thumbnail"
+              class="file-input file-input-bordered w-full"
+              accept="image/*"
+            />
+          </div>
           
 
           <!-- Nội dung (Quill Editor) -->

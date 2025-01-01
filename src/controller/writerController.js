@@ -2,6 +2,7 @@ const PostSchema = require('../models/Post'); // Import model bài viết
 const Comment = require('../models/Comment');
 const Tag = require('../models/Tag');
 
+
 class writerController {
   async show(req, res) {
     let user = null;

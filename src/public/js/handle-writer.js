@@ -116,3 +116,61 @@ const toolimmageOptions = [
       });
     });
  
+// document.addEventListener('DOMContentLoaded', function () {
+//   const toolbarOptions = [
+//     [{ 'font': [] }],
+//     ['bold', 'italic', 'underline'],
+//     ['link', 'image', 'video', 'formula'],
+//     [{ 'header': 1 }, { 'header': 2 }],
+//     [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
+//     [{ 'script': 'sub' }, { 'script': 'super' }],
+//     [{ 'indent': '-1' }, { 'indent': '+1' }],
+//     [{ 'direction': 'rtl' }],
+//     [{ 'size': ['small', false, 'large', 'huge'] }],
+//     [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+//     [{ 'color': [] }, { 'background': [] }],
+//     [{ 'align': [] }],
+//     ['clean'],
+//   ];
+
+//   const container = document.getElementById('create_content');
+//   const quill_content = new Quill(container, {
+//     modules: { toolbar: toolbarOptions },
+//     placeholder: 'Nội dung',
+//     theme: 'snow',
+//   });
+
+//   const form = document.querySelector('#createForm');
+//   form.addEventListener('submit', function (event) {
+//     if (!form.checkValidity()) {
+//       event.preventDefault();
+//       event.stopPropagation();
+//       console.log("Form is not valid");
+//       return;
+//     }
+
+//     console.log('Script is running');
+
+//     const content = quill_content.root.innerHTML;
+//     document.getElementById('hiddenContent').value = content;
+
+//     const formData = new FormData(form);
+
+//     for (let [key, value] of formData.entries()) {
+//       console.log(`${key}: ${value}`);
+//     }
+
+//     fetch('/createPost', {
+//       method: 'POST',
+//       body: formData,
+//     })
+//       .then(response => {
+//         if (response.ok) return response.json();
+//         throw new Error('Network response was not ok');
+//       })
+//       .then(data => console.log('Success:', data))
+//       .catch(error => console.error('Error:', error));
+//   });
+// });
+
+  
