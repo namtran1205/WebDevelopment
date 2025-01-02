@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/footer.css">
-
+  <link rel="stylesheet" href="/css/profile.css">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -102,84 +102,150 @@
           <!-- Bài viết bị từ chối -->
           <div id="rejected" class="category-list d-none">
             <h5 class="text-danger">Bài viết bị từ chối</h5>
-            <table class="table">
-              <% posts.filter(post => post.state === 'Bị từ chối').forEach(post => { %>
-                <tr>
-                  <td>
-                    <a href="/writer/post/<%= post._id %>" class="text-decoration-none">
-                      <%= post.title %>
-                    </a>
-                  </td>
-                  <td>
-                    <span class="reason-text">
-                      <strong>Lý do:</strong> <%= post.reason %>
-                    </span>
-                  </td>
-                  <td>
-                    <a href="/writer/edit/<%= post._id %>">
-                      <i class="bi bi-pencil-square"></i>
-                    </a>
-                  </td>
-                </tr>
-              <% }); %>
-            </table>
+            <div class="table-container" style="max-height: 500px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 5px;">
+              <table class="table table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Tiêu đề</th>
+                    <th>Chuyên mục</th>
+                    <th>Lượt xem</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% posts.filter(post => post.state === 'Bị từ chối').forEach((post, index) => { %>
+                    <tr>
+                      <td><%= index + 1 %></td> <!-- Số thứ tự -->
+                      <td>
+                        <a href="/writer/post/<%= post._id %>" class="text-decoration-none">
+                          <%= post.title %>
+                        </a>
+                      </td>
+                      <td>
+                        <span><%= post.category || 'Không xác định' %></span> <!-- Chuyên mục -->
+                      </td>
+                      <td>
+                        <span><%= post.views || 0 %></span> <!-- Lượt xem -->
+                      </td>
+                      <td>
+                        <a href="/writer/edit/<%= post._id %>" class="btn btn-sm btn-primary">
+                          <i class="bi bi-pencil-square"></i> Sửa
+                        </a>
+                      </td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
           </div>
         
           <!-- Bài viết chưa được duyệt -->
           <div id="pending" class="category-list">
             <h5 class="text-warning">Bài viết chưa được duyệt</h5>
-            <table class="table">
-              <% posts.filter(post => post.state === 'Chưa được duyệt').forEach(post => { %>
-                <tr>
-                  <td>
-                    <a href="/writer/post/<%= post._id %>" class="text-decoration-none">
-                      <%= post.title %>
-                    </a>
-                  </td>
-                  
-                  <td>
-                    <a href="/writer/edit/<%= post._id %>">
-                      <i class="bi bi-pencil-square"></i>
-                    </a>
-                  </td>
-                </tr>
-              <% }); %>
-            </table>
+            <div class="table-container" style="max-height: 500px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 5px;">
+              <table class="table table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Tiêu đề</th>
+                    <th>Chuyên mục</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% posts.filter(post => post.state === 'Chưa được duyệt').forEach((post, index) => { %>
+                    <tr>
+                      <td><%= index + 1 %></td> <!-- Số thứ tự -->
+                      <td>
+                        <a href="/writer/post/<%= post._id %>" class="text-decoration-none">
+                          <%= post.title %>
+                        </a>
+                      </td>
+                      <td>
+                        <span><%= post.category || 'Không xác định' %></span> <!-- Chuyên mục -->
+                      </td>
+                      <td>
+                        <a href="/writer/edit/<%= post._id %>" class="btn btn-sm btn-primary">
+                          <i class="bi bi-pencil-square"></i> Sửa
+                        </a>
+                      </td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+            
           </div>
         
           <!-- Bài viết đã duyệt -->
           <div id="approved" class="category-list d-none">
             <h5 class="text-success">Bài viết đã duyệt</h5>
-            <table class="table">
-              <% posts.filter(post => post.state === 'Đã được duyệt và chờ xuất bản').forEach(post => { %>
-                <tr>
-                  <td>
-                    <a href="/writer/post/<%= post._id %>" class="text-decoration-none">
-                      <%= post.title %>
-                    </a>
-                  </td>
-                 
-                </tr>
-              <% }); %>
-            </table>
+            <div class="table-container" style="max-height: 500px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 5px;">
+              <table class="table table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Tiêu đề</th>
+                    <th>Chuyên mục</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% posts.filter(post => post.state === 'Đã được duyệt và chờ xuất bản').forEach((post, index) => { %>
+                    <tr>
+                      <td><%= index + 1 %></td> <!-- Số thứ tự -->
+                      <td>
+                        <a href="/writer/post/<%= post._id %>" class="text-decoration-none">
+                          <%= post.title %>
+                        </a>
+                      </td>
+                      <td>
+                        <span><%= post.category || 'Không xác định' %></span> <!-- Chuyên mục -->
+                      </td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+            
           </div>
 
           <!-- Bài viết đã xuất bản -->
           <div id="published" class="category-list d-none">
             <h5 class="text-info">Bài viết đã xuất bản</h5>
-            <table class="table">
-              <% posts.filter(post => post.state === 'Đã xuất bản').forEach(post => { %>
-                <tr>
-                  <td>
-                    <a href="/writer/post/<%= post._id %>" class="text-decoration-none">
-                      <%= post.title %>
-                    </a>
-                  </td>
-                  <td><%= post.state %></td>
-                  <td></td>
-                </tr>
-              <% }); %>
-            </table>
+            <div class="table-container" style="max-height: 500px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 5px;">
+              <table class="table table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Tiêu đề</th>
+                    <th>Chuyên mục</th>
+                    <th>Lượt xem</th>
+                    <th>Trạng thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% posts.filter(post => post.state === 'Đã xuất bản').forEach((post, index) => { %>
+                    <tr>
+                      <td><%= index + 1 %></td> <!-- Số thứ tự -->
+                      <td>
+                        <a href="/writer/post/<%= post._id %>" class="text-decoration-none">
+                          <%= post.title %>
+                        </a>
+                      </td>
+                      <td>
+                        <span><%= post.category || 'Không xác định' %></span> <!-- Chuyên mục -->
+                      </td>
+                      <td>
+                        <span><%= post.view || 0 %></span> <!-- Lượt xem -->
+                      </td>
+                      <td><%= post.state %></td> <!-- Trạng thái -->
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+            
         </div>
         <div class="d-flex justify-content-end">
           <a href="/writer" class="btn btn-secondary">Quay lại</a>
