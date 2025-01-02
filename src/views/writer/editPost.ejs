@@ -19,21 +19,26 @@
   <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
   <style>
     #edit_image {
-  max-height: 300px; /* Chiều cao tối đa */
-  max-width: 100%; /* Đảm bảo không vượt khung */
-  overflow: hidden; /* Ẩn nội dung vượt ra ngoài */
-  display: flex; /* Đảm bảo căn giữa nội dung */
-  align-items: center; 
-  justify-content: center;
-  background-color: #f5f5f5; /* Màu nền để dễ nhìn */
-  border: 1px solid #ddd; /* Đường viền nhẹ */
-}
+      max-height: 300px; /* Chiều cao tối đa */
+      max-width: 100%; /* Đảm bảo không vượt khung */
+      overflow: hidden; /* Ẩn nội dung vượt ra ngoài */
+      display: flex; /* Đảm bảo căn giữa nội dung */
+      align-items: center; 
+      justify-content: center;
+      background-color: #f5f5f5; /* Màu nền để dễ nhìn */
+      border: 1px solid #ddd; /* Đường viền nhẹ */
+    }
 
-#edit_image img {
-  max-height: 100%; /* Tự động thu nhỏ để vừa chiều cao */
-  max-width: 100%; /* Tự động thu nhỏ để vừa chiều rộng */
-  object-fit: contain; /* Đảm bảo giữ tỷ lệ hình ảnh */
-}
+    #edit_image img {
+      max-height: 100%; /* Tự động thu nhỏ để vừa chiều cao */
+      max-width: 100%; /* Tự động thu nhỏ để vừa chiều rộng */
+      object-fit: contain; /* Đảm bảo giữ tỷ lệ hình ảnh */
+    }
+
+    .form-label {
+      font-weight: 500; /* Làm chữ in đậm */
+      font-size: 18px;
+    }
 
   </style>
 </head>
