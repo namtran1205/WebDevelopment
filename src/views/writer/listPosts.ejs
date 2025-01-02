@@ -165,10 +165,10 @@
                           <%= post.title %>
                         </a>
                       </td>
-                      <td>
+                      <td class="text-center">
                         <span><%= post.category || 'Không xác định' %></span> <!-- Chuyên mục -->
                       </td>
-                      <td>
+                      <td class="text-center">
                         <a href="/writer/edit/<%= post._id %>" class="btn btn-sm btn-primary">
                           <i class="bi bi-pencil-square"></i>
                         </a>
@@ -207,7 +207,7 @@
                           <%= post.title %>
                         </a>
                       </td>
-                      <td>
+                      <td class="text-center">
                         <span><%= post.category || 'Không xác định' %></span> <!-- Chuyên mục -->
                       </td>
                     </tr>
@@ -241,13 +241,13 @@
                           <%= post.title %>
                         </a>
                       </td>
-                      <td>
+                      <td class="text-center">
                         <span><%= post.category || 'Không xác định' %></span> <!-- Chuyên mục -->
                       </td>
                       <td>
                         <span><%= post.view || 0 %></span> <!-- Lượt xem -->
                       </td>
-                      <td><%= post.state %></td> <!-- Trạng thái -->
+                      <td class="text-center"><%= post.state %></td> <!-- Trạng thái -->
                     </tr>
                   <% }); %>
                 </tbody>
@@ -255,7 +255,7 @@
             </div>
             
         </div>
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end mt-3">
           <a href="/writer" class="btn btn-secondary">Quay lại</a>
         </div>
       </div>
