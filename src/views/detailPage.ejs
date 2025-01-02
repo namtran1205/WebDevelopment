@@ -103,7 +103,8 @@
                                     <%-relevantPosts[i].image%>
                                     <div class="card-body" style="height: 200px;">
                                         <h5 class="card-title"><%=relevantPosts[i].title%></h5>
-                                        <span><%=relevantPosts[i].abstract%></span>
+                                        <span><%= relevantPosts[i].abstract.length > 15 ? relevantPosts[i].abstract.slice(0, 100) + '[...]' : relevantPosts[i].abstract %></span>
+                                        <span><%= relevantPosts[i].subCategory%></span>
                                     </div>
                                 </div>
                             </a>

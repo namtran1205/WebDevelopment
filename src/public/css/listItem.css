@@ -89,6 +89,12 @@
 
   .news-abstract {
     font-size: 14px;
+    display: -webkit-box; /* Bật chế độ hiển thị theo block-level với dòng cụ thể */
+    -webkit-line-clamp: 2; /* Giới hạn tối đa 2 dòng */
+    -webkit-box-orient: vertical; /* Hướng nội dung theo chiều dọc */
+    overflow: hidden; /* Ẩn phần nội dung vượt giới hạn */
+    text-overflow: ellipsis; /* Thêm "..." vào phần bị ẩn */
+    word-break: break-word; /* Ngắt từ nếu quá dài */
   }
 
   .date-cate {
