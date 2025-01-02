@@ -130,8 +130,11 @@
                       </td>
                       <td>
                         <a href="/writer/edit/<%= post._id %>" class="btn btn-sm btn-primary">
-                          <i class="bi bi-pencil-square"></i> Sửa
+                          <i class="bi bi-pencil-square"></i>
                         </a>
+                        <button class="btn btn-danger btn-sm" onclick="deletePost('<%= post._id %>')">
+                          <i class="bi bi-trash"></i>
+                        </button>
                       </td>
                     </tr>
                   <% }); %>
@@ -167,8 +170,13 @@
                       </td>
                       <td>
                         <a href="/writer/edit/<%= post._id %>" class="btn btn-sm btn-primary">
-                          <i class="bi bi-pencil-square"></i> Sửa
+                          <i class="bi bi-pencil-square"></i>
                         </a>
+                        
+                          <button class="btn btn-danger btn-sm" onclick="deletePost('<%= post._id %>')">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        
                       </td>
                     </tr>
                   <% }); %>
@@ -253,6 +261,7 @@
       </div>
     </div> 
     <script>
+       
         function showCategory(categoryId) {
         // Ẩn tất cả các danh sách
         const allCategories = document.querySelectorAll('.category-list');
@@ -271,6 +280,7 @@
       });
     </script>
   </main>
+  <script src="/js/handle-writer-delete.js"></script>
   <%- include('../footer.ejs') %>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
