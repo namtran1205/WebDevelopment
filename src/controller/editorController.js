@@ -39,11 +39,41 @@ class editorController {
         }
         try {
             
-          const drafts = await PostSchema.find({
-              state: 'Chưa được duyệt',
-              idMainCategory: { $in: user.idCategory },
-          }).select('title state').exec();
-          
+          // const drafts = await PostSchema.find({
+          //     state: 'Chưa được duyệt',
+          //     idMainCategory: { $in: user.idCategory },
+          // }).select('title state').exec();
+          const userCategoryId = user.idCategory; // Lấy `idCategory` của user từ request
+          const drafts = await PostSchema.aggregate([
+            // 1. Lọc các bài viết theo `idMainCategory` trùng với `idCategory` của user
+            {
+                $match: {
+                    idMainCategory: userCategoryId // Điều kiện lọc
+                }
+            },
+            {
+              $match: {
+                state: { $in: ['Chưa được duyệt'] }
+            }
+            },
+            // 2. Thực hiện `$lookup` để nối bảng với `maincategories`
+            {
+                $lookup: {
+                    from: "maincategories", // Tên collection để join
+                    localField: "idMainCategory", // Trường trong PostSchema
+                    foreignField: "_id", // Trường trong MainCategorySchema
+                    as: "categoryRef" // Tên mảng chứa kết quả join
+                }
+            },
+            // 3. Định dạng lại kết quả trả về
+            {
+                $project: {
+                    title: 1, // Trả về trường "title"
+                    state: 1, // Trả về trường "state"
+                    category: { $arrayElemAt: ["$categoryRef.name", 0] } // Trích trường "name" từ categoryRef
+                }
+            }
+        ]);
           //console.log(drafts);
           
           res.render('editor/drafts', { drafts });
@@ -61,13 +91,44 @@ class editorController {
           //console.log("User", req.cookies);
       }
       try {
-          const posts = await PostSchema.find({
-            state: { $in: ['Đã được duyệt và chờ xuất bản', 'Đã xuất bản', 'Bị từ chối'] },
-            idMainCategory: { $in: user.idCategory },
-        }).select('title state').exec();
+        const userCategoryId = user.idCategory; // Lấy `idCategory` của user từ request
+        //console.log(userCategoryId);
+        //   const posts = await PostSchema.find({
+        //     state: { $in: ['Đã được duyệt và chờ xuất bản', 'Đã xuất bản', 'Bị từ chối'] },
+        //     idMainCategory: { $in: user.idCategory },
+        // }).select('title').exec();
         
         //console.log(drafts);
-        
+        const posts = await PostSchema.aggregate([
+          // 1. Lọc các bài viết theo `idMainCategory` trùng với `idCategory` của user
+          {
+              $match: {
+                  idMainCategory: userCategoryId // Điều kiện lọc
+              }
+          },
+          {
+            $match: {
+              state: { $in: ['Đã được duyệt và chờ xuất bản', 'Đã xuất bản', 'Bị từ chối'] }
+          }
+          },
+          // 2. Thực hiện `$lookup` để nối bảng với `maincategories`
+          {
+              $lookup: {
+                  from: "maincategories", // Tên collection để join
+                  localField: "idMainCategory", // Trường trong PostSchema
+                  foreignField: "_id", // Trường trong MainCategorySchema
+                  as: "categoryRef" // Tên mảng chứa kết quả join
+              }
+          },
+          // 3. Định dạng lại kết quả trả về
+          {
+              $project: {
+                  title: 1, // Trả về trường "title"
+                  state: 1, // Trả về trường "state"
+                  category: { $arrayElemAt: ["$categoryRef.name", 0] } // Trích trường "name" từ categoryRef
+              }
+          }
+      ]);
         res.render('editor/posts', { posts });
         } catch (error) {
           console.error('Error fetching posts:', error);
