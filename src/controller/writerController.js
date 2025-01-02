@@ -14,22 +14,19 @@ class writerController {
     try {
 
       const approvedPostsCount = await PostSchema.countDocuments({
-        state: 'Đã được duyệt và chờ xuất bản',
-        idMainCategory: user.idCategory
+        state: 'Đã được duyệt và chờ xuất bản'
       });
 
       const publishedPostsCount = await PostSchema.countDocuments({
-        state: 'Đã xuất bản',
-        idMainCategory: user.idCategory
+        state: 'Đã xuất bản'
       });
 
       const rejectedPostsCount = await PostSchema.countDocuments({
-        state: 'Bị từ chối',
-        idMainCategory: user.idCategory
+        state: 'Bị từ chối'
       });
 
-      const pendingPostsCount = await PostSchema.countDocuments({ state: 'Chưa được duyệt',
-        idMainCategory: user.idCategory
+      const pendingPostsCount = await PostSchema.countDocuments({ 
+        state: 'Chưa được duyệt'
        });
       res.render('writer/dashboard', {
         pendingPostsCount,
