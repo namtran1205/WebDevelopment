@@ -1,8 +1,8 @@
 const PostSchema = require('../models/Post'); // Import model bài viết
 const Comment = require('../models/Comment');
 const Tag = require('../models/Tag');
-const upload = require('../middleware/upload');
-
+const MainCategory = require('../models/MainCategory');
+const mongoose = require('mongoose'); // Import mongoose
 class writerController {
   async show(req, res) {
     let user = null;
@@ -150,7 +150,35 @@ class writerController {
     
     async show_listPosts(req, res) {
         try {
-            const posts = await PostSchema.find({ idWriter: req.idWriter }).select('title state').exec();
+            // const posts = await PostSchema.find({ idWriter: req.idWriter })
+            // .select('title state idMainCategory views')
+            // .populate('idMainCategory').exec();
+            const posts = await PostSchema.aggregate([
+              // 1. Lọc bài viết theo `idWriter`
+              {
+                  $match: { idWriter: req.idWriter }
+              },
+              // 2. Thực hiện `$lookup` để nối bảng với `maincategories`
+              {
+                  $lookup: {
+                      from: "maincategories", // Tên collection để join
+                      localField: "idMainCategory", // Trường trong PostSchema
+                      foreignField: "_id", // Trường trong MainCategorySchema
+                      as: "categoryRef" // Tên mảng chứa kết quả join
+                  }
+              },
+              // 3. Định dạng lại kết quả trả về
+              {
+                  $project: {
+                      title: 1, // Trả về trường "title"
+                      state: 1, // Trả về trường "state"
+                      views: 1, // Trả về trường "views"
+                      category: { $arrayElemAt: ["$categoryRef.name", 0] } // Trích trường "name" từ categoryRef
+                  }
+              }
+          ]);
+
+            //console.log(posts);
             res.render('writer/listPosts', { posts });
         } catch (err) {
             console.error('Error rendering listPage:', err);
