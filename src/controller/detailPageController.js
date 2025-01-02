@@ -20,7 +20,7 @@ const detailPageController =
                 { _id: idPost },
                 { $inc: { view: 1, viewWeek: 1 } },
                 { new: true }
-            ).select("title content subCategory tags image publishedDate view type");
+            ).select("title content subCategory tags image publishedDate view type idMainCategory");
 
             if (!post) {
                 return res.status(404).json( { error: "Post not found" } );
