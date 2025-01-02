@@ -95,13 +95,13 @@
     
             <!-- Nhãn -->
             <div class="mb-3">
-              <label for="subCategory" class="form-label">Nhãn:</label>
+              <label for="subCategory" class="form-label">Tiểu mục:</label>
               <input type="text" class="form-control" id="subCategory" name="subCategory" value="<%= post.subCategory %>" required>
             </div>
     
             <!-- Type -->
             <div class="mb-3">
-              <label for="type" class="form-label">Type:</label>
+              <label for="type" class="form-label">Loại bài viết:</label>
               <select id="type" name="type" required>
                 <option value="normal" <%= post.type === 'normal' ? 'selected' : '' %>>Normal</option>
                 <option value="premium" <%= post.type === 'premium' ? 'selected' : '' %>>Premium</option>
