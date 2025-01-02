@@ -288,6 +288,7 @@ class writerController {
           subCategory : postSubcategory,
           type,
           tags: post.tags,
+          state: 'Chưa được duyệt'
         });
     
         res.redirect(`/writer/post/${req.params.id}`);
