@@ -5,7 +5,7 @@ const upload = require('../middleware/upload');
 
 router.get('/', writerController.show); // Hiển thị trang dashboard
 router.get('/createPost', writerController.show_createPost); // Hiển thị trang tạo bài viết
-router.post('/createPost', upload.single('image'), writerController.post_createPost); // Xử lý tạo bài viết
+router.post('/createPost', writerController.post_createPost); // Xử lý tạo bài viết
 router.get('/listPosts', writerController.show_listPosts); // Hiển thị trang danh sách bài viết
 router.get('/post/:id', writerController.show_post); // Hiển thị trang bài viết
 router.get('/edit/:id', writerController.show_editPost); // Hiển thị trang chỉnh sửa bài viết

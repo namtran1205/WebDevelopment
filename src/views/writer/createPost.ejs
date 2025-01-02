@@ -24,7 +24,7 @@
   <main>
     <div class="content" id="content">
       <div class="container my-5">
-        <form id="createForm" action="/writer/createPost" method="POST" enctype="multipart/form-data">
+        <form id="createForm" action="/writer/createPost" method="POST" class="needs-validation" novalidate>
           <!-- Tiêu đề -->
           <div class="mb-3">
             <label for="title" class="form-label">Tiêu đề:</label>
@@ -38,12 +38,12 @@
           </div>
 
           <!-- Ảnh đại diện -->
-          <!-- <div class="mb-3">
+          <div class="mb-3">
             <label for="create_image" class="form-label">Ảnh:</label>
             <div id="create_image" style="height: 300px; background-color: #fff; border: 1px solid #ccc;"></div>
             <input type="hidden" id="hiddenContentImage" name="image">
-          </div> -->
-          <div class="form-control">
+          </div>
+          <!-- <div class="form-control">
             <label
               for="image"
               class="label text-lg font-semibold text-gray-700 flex items-center space-x-2"
@@ -57,7 +57,7 @@
               id="image"
               accept="image/*"
             />
-          </div>
+          </div> -->
           
 
           <!-- Nội dung (Quill Editor) -->
