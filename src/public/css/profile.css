@@ -1,3 +1,42 @@
 .event {
     display: none;
 }
+.shadow-box {
+    box-shadow: 0 4px 8px rgba(30, 30, 30, 0.2); /* Đổ bóng nhẹ */
+    transition: box-shadow 0.3s ease; /* Hiệu ứng mượt mà khi hover */
+}
+/* Nút Dashboard */
+.btn-dashboard {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(90deg, #007bff, #6610f2); /* Hiệu ứng gradient */
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 25px; /* Bo tròn */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+    transition: all 0.3s ease; /* Hiệu ứng chuyển đổi */
+}
+
+.btn-dashboard:hover {
+    background: linear-gradient(90deg, #6610f2, #007bff); /* Đổi gradient khi hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Đổ bóng đậm hơn khi hover */
+}
+
+/* Nút Lưu thay đổi */
+.btn-save {
+    padding: 10px 20px;
+    background: #21953c; /* Màu xanh lá */
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px; /* Bo tròn */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Hiệu ứng chuyển đổi */
+}
+
+.btn-save:hover {
+    background: linear-gradient(90deg, #36c655, #21953c); /* Đổi gradient khi hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Đổ bóng đậm hơn khi hover */
+}
