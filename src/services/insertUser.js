@@ -22,7 +22,7 @@ const insertUserService = {
             idCategory: type === "editor" ? idCategory : null,
             remainingTime: type === "subscriber" ? (remainingTime ? remainingTime : defaultDay) : null,
             verificationToken: verificationToken,
-            isVerified: false
+            isVerified: true
         })
             
         try

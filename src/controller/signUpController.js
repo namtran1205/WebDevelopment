@@ -84,7 +84,7 @@ class signUpController {
       }
       
       // Use arrow function to automatically bind 'this' to the signUpController instance
-      await this.sendVerificationEmail(email, verificationToken);
+      // await this.sendVerificationEmail(email, verificationToken);
     
       return res.redirect('/api/v1/signup?success=true');
     } catch (error) {
