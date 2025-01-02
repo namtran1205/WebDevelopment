@@ -46,7 +46,7 @@ class homeController {
                         as: 'posts',
                         pipeline: [
                             { $match: { state: "Đã xuất bản" } },
-                            { $project: { view: 1, title: 1, publishedDate: 1, image: 1 } }
+                            { $project: { abstract: 1, title: 1, publishedDate: 1, image: 1 } }
                         ]
                     }},
                     { $unwind: '$posts' },

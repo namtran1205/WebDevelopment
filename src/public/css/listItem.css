@@ -97,6 +97,16 @@
     word-break: break-word; /* Ngắt từ nếu quá dài */
   }
 
+  .list-number a.current {
+    font-weight: bold; /* Làm chữ đậm */
+    color: #fff; /* Màu chữ */
+    background-color: #007bff; /* Màu nền */
+    padding: 5px 10px; /* Khoảng cách bên trong */
+    border-radius: 5px; /* Bo góc */
+    text-decoration: none; /* Loại bỏ gạch chân */
+  }
+  
+
   .date-cate {
     display: flex;
     flex-direction: row;
