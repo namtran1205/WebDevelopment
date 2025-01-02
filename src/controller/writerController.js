@@ -54,8 +54,8 @@ class writerController {
     // Xử lý tạo bài viết
     async post_createPost(req, res) {
         try {
-            console.log('Request body:', req.body);
-            console.log('File:', req.file);
+            //console.log('Request body:', req.body);
+            //console.log('File:', req.file);
             
             const { title, content, abstract, subCategory, tags, image, idMainCategory, type} = req.body;
             
@@ -63,7 +63,7 @@ class writerController {
             //console.log('tag:',tags);
 
             // Kiểm tra dữ liệu đầu vào
-            if (!title || !content || !abstract || !image || !subCategory || !tags || !idMainCategory || !type ) {
+            if (!title || !content || !abstract || !image || !subCategory || !idMainCategory || !type ) {
                 return res.status(400).json({ error: 'Vui lòng điền đầy đủ các trường bắt buộc.' });
             }
             
@@ -84,31 +84,34 @@ class writerController {
         
             //console.log('thumbnail:', thumbnail);
             // Kiểm tra xem tags có phải là mảng không
-            const tagNames = typeof tags === 'string' ? tags.split(',').map(tag => tag.trim()) : tags;
+            let tagIds = [];
+            if (tags) {
+              const tagNames = typeof tags === 'string' ? tags.split(',').map(tag => tag.trim()) : tags;
 
+              //console.log('tagNames:', tagNames);
 
-            //console.log('tagNames:', tagNames);
-
-            if (!Array.isArray(tagNames)) {
+              if (!Array.isArray(tagNames)) {
                 console.error('Invalid tags format:', tagNames);
                 return res.status(400).json({ message: 'Tags should be an array or a comma-separated string.' });
               }
 
-            const tagIds = await Promise.all(
+              tagIds = await Promise.all(
                 tagNames.map(async (tagName) => {
                   // Tìm tag trong cơ sở dữ liệu
                   let tag = await Tag.findOne({ name: tagName });
-          
+
                   // Nếu tag không tồn tại, tạo mới
                   if (!tag) {
-                    
                     tag = await Tag.create({ name: tagName });
                   }
-          
+
                   // Trả về _id của tag
                   return tag._id; // Chuyển đổi rõ ràng sang ObjectId
                 })
-                );
+              );
+            } else {
+              tagIds = [];
+            }
             //console.log('tagIds:', tagIds);
             // let compressedImageBase64 = null;
             // if (image) {
@@ -120,7 +123,7 @@ class writerController {
             //   compressedImageBase64 = compressedImage.toString('base64');
             // }
             //let compressedImageBase64 = null;
-            
+            //console.log(tagIds);
             
     
             // Tạo bài viết mới
@@ -296,24 +299,15 @@ class writerController {
     
     async deletePost(req, res) {
       try {
-        const post = await PostSchema.findById(req.params.id);
-        if (!post) {
-          return res.status(404).send('Post not found');
+        const deletedPost = await PostSchema.findByIdAndDelete(req.params.id);
+        if (!deletedPost) {
+          return res.status(404).send('Bài viết không tồn tại');
         }
-        await post.remove();
-        res.redirect('/writer/listPosts');
+        
+        res.status(200).json({ message: 'Bài viết đã được xóa' });
       } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');
-      }
-    }
-
-    async getNotifications(req, res) {  
-      try {
-        const notifications = await Notification.find({ userId: req.user._id }).sort({ date: -1 });
-        res.render('writer/notifications', { notifications });
-      } catch (error) {
-        res.status(500).send('Lỗi server');
       }
     }
     
