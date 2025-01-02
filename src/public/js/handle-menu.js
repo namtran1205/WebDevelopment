@@ -1,4 +1,4 @@
-const listCate = document.querySelector('.list_category');
+let listCate = document.querySelector('.list_category');
 
 let isDragging = false; 
 let startX; 

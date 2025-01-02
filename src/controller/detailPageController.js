@@ -1,13 +1,27 @@
 const { render } = require('ejs');
 const Comment = require('../models/Comment');
 const Post = require('../models/Post');
-const Tag = require('../models/Tag')
+const Tag = require('../models/Tag');
+const MainCategory = require('../models/MainCategory');
 const PDFDocument = require('pdfkit');
 const path = require('path');
+const { convert } = require('html-to-text');
+const axios = require('axios');
+const fs = require('fs');
 
 const sanitizeFilename = (filename) => {
     return filename.replace(/[^a-z0-9_\-]/gi, '_');
 };
+
+async function downloadImage(url) {
+    const response = await axios({
+        url,
+        method: 'GET',
+        responseType: 'arraybuffer',
+    });
+    return Buffer.from(response.data, 'binary');
+}
+
 
 const detailPageController =
 {
@@ -55,8 +69,8 @@ const detailPageController =
                 subCategory: 1,
             }).sort( { publishedDate: -1 }).limit(5);
             let subCategory = post.subCategory;
-
-            res.render('detailPage', { post, tagNames, relevantPosts, subCategory, comments });
+            let mainCategory = await MainCategory.findOne({_id: post.idMainCategory});
+            res.render('detailPage', { post, tagNames, relevantPosts, subCategory, comments, mainCategory });
         } catch(err) {
             res.status(400).json( { error: err.message });
         }
@@ -81,29 +95,42 @@ const detailPageController =
         }
     },
   
-    async download(req, res) {
+    async  download(req, res) {
         try {
             const { id } = req.params;
             const article = await Post.findOne({ _id: id });
             if (!article) {
                 return res.status(404).send('Article not found.');
             }
-            const sanitizedTitle = sanitizeFilename(article.title);
+    
+            const sanitizedTitle = sanitizeFilename(article.title); 
             const doc = new PDFDocument();
-        
             res.setHeader('Content-Disposition', `attachment; filename="${sanitizedTitle}.pdf"`);
             res.setHeader('Content-Type', 'application/pdf');
-            
+    
             doc.pipe(res);
-            const fontPath = path.join(__dirname, '../fonts', 'font.ttf');
+    
+            const fontPath = path.join(__dirname, '../fonts', 'font.ttf'); 
             doc.font(fontPath);
-            doc.fontSize(12).text(article.content);
-            
+    
+            const plainTextContent = convert(article.content, {
+                wordwrap: 130, 
+                selectors: [
+                    { selector: 'img', format: 'skip' }, 
+                    { selector: 'iframe', format: 'skip' }, 
+                    { selector: 'a', options: { ignoreHref: true } },
+                ],
+            });
+    
+            doc.fontSize(12).text(plainTextContent);
+    
             doc.end();
         } catch (error) {
+            console.error('Error generating PDF:', error);
             res.status(500).send('Error downloading the article.');
         }
     }
+    
 };
 
 module.exports = detailPageController;

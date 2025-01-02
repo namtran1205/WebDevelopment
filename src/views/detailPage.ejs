@@ -104,7 +104,8 @@
                                     <div class="card-body" style="height: 200px;">
                                         <h5 class="card-title"><%=relevantPosts[i].title%></h5>
                                         <span><%= relevantPosts[i].abstract.length > 15 ? relevantPosts[i].abstract.slice(0, 100) + '[...]' : relevantPosts[i].abstract %></span>
-                                        <span><%= relevantPosts[i].subCategory%></span>
+                                        <br>
+                                        <span>Category: <%=mainCategory.name%> >> <%= relevantPosts[i].subCategory%></span>
                                     </div>
                                 </div>
                             </a>
@@ -116,8 +117,6 @@
     </div>
     </main>
     <%-include('footer.ejs')%>
-    
-    <script src="/js/handle-menu.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
