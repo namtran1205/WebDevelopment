@@ -106,11 +106,11 @@
               <table class="table table-hover align-middle">
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>Tiêu đề</th>
-                    <th>Chuyên mục</th>
-                    <th>Lượt xem</th>
-                    <th>Hành động</th>
+                    <th style="width: 5%;">#</th>
+                    <th style="width: 40%;" class="text-center">Tiêu đề</th>
+                    <th style="width: 15%;" class="text-center">Chuyên mục</th>
+                    <th style="width: 15%;" class="text-center">Lí do</th>
+                    <th style="width: 25%;" class="text-center">Hành động</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -122,13 +122,13 @@
                           <%= post.title %>
                         </a>
                       </td>
-                      <td>
+                      <td class="text-center">
                         <span><%= post.category || 'Không xác định' %></span> <!-- Chuyên mục -->
                       </td>
-                      <td>
-                        <span><%= post.views || 0 %></span> <!-- Lượt xem -->
+                      <td class="text-center">
+                        <span><%= post.reason %></span> <!-- Lí do -->
                       </td>
-                      <td>
+                      <td class="text-center">
                         <a href="/writer/edit/<%= post._id %>" class="btn btn-sm btn-primary">
                           <i class="bi bi-pencil-square"></i>
                         </a>
@@ -150,10 +150,10 @@
               <table class="table table-hover align-middle">
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>Tiêu đề</th>
-                    <th>Chuyên mục</th>
-                    <th>Hành động</th>
+                    <th style="width: 5%;">#</th>
+                    <th style="width: 50%;" class="text-center">Tiêu đề</th>
+                    <th style="width: 20%;" class="text-center">Chuyên mục</th>
+                    <th style="width: 25%;" class="text-center">Hành động</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -193,15 +193,15 @@
               <table class="table table-hover align-middle">
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>Tiêu đề</th>
-                    <th>Chuyên mục</th>
+                    <th style="width: 5%;" class="text-center">#</th>
+                    <th style="width: 50%;" class="text-center">Tiêu đề</th>
+                    <th style="width: 40%;" class="text-center">Chuyên mục</th>
                   </tr>
                 </thead>
                 <tbody>
                   <% posts.filter(post => post.state === 'Đã được duyệt và chờ xuất bản').forEach((post, index) => { %>
                     <tr>
-                      <td><%= index + 1 %></td> <!-- Số thứ tự -->
+                      <td class="text-center"><%= index + 1 %></td> <!-- Số thứ tự -->
                       <td>
                         <a href="/writer/post/<%= post._id %>" class="text-decoration-none">
                           <%= post.title %>
@@ -225,11 +225,11 @@
               <table class="table table-hover align-middle">
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>Tiêu đề</th>
-                    <th>Chuyên mục</th>
-                    <th>Lượt xem</th>
-                    <th>Trạng thái</th>
+                    <th style="width: 5%;">#</th>
+                    <th style="width: 40%;" class="text-center">Tiêu đề</th>
+                    <th style="width: 20%;" class="text-center">Chuyên mục</th>
+                    <th style="width: 10%;" class="text-center">Lượt xem</th>
+                    <th style="width: 15%;" class="text-center">Trạng thái</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -244,7 +244,7 @@
                       <td class="text-center">
                         <span><%= post.category || 'Không xác định' %></span> <!-- Chuyên mục -->
                       </td>
-                      <td>
+                      <td class="text-center">
                         <span><%= post.view || 0 %></span> <!-- Lượt xem -->
                       </td>
                       <td class="text-center"><%= post.state %></td> <!-- Trạng thái -->

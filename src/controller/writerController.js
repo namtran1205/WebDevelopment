@@ -176,6 +176,7 @@ class writerController {
                       title: 1, // Trả về trường "title"
                       state: 1, // Trả về trường "state"
                       views: 1, // Trả về trường "views"
+                      reason: 1,
                       category: { $arrayElemAt: ["$categoryRef.name", 0] } // Trích trường "name" từ categoryRef
                   }
               }
@@ -288,7 +289,8 @@ class writerController {
           subCategory : postSubcategory,
           type,
           tags: post.tags,
-          state: 'Chưa được duyệt'
+          state: 'Chưa được duyệt',
+          reason: null
         });
     
         res.redirect(`/writer/post/${req.params.id}`);
