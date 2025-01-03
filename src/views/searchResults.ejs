@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kết quả tìm kiếm</title>
-  <!-- Thêm các liên kết CSS -->
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/footer.css">
   <link rel="stylesheet" href="/css/main.css">
@@ -48,7 +47,6 @@
     <form action="/search" method="GET">
       <input type="hidden" name="q" value="<%= query %>">
       <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-        <!-- Chuyên mục -->
         <select name="category" style="width: 200px; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
           <option value="" <%= !category ? 'selected' : '' %>>Tất cả chuyên mục</option>
           <option value="An Ninh" <%= category === "An Ninh" ? 'selected' : '' %>>An Ninh</option>
@@ -57,14 +55,12 @@
           <option value="Kinh Tế" <%= category === "Kinh Tế" ? 'selected' : '' %>>Kinh Tế</option>
         </select>
   
-        <!-- Multiple choice for search fields -->
         <div style="display: flex; gap: 10px; justify-content: center;">
           <label><input type="checkbox" name="fields" value="title" <%= Array.isArray(fields) && fields.includes("title") ? 'checked' : '' %>> Tiêu đề</label>
           <label><input type="checkbox" name="fields" value="abstract" <%= Array.isArray(fields) && fields.includes("abstract") ? 'checked' : '' %>> Tóm tắt</label>
           <label><input type="checkbox" name="fields" value="content" <%= Array.isArray(fields) && fields.includes("content") ? 'checked' : '' %>> Nội dung</label>
         </div>
   
-        <!-- Nút tìm kiếm -->
         <button type="submit" style="padding: 10px 15px; border-radius: 5px; background-color: #007bff; color: #fff;">Tìm kiếm</button>
       </div>
     </form>
