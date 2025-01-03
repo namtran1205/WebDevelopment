@@ -86,7 +86,7 @@
               <select id="idMainCategory" name="idMainCategory" required>
                 <% if (post.idMainCategory !== null) { idSelected = post.idMainCategory.toString() } else { idSelected = "" } %>
                 <option value="null" <%= idSelected === "" ? 'selected' : '' %>> Không có </option>
-                <% categories.forEach(category => { %>
+                <% maincategories.forEach(category => { %>
                   <option value="<%= category._id %>" <%= category._id.toString() === idSelected ? 'selected' : '' %>>
                     <%= category.name %>
                   </option>
