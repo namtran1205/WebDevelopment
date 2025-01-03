@@ -11,9 +11,16 @@
         <div class="event">
             <div class="noel">
                 <div class="list-tree">
-                    <% for (var i = 0; i < 100 ; i++) {%>
-                        <img class="tree" src="/media/Tet.gif" alt="">
-                    <%}%>
+                    <!-- <% for (var i = 0; i < 3 ; i++) {%>
+                        <img class="tree" src="/media/firework3.gif" alt="" style="width: 35%; height: 100%;">
+                    <%}%> -->
+                    <% for (var i = 0; i < 5; i++) { %>
+                        <% if (i % 2 !== 0) { %>
+                            <img class="tree" src="/media/firework3.gif" alt="" style="width: 20%; height: 100%;">
+                        <% } else { %>
+                            <img class="tree" src="/media/firework3.gif" alt="" style="width: 20%; height: 100%; transform: scaleX(-1);">
+                        <% } %>
+                    <% } %>
                 </div>
             </div>
         </div>
