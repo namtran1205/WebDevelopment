@@ -3,11 +3,11 @@ const MainCategory = require('../models/MainCategory');
 
 exports.searchPosts = async (req, res) => {
   try {
-    const query = req.query.q || "";
-    const category = req.query.category || "";
-    const searchField = req.query.searchField || "all"; 
+    const query = req.query.q || ""; 
+    const category = req.query.category || ""; 
+    const fields = req.query.fields ? (Array.isArray(req.query.fields) ? req.query.fields : [req.query.fields]) : []; // Các trường tìm kiếm
 
-    console.log("Search Field:", searchField);
+    console.log("Selected Fields:", fields);
 
     const searchCondition = {
       state: "Đã xuất bản" 
@@ -20,16 +20,16 @@ exports.searchPosts = async (req, res) => {
       }
     }
 
-    
     if (query) {
-      if (searchField === "title") {
-        searchCondition.title = { $regex: query, $options: "i" };
-      } else if (searchField === "abstract") {
-        searchCondition.abstract = { $regex: query, $options: "i" }; 
-      } else if (searchField === "content") {
-        searchCondition.content = { $regex: query, $options: "i" };
+      const regexQuery = { $regex: query, $options: "i" };
+
+      if (fields.length === 1) {
+        const field = fields[0];
+        searchCondition[field] = regexQuery;
+      } else if (fields.length > 1) {
+        searchCondition.$or = fields.map(field => ({ [field]: regexQuery }));
       } else {
-        searchCondition.$text = { $search: query }; 
+        searchCondition.$text = { $search: query };
       }
     }
 
@@ -51,10 +51,9 @@ exports.searchPosts = async (req, res) => {
       post.categoryName = categoryMap[post.idMainCategory] || "Không xác định";
     });
 
-    res.render('searchResults', { results, query, category, searchField });
+    res.render('searchResults', { results, query, category, fields });
   } catch (err) {
     console.error(err);
     res.status(500).send('Lỗi máy chủ!');
   }
 };
-
