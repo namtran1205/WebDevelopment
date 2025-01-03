@@ -5,8 +5,6 @@ exports.searchPosts = async (req, res) => {
   try {
     const query = req.query.q || "";
     const category = req.query.category || ""; 
-    console.log("XINCHAOCANHA");
-    console.log(category);
 
     let categoryId = "";
     if (category) {
@@ -47,9 +45,6 @@ exports.searchPosts = async (req, res) => {
       post.categoryName = categoryMap[post.idMainCategory] || "Không xác định";
     });
 
-    console.log(results);
-    console.log("XINCHAOCANHA");
-    console.log(category);
     res.render('searchResults', { results, query, category });
   } catch (err) {
     console.error(err);
