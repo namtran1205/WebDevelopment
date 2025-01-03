@@ -71,7 +71,9 @@
                             <span><%= tagName %></span>
                         <% }) %>
                       </div>
-                      <div class="type-post"><%= post.type%></div>
+                      <div class="type-post <%= post.type.toLowerCase() %>">
+                        <%= post.type.charAt(0).toUpperCase() + post.type.slice(1).toLowerCase() %>
+                      </div>
                     </div>
                   </a>
                 <% }) %>

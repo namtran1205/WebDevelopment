@@ -98,11 +98,23 @@
   }
 
   .type-post {
-    border: 1px solid #000;
-    background-color: gold;
+    font-weight: bold;
+    padding: 5px 10px;
     border-radius: 5px;
-    padding: 2px;
+    display: inline-block;
+    text-transform: capitalize;
+    text-align: center;
+    background-color: #333; /* Phòng trường hợp text không được xử lý ở EJS */
   }
+  
+  .type-post.normal {
+    color: #fff; /* Màu bạc */
+  }
+  
+  .type-post.premium {
+    color: #ffd700; /* Màu vàng gold */
+  }
+  
 
   .list-number a.current {
     font-weight: bold; /* Làm chữ đậm */
@@ -219,8 +231,16 @@
     opacity: 0;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 1050px) {
     .list-news {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
     }
   }
+  
+  
+  @media (max-width: 600px) {
+    .list-news {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+  
