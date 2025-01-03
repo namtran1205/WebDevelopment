@@ -32,15 +32,22 @@
             <form action="/editor/draft/<%= post._id %>/approve" method="POST">
               <h3>Approval Options</h3>
               <div class="mb-3">
-                <div class="mb-3">
-                  <label for="idMainCategory" class="form-label">Chuyên mục:</label>
-                  <select id="idMainCategory" name="idMainCategory" required>
-                    <% for (let i = 0; i < categories.length; i++) { %>
-                      <option value="<%= categories[i]._id %>" <%= post.category && post.category.toString() === categories[i]._id.toString() ? 'selected="selected"' : '' %>><%= categories[i].name %>
-                      </option>
-                    <% } %>
-                  </select>
+                <label for="subCategory" class="form-label">Chuyên mục:</label>
+                <!-- Hiển thị chuyên mục hiện tại -->
+                <div class="d-flex align-items-center mb-2">
+                  <span class="badge bg-primary me-2"><%= post.subCategory %></span>
+                  <br>
+                  <p class="mb-0 text-muted">Nhập chuyên mục mới nếu muốn thay đổi:</p>
                 </div>
+                <!-- Input để thay đổi chuyên mục -->
+                <input 
+                  type="text" 
+                  id="subCategory" 
+                  name="subCategory" 
+                  class="form-control" 
+                  placeholder="Nhập chuyên mục mới"
+                  value="<%= post.subCategory %>"
+                >
               </div>
 
               <div class="mb-3">
@@ -78,6 +85,8 @@
               <button type="submit" class="btn btn-danger">Reject</button>
             </form>
             <% } %>
+            
+
             
 
          

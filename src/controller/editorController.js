@@ -161,17 +161,16 @@ class editorController {
     async approve(req, res) {
       try {
         const { id } = req.params;
-        const { idMainCategory, tagsToAdd, tagsToRemove, publishDate } = req.body;
+        const {subCategory, tagsToAdd, tagsToRemove, publishDate } = req.body;
         //console.log(publishDate);
   
         const post = await PostSchema.findById(id);
         if (!post || post.state !== 'Chưa được duyệt') {
           return res.status(404).send('Post not found or already approved.');
         }
-  
-        // Update main category
-        if (idMainCategory) {
-          post.idMainCategory = idMainCategory;
+        
+        if (subCategory) {
+          post.subCategory = subCategory;
         }
   
         // Handle tags to add
