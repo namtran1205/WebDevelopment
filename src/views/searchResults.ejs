@@ -10,9 +10,31 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/detailPage.css">
   <link rel="stylesheet" href="/css/search.css">
+  <style>
+    .filter-container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-top: 15px;
+    }
+    .filter-container form {
+      display: flex;
+      justify-content: center;
+      width: auto; 
+    }
+    .filter-container select {
+      padding: 8px; 
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #fff;
+      width: 200px; 
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-  <!-- Header -->
+
+
   <%- include('header.ejs') %>
   <div class="search-container">
     <form action="/search" method="GET" class="search-form">
@@ -22,15 +44,24 @@
       </button>
     </form>
   </div>
-  <!-- Nội dung chính -->
-   <!-- Phần tiêu đề và số lượng kết quả (đưa ra ngoài khung) -->
+  <div class="filter-container">
+    <form action="/search" method="GET">
+      <input type="hidden" name="q" value="<%= query %>">
+      <select name="category" onchange="this.form.submit()">
+        <option value="" <%= !category ? 'selected' : '' %>>Tất cả chuyên mục</option>
+        <option value="An Ninh" <%= category === "An Ninh" ? 'selected' : '' %>>An Ninh</option>
+        <option value="Xã Hội" <%= category === "Xã Hội" ? 'selected' : '' %>>Xã Hội</option>
+        <option value="Thế Giới" <%= category === "Thế Giới" ? 'selected' : '' %>>Thế Giới</option>
+        <option value="Kinh Tế" <%= category === "Kinh Tế" ? 'selected' : '' %>>Kinh Tế</option>
+      </select>
+    </form>
+  </div>
   <div class="text-center mb-5">
     <h1>Kết quả tìm kiếm cho "<%= query %>"</h1>
     <p><strong><%= results.length %></strong> kết quả phù hợp</p>
   </div>
   <main class="container my-5">
 
-    <!-- Kiểm tra nếu có kết quả -->
     <% if (results.length > 0) { %>
       <div class="row">
         <% results.forEach(result => { 
@@ -44,10 +75,10 @@
         %>
           <div class="col-md-12 mb-4">
             <div class="d-flex border p-3 align-items-center" style="background-color: #f8f9fa; border-radius: 8px;">
-              <!-- Hiển thị hình ảnh -->
+
               <div style="flex: 0 0 150px; height: 150px; background-image: url('<%= imageUrl %>'); background-size: cover; background-position: center; border-radius: 8px;"></div>
               
-              <!-- Nội dung bài viết -->
+ 
               <div class="ms-3">
                 <h5 class="card-title mb-2"><a href="/detailPage/<%= result._id %>" class="text-decoration-none text-dark"><%= result.title %></a></h5>
                 <p class="text-muted mb-2"><%= result.abstract.substring(0, 200) %>...</p>
@@ -58,14 +89,13 @@
         <% }); %>
       </div>
     <% } else { %>
-      <!-- Không có kết quả -->
+
       <div class="text-center">
         <p>Không tìm thấy kết quả phù hợp.</p>
       </div>
     <% } %>
   </main>
 
-  <!-- Footer -->
   <%- include('footer.ejs') %>
 </body>
 </html>
