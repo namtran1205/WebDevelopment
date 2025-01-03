@@ -51,7 +51,21 @@
     .btn-edit:hover {
       background-color: #e64a19;
       transform: scale(1.05);
+    
     }
+    .post-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+}
+.post-content p img {
+    display: flex;
+    position: relative;
+    object-fit: cover;
+    width: 100%;
+}
   </style>
 </head>
 <body>
@@ -61,7 +75,7 @@
       <div class="container my-5">
         <h3 class="card-title"><strong><%= post.title %></strong></h3>
           <hr>
-          <div>
+          <div class="post-content">
             <%- post.content %> <!-- Render HTML content directly -->
           </div>
           <hr>
