@@ -84,8 +84,27 @@
               </div>
               <button type="submit" class="btn btn-danger">Reject</button>
             </form>
-            <% } %>
+            <% } 
+            else if (post.state === 'Đã xuất bản' || post.state === 'Chờ xuất bản') { %>
+              <h3>Article Details</h3>
+              <div class="mb-3">
+                <label class="form-label">Chuyên mục:</label>
+                <span class="badge bg-primary"><%= post.subCategory %></span>
+              </div>
+              <div class="mb-3">
+                <h4>Tags:</h4>
+                <% post.tags.forEach(tag => { %>
+                  <span class="badge bg-primary me-2"><%= tag.name %></span>
+                <% }) %>
+              </div>
             
+            <% } else if (post.state === 'Bị từ chối') { %>
+              <h3>Rejected Article</h3>
+              <div class="mb-3">
+                <label class="form-label">Reason for Rejection:</label>
+                <p><%= post.reason %></p>
+              </div>
+            <% } %>
 
             
 
