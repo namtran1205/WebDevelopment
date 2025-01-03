@@ -14,19 +14,23 @@ class writerController {
     try {
 
       const approvedPostsCount = await PostSchema.countDocuments({
-        state: 'Đã được duyệt và chờ xuất bản'
+        state: 'Đã được duyệt và chờ xuất bản',
+        idWriter: user._id
       });
 
       const publishedPostsCount = await PostSchema.countDocuments({
-        state: 'Đã xuất bản'
+        state: 'Đã xuất bản',
+        idWriter: user._id
       });
 
       const rejectedPostsCount = await PostSchema.countDocuments({
-        state: 'Bị từ chối'
+        state: 'Bị từ chối',
+        idWriter: user._id
       });
 
       const pendingPostsCount = await PostSchema.countDocuments({ 
-        state: 'Chưa được duyệt'
+        state: 'Chưa được duyệt',
+        idWriter: user._id
        });
       res.render('writer/dashboard', {
         pendingPostsCount,
@@ -44,7 +48,8 @@ class writerController {
     // Hiển thị trang tạo bài viết
     async show_createPost(req, res) {
         try {
-            res.render('writer/createPost'); // Render trang tạo bài viết
+            const maincategories = await MainCategory.find();
+            res.render('writer/createPost', {maincategories}); // Render trang tạo bài viết
         } catch (err) {
             console.error('Error rendering createPage:', err);
             res.status(500).send('Lỗi khi hiển thị trang tạo bài viết');
@@ -196,8 +201,7 @@ class writerController {
           const comments = await Comment.find(
             { idPost: req.params.id}
         );
-
-          res.render('writer/postDetail', { post, comments });
+          res.render('writer/postDetail', { post, comments});
       } catch (err) {
           console.error('Error rendering post:', err);
           res.status(500).send('Lỗi khi hiển thị trang bài viết');
@@ -214,10 +218,10 @@ class writerController {
         }
         const tags = await Tag.find();
         //const categories = await MainCategory.find();
-
+        const maincategories = await MainCategory.find();
     
         if (!post) return res.status(404).send('Post not found');
-        res.render('writer/editPost', { post, tags, editable });
+        res.render('writer/editPost', { post, tags, editable, maincategories });
       } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');
@@ -228,7 +232,7 @@ class writerController {
     async post_updatePost(req, res) {
       try {
         const { title, abstract, image, content, idMainCategory, subCategory, type, tagsToAdd, tagsToRemove } = req.body;
-        //console.log(req.params.id);
+        console.log(req.params.id);
         const post = await PostSchema.findById(req.params.id);
         if (!post) {
           return res.status(404).send('Post not found');

@@ -134,15 +134,23 @@
             <!-- Nút Submit -->
 
             <div class="d-flex justify-content-between">
-              <button type="submit" class="btn btn-primary">Cập nhật bài viết</button>
-              <button class="btn btn-danger btn-sm" onclick="deletePost('<%= post._id %>')">
+              <div>
+              <button type="submit" class="btn btn-primary" style="font-weight: 600;">Cập nhật bài viết</button>
+              <button class="btn btn-danger" style="font-weight:600;" onclick="deletePost('<%= post._id %>')">
                 <i class="bi bi-trash"></i> Xóa bài viết
               </button>
+              </div>
+              <a href="/writer/listPosts" class="btn btn-back btn-sm d-inline-flex align-items-center px-3 py-2 float-end" 
+            style="background-color: #008cba; color: white; border-radius: 5px; font-weight: 600; outline: none; transition: transform 0.2s ease;">
+                <i class="bi bi-arrow-left me-2"></i> Quay lại danh sách
+            </a>
             </div>
           </form>
           <% } else { %>
-            <p> Bài viết này đã được duyệt, bạn không có quyền chỉnh sửa. </p>
-            <a class="btn btn-primary" href="/writer/listPosts" role="button"> Quay lại </a>
+            <a href="/writer/listPosts" class="btn btn-back btn-sm d-inline-flex align-items-center px-3 py-2 float-end" 
+            style="background-color: #008cba; color: white; border-radius: 5px; font-weight: 600; outline: none; transition: transform 0.2s ease;">
+                <i class="bi bi-arrow-left me-2"></i> Quay lại danh sách
+            </a>
           <% } %>
 
       </div>
