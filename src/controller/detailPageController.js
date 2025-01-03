@@ -39,12 +39,20 @@ const detailPageController =
             if (!post) {
                 return res.status(404).json( { error: "Post not found" } );
             }
+            
+            let d = null;
+            let d2 = null;
+            if (res.locals.user)
+            {
+                d = new Date(res.locals.user.remainingTime);
+                d2 = new Date();
+            }
 
             if (post.type === "premium" && 
                 (   
                     !res.locals.user || 
                     (res.locals.user.type != "subscriber" && res.locals.user.type != "admin") ||
-                    (res.locals.user.type == "subscriber" && Date(res.locals.user.remainingTime) < new Date())
+                    (res.locals.user.type == "subscriber" && d < d2)
                 ))
             {
                 res.status(403).render('noAccess');
