@@ -162,7 +162,7 @@ class editorController {
       try {
         const { id } = req.params;
         const { idMainCategory, tagsToAdd, tagsToRemove, publishDate } = req.body;
-        console.log(publishDate);
+        //console.log(publishDate);
   
         const post = await PostSchema.findById(id);
         if (!post || post.state !== 'Chưa được duyệt') {
@@ -213,6 +213,10 @@ class editorController {
         // Update publish time
         if (publishDate) {
           post.publishedDate = new Date(publishDate);
+        }
+        else
+        {
+          post.publishedDate = new Date();
         }
   
         // Change post state to approved
