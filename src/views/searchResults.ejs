@@ -47,13 +47,23 @@
   <div class="filter-container">
     <form action="/search" method="GET">
       <input type="hidden" name="q" value="<%= query %>">
-      <select name="category" onchange="this.form.submit()">
-        <option value="" <%= !category ? 'selected' : '' %>>Tất cả chuyên mục</option>
-        <option value="An Ninh" <%= category === "An Ninh" ? 'selected' : '' %>>An Ninh</option>
-        <option value="Xã Hội" <%= category === "Xã Hội" ? 'selected' : '' %>>Xã Hội</option>
-        <option value="Thế Giới" <%= category === "Thế Giới" ? 'selected' : '' %>>Thế Giới</option>
-        <option value="Kinh Tế" <%= category === "Kinh Tế" ? 'selected' : '' %>>Kinh Tế</option>
-      </select>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+        <select name="category" style="width: 200px; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+          <option value="" <%= !category ? 'selected' : '' %>>Tất cả chuyên mục</option>
+          <option value="An Ninh" <%= category === "An Ninh" ? 'selected' : '' %>>An Ninh</option>
+          <option value="Xã Hội" <%= category === "Xã Hội" ? 'selected' : '' %>>Xã Hội</option>
+          <option value="Thế Giới" <%= category === "Thế Giới" ? 'selected' : '' %>>Thế Giới</option>
+          <option value="Kinh Tế" <%= category === "Kinh Tế" ? 'selected' : '' %>>Kinh Tế</option>
+        </select>
+  
+        <div style="display: flex; gap: 10px; justify-content: center;">
+          <label><input type="checkbox" name="fields" value="title" <%= Array.isArray(fields) && fields.includes("title") ? 'checked' : '' %>> Tiêu đề</label>
+          <label><input type="checkbox" name="fields" value="abstract" <%= Array.isArray(fields) && fields.includes("abstract") ? 'checked' : '' %>> Tóm tắt</label>
+          <label><input type="checkbox" name="fields" value="content" <%= Array.isArray(fields) && fields.includes("content") ? 'checked' : '' %>> Nội dung</label>
+        </div>
+  
+        <button type="submit" style="padding: 10px 15px; border-radius: 5px; background-color: #007bff; color: #fff;">Tìm kiếm</button>
+      </div>
     </form>
   </div>
   <div class="text-center mb-5">
