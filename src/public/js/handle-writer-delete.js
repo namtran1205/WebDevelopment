@@ -8,7 +8,7 @@ async function deletePost(postId) {
         if (response.ok) {
           alert('Bài viết đã được xóa');
           // Tải lại trang hoặc cập nhật lại danh sách bài viết
-          window.location.href = 'writer/listPosts';
+          window.location.href = '/writer/listPosts';
         } else {
           alert('Lỗi khi xóa bài viết');
         }
