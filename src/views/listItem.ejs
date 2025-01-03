@@ -40,7 +40,11 @@
                 <% posts.forEach(post => { %>
                   <a class="link-item" href="/detailPage/<%=post._id%>">
                     <div class="news-item">
-                      <%-post.image%>
+                      <% if (post.image && post.image.includes('<img')) { %>
+                        <%- post.image %>
+                      <% } else { %>
+                        <img src="https://via.placeholder.com/250" alt="Default Image">
+                      <% } %>                      
                       <div class="news-title"><%= post.title %></div>
                       <div class="news-abstract">
                         <%= post.abstract.length > 15 ? post.abstract.slice(0, 100) + '[...]' : post.abstract %>
@@ -52,8 +56,7 @@
                             let formattedDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
                           %>
                           <%= formattedDate %>
-                          <%= post.type%>
-                        </div>                  
+                        </div>            
                         <div class="news-category">
                           <% if (post.categories && post.categories.length > 0 && post.categories[0].name) { %>
                             <%= post.categories[0].name %>
@@ -68,6 +71,7 @@
                             <span><%= tagName %></span>
                         <% }) %>
                       </div>
+                      <div class="type-post"><%= post.type%></div>
                     </div>
                   </a>
                 <% }) %>

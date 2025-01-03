@@ -97,6 +97,13 @@
     word-break: break-word; /* Ngắt từ nếu quá dài */
   }
 
+  .type-post {
+    border: 1px solid #000;
+    background-color: gold;
+    border-radius: 5px;
+    padding: 2px;
+  }
+
   .list-number a.current {
     font-weight: bold; /* Làm chữ đậm */
     color: #fff; /* Màu chữ */
