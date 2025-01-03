@@ -232,7 +232,7 @@ class writerController {
     async post_updatePost(req, res) {
       try {
         const { title, abstract, image, content, idMainCategory, subCategory, type, tagsToAdd, tagsToRemove } = req.body;
-        console.log(req.params.id);
+        //console.log(req.params.id);
         const post = await PostSchema.findById(req.params.id);
         if (!post) {
           return res.status(404).send('Post not found');
